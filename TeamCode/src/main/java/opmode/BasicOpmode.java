@@ -11,8 +11,12 @@ import math.Vector2;
 import math.Vector3;
 import odometry.Odometer;
 import odometry.OdometerDynamics;
-
-public abstract class AnythingPrettyMuch extends LinearOpMode{
+/**
+ * Notes:
+ *  "Dynamics" refers to any robot centric metric
+ *  Velocity is obtained from odometry wheel readings rather than position differentiation (for now)
+ */
+public abstract class BasicOpmode extends LinearOpMode{
     protected Vector2 position;
     protected double initialRotation;
     private Vector3 velocity;
@@ -21,7 +25,7 @@ public abstract class AnythingPrettyMuch extends LinearOpMode{
     protected FPSDebug fpsDebug;
     protected SmartTelemetry telemetry;
 
-    public AnythingPrettyMuch(Odometer odometer){
+    public BasicOpmode(Odometer odometer){
         this.odometer = odometer;
         this.telemetry = new SmartTelemetry(super.telemetry);
         fpsDebug = new FPSDebug(telemetry, "Main Loop");

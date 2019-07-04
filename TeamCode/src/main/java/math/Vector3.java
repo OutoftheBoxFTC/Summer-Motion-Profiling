@@ -31,4 +31,18 @@ public class Vector3 {
     public void setB(double b) {
         this.b = b;
     }
+
+    public void set(double a, double b, double c) {
+        this.a = a;
+        this.b = b;
+        this.c = c;
+    }
+
+    public Vector3 clone(){
+        return new Vector3(a, b, c);
+    }
+
+    public Vector3 subtract(Vector3 v) {
+        return new Vector3(a-v.a, b-v.b, c-v.c);
+    }
 }

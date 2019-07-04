@@ -5,10 +5,11 @@ import math.Vector2;
 import math.Vector3;
 
 public class SimpleOdometer extends Odometer {
-    private double globalFwd, globalStrafe, globalRotation;
+    private Vector3 globalRobotDynamics;
 
     public SimpleOdometer(double rotationFactor, double translationFactor, double auxRotationFactor){
         super(rotationFactor, translationFactor, auxRotationFactor);
+        globalRobotDynamics = new Vector3(0, 0, 0);
     }
 
     public OdometerDynamics updateRobotDynamics(BulkReadData data){
@@ -18,13 +19,11 @@ public class SimpleOdometer extends Odometer {
         double newFwd = (left+right)/2;
         double newStrafe = aux-newRotation*auxRotationFactor;
 
-        double rotationIncrement = (newRotation-globalRotation)*rotationFactor;
-        double fwdIncrement = (newFwd-globalFwd)*translationFactor;
-        double strafeIncrement = (newStrafe-globalStrafe)*translationFactor;
+        double rotationIncrement = (newRotation-globalRobotDynamics.getC())*rotationFactor;
+        double fwdIncrement = (newFwd-globalRobotDynamics.getB())*translationFactor;
+        double strafeIncrement = (newStrafe-globalRobotDynamics.getA())*translationFactor;
 
-        globalFwd = newFwd;
-        globalRotation = newRotation;
-        globalStrafe = newStrafe;
+        globalRobotDynamics.set(newStrafe, newFwd, newRotation);
         return new OdometerDynamics(new Vector3(strafeIncrement, fwdIncrement, rotationIncrement));
     }
 
@@ -41,16 +40,8 @@ public class SimpleOdometer extends Odometer {
         return new Vector2(x, y);
     }
 
-    public Vector3 getVelocity(BulkReadData data){
-        double left = data.getvLeft(), right = data.getvRight(), aux = data.getvAux();
-        double rotation = right-left,
-                fwd = (right+left)/2,
-                strafe = aux-rotation*auxRotationFactor;
-        return new Vector3(strafe*translationFactor, fwd*translationFactor, rotation*rotationFactor);
-    }
-
     @Override
     public Vector3 getGlobalDynamics() {
-        return new Vector3(globalStrafe*translationFactor, globalFwd*translationFactor, globalRotation*rotationFactor);
+        return globalRobotDynamics.clone();
     }
 }

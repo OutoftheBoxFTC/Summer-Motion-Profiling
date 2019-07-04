@@ -15,12 +15,19 @@ public abstract class Odometer {
     public abstract OdometerDynamics updateRobotDynamics(BulkReadData data);
 
     public abstract Vector2 findStaticIncrements(OdometerDynamics data);
-    public abstract Vector3 getVelocity(BulkReadData data);
     public abstract Vector3 getGlobalDynamics();
 
     public void setFactors(double rotation, double translation, double auxRotation){
         rotationFactor = rotation;
         translationFactor = translation;
         auxRotationFactor = auxRotation;
+    }
+
+    public Vector3 getVelocity(BulkReadData data){
+        double left = data.getvLeft(), right = data.getvRight(), aux = data.getvAux();
+        double rotation = right-left,
+                fwd = (right+left)/2,
+                strafe = aux-rotation*auxRotationFactor;
+        return new Vector3(strafe*translationFactor, fwd*translationFactor, rotation*rotationFactor);
     }
 }
