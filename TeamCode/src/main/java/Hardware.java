@@ -24,12 +24,15 @@ public class Hardware implements Runnable {
 
     private ArrayList<SmartMotor> driveMotors;
 
+    private FPSDebug fpsDebug;
+
 
     public Hardware(LinearOpMode opmode){
         this.opMode = opmode;
         driveMotors = new ArrayList<>();
         dataBuffer = new ArrayList<>();
         drivePowerBuffer = null;
+        fpsDebug = new FPSDebug(opMode);
     }
 
     public void init(){
