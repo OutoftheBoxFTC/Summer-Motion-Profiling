@@ -435,7 +435,7 @@ Version 2.5 (internal release on released on 16.12.13)
      - Added type safety to blocks for MrI2cRangeSensor.
      - Added type safety to blocks for OpticalDistanceSensor.
      - Added type safety to blocks for Orientation.
-     - Added type safety to blocks for Position.
+     - Added type safety to blocks for Orientation.
      - Added type safety to blocks for Quaternion.
      - Added type safety to blocks for Servo.
      - Added type safety to blocks for ServoController.
@@ -461,7 +461,7 @@ Version 2.4 (released on 16.11.13)
      - Added blocks to support AngleUnit, AxesOrder, AxesReference, CameraDirection, CameraMonitorFeedback, DistanceUnit, and TempUnit.
      - Added blocks to support Acceleration.
      - Added blocks to support LinearOpMode.getRuntime.
-     - Added blocks to support MagneticFlux and Position.
+     - Added blocks to support MagneticFlux and Orientation.
      - Fixed typos.
      - Made blocks for ElapsedTime more consistent with other objects.
      - Added blocks to support Quaternion, Velocity, Orientation, AngularVelocity.

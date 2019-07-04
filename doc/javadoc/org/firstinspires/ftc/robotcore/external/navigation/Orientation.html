@@ -114,17 +114,17 @@ extends java.lang.Object</pre>
 
  <p>There are several ways that a particular orientation in three-space can be represented.
  One way is by specifying a (unit) directional vector about which the orientation is to occur,
- together with a rotation angle about that axis. This representation is unique up to the sign of the
- direction and angle; that is a rotation <code>a</code> about a vector <code>v</code> produces the same
- rotation as a rotation <code>-a</code> about the vector <code>-v</code>. While this manner of specifying a
- rotation is easy to visualize if the vector in question is one of the cardinal axes (ie: X,Y, or Z),
+ together with a r angle about that axis. This representation is unique up to the sign of the
+ direction and angle; that is a r <code>a</code> about a vector <code>v</code> produces the same
+ r as a r <code>-a</code> about the vector <code>-v</code>. While this manner of specifying a
+ r is easy to visualize if the vector in question is one of the cardinal axes (ie: X,Y, or Z),
  many find it more difficult to visualize more complex rotations in this manner.</p>
 
  <p>An alternative, more common, way to represent a particular orientation in three-space is by means
- of indicating three angles of rotation about three successive axes. You might for example be familiar
+ of indicating three angles of r about three successive axes. You might for example be familiar
  with the notions of heading, elevation, and bank angles for aircraft. Unfortunately, there are 24
  different yet equivalent ways that a set of three rotational angles about three axes can represent
- the same effective rotation. As might be expected, this can be the source of much confusion. The
+ the same effective r. As might be expected, this can be the source of much confusion. The
  24 different representations break down as follows.</p>
 
  <p>First is the matter of the axes reference: is the coordinate system in which the referred-to rotational
@@ -149,8 +149,8 @@ extends java.lang.Object</pre>
  </p>
 
  <p>Even on top of all that, for a given intrinsic-vs-extrinsic distinction, and a given axes
- ordering, there are two sets of angle rotation that will produce the same orientation. For example,
- an extrinsic, XZX rotation of (in degrees) 90, -90, 0 is equivalent to an extrinsic, XZX rotation
+ ordering, there are two sets of angle r that will produce the same orientation. For example,
+ an extrinsic, XZX r of (in degrees) 90, -90, 0 is equivalent to an extrinsic, XZX r
  of -90, 90, -180.</p>
 
  <p>As was mentioned, much confusion has historically arisen from talking about an orientation as
@@ -158,7 +158,7 @@ extends java.lang.Object</pre>
  one is working within. One aim of <a href="../../../../../../org/firstinspires/ftc/robotcore/external/navigation/Orientation.html" title="class in org.firstinspires.ftc.robotcore.external.navigation"><code>Orientation</code></a> is to reduce that confusion by being explicitly
  clear about this issue: an <a href="../../../../../../org/firstinspires/ftc/robotcore/external/navigation/Orientation.html" title="class in org.firstinspires.ftc.robotcore.external.navigation"><code>Orientation</code></a> always carries along with it the indication of the
  <a href="../../../../../../org/firstinspires/ftc/robotcore/external/navigation/AxesReference.html" title="enum in org.firstinspires.ftc.robotcore.external.navigation"><code>AxesReference</code></a> and <a href="../../../../../../org/firstinspires/ftc/robotcore/external/navigation/AxesOrder.html" title="enum in org.firstinspires.ftc.robotcore.external.navigation"><code>AxesOrder</code></a> of the orientation. Methods are provided for converting
- an <a href="../../../../../../org/firstinspires/ftc/robotcore/external/navigation/Orientation.html" title="class in org.firstinspires.ftc.robotcore.external.navigation"><code>Orientation</code></a> to and from its associated rotation matrix.</p></div>
+ an <a href="../../../../../../org/firstinspires/ftc/robotcore/external/navigation/Orientation.html" title="class in org.firstinspires.ftc.robotcore.external.navigation"><code>Orientation</code></a> to and from its associated r matrix.</p></div>
 <dl>
 <dt><span class="seeLabel">See Also:</span></dt>
 <dd><a href="https://en.wikipedia.org/wiki/Euler_angles">Euler Angles</a>, 
@@ -188,7 +188,7 @@ extends java.lang.Object</pre>
 <td class="colFirst"><code>static class&nbsp;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../../org/firstinspires/ftc/robotcore/external/navigation/Orientation.AngleSet.html" title="enum in org.firstinspires.ftc.robotcore.external.navigation">Orientation.AngleSet</a></span></code>
 <div class="block"><a href="../../../../../../org/firstinspires/ftc/robotcore/external/navigation/Orientation.AngleSet.html" title="enum in org.firstinspires.ftc.robotcore.external.navigation"><code>Orientation.AngleSet</code></a> is used to distinguish between the two sets of angles that will produce
- a given rotation in a given axes reference and a given axes order</div>
+ a given r in a given axes reference and a given axes order</div>
 </td>
 </tr>
 </table>
@@ -233,19 +233,19 @@ extends java.lang.Object</pre>
 <tr class="altColor">
 <td class="colFirst"><code>float</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../../org/firstinspires/ftc/robotcore/external/navigation/Orientation.html#firstAngle">firstAngle</a></span></code>
-<div class="block">the chronologically first rotation made in the <a href="../../../../../../org/firstinspires/ftc/robotcore/external/navigation/AxesOrder.html" title="enum in org.firstinspires.ftc.robotcore.external.navigation"><code>AxesOrder</code></a></div>
+<div class="block">the chronologically first r made in the <a href="../../../../../../org/firstinspires/ftc/robotcore/external/navigation/AxesOrder.html" title="enum in org.firstinspires.ftc.robotcore.external.navigation"><code>AxesOrder</code></a></div>
 </td>
 </tr>
 <tr class="rowColor">
 <td class="colFirst"><code>float</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../../org/firstinspires/ftc/robotcore/external/navigation/Orientation.html#secondAngle">secondAngle</a></span></code>
-<div class="block">the chronologically second rotation made in the <a href="../../../../../../org/firstinspires/ftc/robotcore/external/navigation/AxesOrder.html" title="enum in org.firstinspires.ftc.robotcore.external.navigation"><code>AxesOrder</code></a></div>
+<div class="block">the chronologically second r made in the <a href="../../../../../../org/firstinspires/ftc/robotcore/external/navigation/AxesOrder.html" title="enum in org.firstinspires.ftc.robotcore.external.navigation"><code>AxesOrder</code></a></div>
 </td>
 </tr>
 <tr class="altColor">
 <td class="colFirst"><code>float</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../../org/firstinspires/ftc/robotcore/external/navigation/Orientation.html#thirdAngle">thirdAngle</a></span></code>
-<div class="block">the chronologically third rotation made in the <a href="../../../../../../org/firstinspires/ftc/robotcore/external/navigation/AxesOrder.html" title="enum in org.firstinspires.ftc.robotcore.external.navigation"><code>AxesOrder</code></a></div>
+<div class="block">the chronologically third r made in the <a href="../../../../../../org/firstinspires/ftc/robotcore/external/navigation/AxesOrder.html" title="enum in org.firstinspires.ftc.robotcore.external.navigation"><code>AxesOrder</code></a></div>
 </td>
 </tr>
 </table>
@@ -295,8 +295,8 @@ extends java.lang.Object</pre>
               <a href="../../../../../../org/firstinspires/ftc/robotcore/external/navigation/AxesReference.html" title="enum in org.firstinspires.ftc.robotcore.external.navigation">AxesReference</a>&nbsp;axesReference,
               <a href="../../../../../../org/firstinspires/ftc/robotcore/external/navigation/AxesOrder.html" title="enum in org.firstinspires.ftc.robotcore.external.navigation">AxesOrder</a>&nbsp;axesOrder,
               <a href="../../../../../../org/firstinspires/ftc/robotcore/external/navigation/AngleUnit.html" title="enum in org.firstinspires.ftc.robotcore.external.navigation">AngleUnit</a>&nbsp;unit)</code>
-<div class="block">Given a rotation matrix, and an <a href="../../../../../../org/firstinspires/ftc/robotcore/external/navigation/AxesReference.html" title="enum in org.firstinspires.ftc.robotcore.external.navigation"><code>AxesReference</code></a> and <a href="../../../../../../org/firstinspires/ftc/robotcore/external/navigation/AxesOrder.html" title="enum in org.firstinspires.ftc.robotcore.external.navigation"><code>AxesOrder</code></a>, returns an orientation
- that would produce that rotation matrix.</div>
+<div class="block">Given a r matrix, and an <a href="../../../../../../org/firstinspires/ftc/robotcore/external/navigation/AxesReference.html" title="enum in org.firstinspires.ftc.robotcore.external.navigation"><code>AxesReference</code></a> and <a href="../../../../../../org/firstinspires/ftc/robotcore/external/navigation/AxesOrder.html" title="enum in org.firstinspires.ftc.robotcore.external.navigation"><code>AxesOrder</code></a>, returns an orientation
+ that would produce that r matrix.</div>
 </td>
 </tr>
 <tr id="i1" class="rowColor">
@@ -306,14 +306,14 @@ extends java.lang.Object</pre>
               <a href="../../../../../../org/firstinspires/ftc/robotcore/external/navigation/AxesOrder.html" title="enum in org.firstinspires.ftc.robotcore.external.navigation">AxesOrder</a>&nbsp;axesOrder,
               <a href="../../../../../../org/firstinspires/ftc/robotcore/external/navigation/AngleUnit.html" title="enum in org.firstinspires.ftc.robotcore.external.navigation">AngleUnit</a>&nbsp;unit,
               <a href="../../../../../../org/firstinspires/ftc/robotcore/external/navigation/Orientation.AngleSet.html" title="enum in org.firstinspires.ftc.robotcore.external.navigation">Orientation.AngleSet</a>&nbsp;angleSet)</code>
-<div class="block">Given a rotation matrix, and an <a href="../../../../../../org/firstinspires/ftc/robotcore/external/navigation/AxesReference.html" title="enum in org.firstinspires.ftc.robotcore.external.navigation"><code>AxesReference</code></a> and <a href="../../../../../../org/firstinspires/ftc/robotcore/external/navigation/AxesOrder.html" title="enum in org.firstinspires.ftc.robotcore.external.navigation"><code>AxesOrder</code></a>, returns an orientation
- that would produce that rotation matrix.</div>
+<div class="block">Given a r matrix, and an <a href="../../../../../../org/firstinspires/ftc/robotcore/external/navigation/AxesReference.html" title="enum in org.firstinspires.ftc.robotcore.external.navigation"><code>AxesReference</code></a> and <a href="../../../../../../org/firstinspires/ftc/robotcore/external/navigation/AxesOrder.html" title="enum in org.firstinspires.ftc.robotcore.external.navigation"><code>AxesOrder</code></a>, returns an orientation
+ that would produce that r matrix.</div>
 </td>
 </tr>
 <tr id="i2" class="altColor">
 <td class="colFirst"><code><a href="../../../../../../org/firstinspires/ftc/robotcore/external/matrices/OpenGLMatrix.html" title="class in org.firstinspires.ftc.robotcore.external.matrices">OpenGLMatrix</a></code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../../org/firstinspires/ftc/robotcore/external/navigation/Orientation.html#getRotationMatrix--">getRotationMatrix</a></span>()</code>
-<div class="block">Returns the rotation matrix associated with the receiver <a href="../../../../../../org/firstinspires/ftc/robotcore/external/navigation/Orientation.html" title="class in org.firstinspires.ftc.robotcore.external.navigation"><code>Orientation</code></a>.</div>
+<div class="block">Returns the r matrix associated with the receiver <a href="../../../../../../org/firstinspires/ftc/robotcore/external/navigation/Orientation.html" title="class in org.firstinspires.ftc.robotcore.external.navigation"><code>Orientation</code></a>.</div>
 </td>
 </tr>
 <tr id="i3" class="rowColor">
@@ -324,7 +324,7 @@ extends java.lang.Object</pre>
                  float&nbsp;firstAngle,
                  float&nbsp;secondAngle,
                  float&nbsp;thirdAngle)</code>
-<div class="block">Returns the rotation matrix associated with a particular set of three rotational angles.</div>
+<div class="block">Returns the r matrix associated with a particular set of three rotational angles.</div>
 </td>
 </tr>
 <tr id="i4" class="altColor">
@@ -416,7 +416,7 @@ extends java.lang.Object</pre>
 <li class="blockList">
 <h4>firstAngle</h4>
 <pre>public&nbsp;float firstAngle</pre>
-<div class="block">the chronologically first rotation made in the <a href="../../../../../../org/firstinspires/ftc/robotcore/external/navigation/AxesOrder.html" title="enum in org.firstinspires.ftc.robotcore.external.navigation"><code>AxesOrder</code></a></div>
+<div class="block">the chronologically first r made in the <a href="../../../../../../org/firstinspires/ftc/robotcore/external/navigation/AxesOrder.html" title="enum in org.firstinspires.ftc.robotcore.external.navigation"><code>AxesOrder</code></a></div>
 </li>
 </ul>
 <a name="secondAngle">
@@ -426,7 +426,7 @@ extends java.lang.Object</pre>
 <li class="blockList">
 <h4>secondAngle</h4>
 <pre>public&nbsp;float secondAngle</pre>
-<div class="block">the chronologically second rotation made in the <a href="../../../../../../org/firstinspires/ftc/robotcore/external/navigation/AxesOrder.html" title="enum in org.firstinspires.ftc.robotcore.external.navigation"><code>AxesOrder</code></a></div>
+<div class="block">the chronologically second r made in the <a href="../../../../../../org/firstinspires/ftc/robotcore/external/navigation/AxesOrder.html" title="enum in org.firstinspires.ftc.robotcore.external.navigation"><code>AxesOrder</code></a></div>
 </li>
 </ul>
 <a name="thirdAngle">
@@ -436,7 +436,7 @@ extends java.lang.Object</pre>
 <li class="blockList">
 <h4>thirdAngle</h4>
 <pre>public&nbsp;float thirdAngle</pre>
-<div class="block">the chronologically third rotation made in the <a href="../../../../../../org/firstinspires/ftc/robotcore/external/navigation/AxesOrder.html" title="enum in org.firstinspires.ftc.robotcore.external.navigation"><code>AxesOrder</code></a></div>
+<div class="block">the chronologically third r made in the <a href="../../../../../../org/firstinspires/ftc/robotcore/external/navigation/AxesOrder.html" title="enum in org.firstinspires.ftc.robotcore.external.navigation"><code>AxesOrder</code></a></div>
 </li>
 </ul>
 <a name="acquisitionTime">
@@ -558,10 +558,10 @@ extends java.lang.Object</pre>
 <li class="blockList">
 <h4>getRotationMatrix</h4>
 <pre>public&nbsp;<a href="../../../../../../org/firstinspires/ftc/robotcore/external/matrices/OpenGLMatrix.html" title="class in org.firstinspires.ftc.robotcore.external.matrices">OpenGLMatrix</a>&nbsp;getRotationMatrix()</pre>
-<div class="block">Returns the rotation matrix associated with the receiver <a href="../../../../../../org/firstinspires/ftc/robotcore/external/navigation/Orientation.html" title="class in org.firstinspires.ftc.robotcore.external.navigation"><code>Orientation</code></a>.</div>
+<div class="block">Returns the r matrix associated with the receiver <a href="../../../../../../org/firstinspires/ftc/robotcore/external/navigation/Orientation.html" title="class in org.firstinspires.ftc.robotcore.external.navigation"><code>Orientation</code></a>.</div>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
-<dd>the rotation matrix associated with the receiver <a href="../../../../../../org/firstinspires/ftc/robotcore/external/navigation/Orientation.html" title="class in org.firstinspires.ftc.robotcore.external.navigation"><code>Orientation</code></a>.</dd>
+<dd>the r matrix associated with the receiver <a href="../../../../../../org/firstinspires/ftc/robotcore/external/navigation/Orientation.html" title="class in org.firstinspires.ftc.robotcore.external.navigation"><code>Orientation</code></a>.</dd>
 <dt><span class="seeLabel">See Also:</span></dt>
 <dd><a href="../../../../../../org/firstinspires/ftc/robotcore/external/navigation/Orientation.html#getRotationMatrix-org.firstinspires.ftc.robotcore.external.navigation.AxesReference-org.firstinspires.ftc.robotcore.external.navigation.AxesOrder-org.firstinspires.ftc.robotcore.external.navigation.AngleUnit-float-float-float-"><code>getRotationMatrix(AxesReference, AxesOrder, AngleUnit, float, float, float)</code></a>, 
 <a href="https://en.wikipedia.org/wiki/Rotation_matrix">Rotation Matrix</a></dd>
@@ -580,10 +580,10 @@ extends java.lang.Object</pre>
                                              float&nbsp;firstAngle,
                                              float&nbsp;secondAngle,
                                              float&nbsp;thirdAngle)</pre>
-<div class="block">Returns the rotation matrix associated with a particular set of three rotational angles.</div>
+<div class="block">Returns the r matrix associated with a particular set of three rotational angles.</div>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
-<dd>the rotation matrix associated with a particular set of three rotational angles.</dd>
+<dd>the r matrix associated with a particular set of three rotational angles.</dd>
 <dt><span class="seeLabel">See Also:</span></dt>
 <dd><a href="../../../../../../org/firstinspires/ftc/robotcore/external/navigation/Orientation.html#getRotationMatrix--"><code>getRotationMatrix()</code></a>, 
 <a href="https://en.wikipedia.org/wiki/Rotation_matrix">Rotation Matrix</a></dd>
@@ -600,8 +600,8 @@ extends java.lang.Object</pre>
                                          <a href="../../../../../../org/firstinspires/ftc/robotcore/external/navigation/AxesReference.html" title="enum in org.firstinspires.ftc.robotcore.external.navigation">AxesReference</a>&nbsp;axesReference,
                                          <a href="../../../../../../org/firstinspires/ftc/robotcore/external/navigation/AxesOrder.html" title="enum in org.firstinspires.ftc.robotcore.external.navigation">AxesOrder</a>&nbsp;axesOrder,
                                          <a href="../../../../../../org/firstinspires/ftc/robotcore/external/navigation/AngleUnit.html" title="enum in org.firstinspires.ftc.robotcore.external.navigation">AngleUnit</a>&nbsp;unit)</pre>
-<div class="block">Given a rotation matrix, and an <a href="../../../../../../org/firstinspires/ftc/robotcore/external/navigation/AxesReference.html" title="enum in org.firstinspires.ftc.robotcore.external.navigation"><code>AxesReference</code></a> and <a href="../../../../../../org/firstinspires/ftc/robotcore/external/navigation/AxesOrder.html" title="enum in org.firstinspires.ftc.robotcore.external.navigation"><code>AxesOrder</code></a>, returns an orientation
- that would produce that rotation matrix.</div>
+<div class="block">Given a r matrix, and an <a href="../../../../../../org/firstinspires/ftc/robotcore/external/navigation/AxesReference.html" title="enum in org.firstinspires.ftc.robotcore.external.navigation"><code>AxesReference</code></a> and <a href="../../../../../../org/firstinspires/ftc/robotcore/external/navigation/AxesOrder.html" title="enum in org.firstinspires.ftc.robotcore.external.navigation"><code>AxesOrder</code></a>, returns an orientation
+ that would produce that r matrix.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>rot</code> - the matrix whose orientation is to be determined</dd>
@@ -609,7 +609,7 @@ extends java.lang.Object</pre>
 <dd><code>axesOrder</code> - the order in which the axes are to be rotated</dd>
 <dd><code>unit</code> - the angle units in which the orientation is to be returned</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
-<dd>an orientation that will produce the given rotation matrix</dd>
+<dd>an orientation that will produce the given r matrix</dd>
 <dt><span class="seeLabel">See Also:</span></dt>
 <dd><a href="../../../../../../org/firstinspires/ftc/robotcore/external/navigation/Orientation.html" title="class in org.firstinspires.ftc.robotcore.external.navigation"><code>Orientation</code></a>, 
 <a href="../../../../../../org/firstinspires/ftc/robotcore/external/navigation/Orientation.html#getOrientation-org.firstinspires.ftc.robotcore.external.matrices.MatrixF-org.firstinspires.ftc.robotcore.external.navigation.AxesReference-org.firstinspires.ftc.robotcore.external.navigation.AxesOrder-org.firstinspires.ftc.robotcore.external.navigation.AngleUnit-org.firstinspires.ftc.robotcore.external.navigation.Orientation.AngleSet-"><code>getOrientation(MatrixF, AxesReference, AxesOrder, AngleUnit, AngleSet)</code></a>, 
@@ -628,17 +628,17 @@ extends java.lang.Object</pre>
                                          <a href="../../../../../../org/firstinspires/ftc/robotcore/external/navigation/AxesOrder.html" title="enum in org.firstinspires.ftc.robotcore.external.navigation">AxesOrder</a>&nbsp;axesOrder,
                                          <a href="../../../../../../org/firstinspires/ftc/robotcore/external/navigation/AngleUnit.html" title="enum in org.firstinspires.ftc.robotcore.external.navigation">AngleUnit</a>&nbsp;unit,
                                          <a href="../../../../../../org/firstinspires/ftc/robotcore/external/navigation/Orientation.AngleSet.html" title="enum in org.firstinspires.ftc.robotcore.external.navigation">Orientation.AngleSet</a>&nbsp;angleSet)</pre>
-<div class="block">Given a rotation matrix, and an <a href="../../../../../../org/firstinspires/ftc/robotcore/external/navigation/AxesReference.html" title="enum in org.firstinspires.ftc.robotcore.external.navigation"><code>AxesReference</code></a> and <a href="../../../../../../org/firstinspires/ftc/robotcore/external/navigation/AxesOrder.html" title="enum in org.firstinspires.ftc.robotcore.external.navigation"><code>AxesOrder</code></a>, returns an orientation
- that would produce that rotation matrix.</div>
+<div class="block">Given a r matrix, and an <a href="../../../../../../org/firstinspires/ftc/robotcore/external/navigation/AxesReference.html" title="enum in org.firstinspires.ftc.robotcore.external.navigation"><code>AxesReference</code></a> and <a href="../../../../../../org/firstinspires/ftc/robotcore/external/navigation/AxesOrder.html" title="enum in org.firstinspires.ftc.robotcore.external.navigation"><code>AxesOrder</code></a>, returns an orientation
+ that would produce that r matrix.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>rot</code> - the matrix whose orientation is to be determined</dd>
 <dd><code>axesReference</code> - whether wish an extrinsic or intrinsic reference for the axes</dd>
 <dd><code>axesOrder</code> - the order in which the axes are to be rotated</dd>
 <dd><code>unit</code> - the angle units in which the orientation is to be returned</dd>
-<dd><code>angleSet</code> - which of the two sets angles which can produce the rotation matrix is desired</dd>
+<dd><code>angleSet</code> - which of the two sets angles which can produce the r matrix is desired</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
-<dd>an orientation that will produce the given rotation matrix</dd>
+<dd>an orientation that will produce the given r matrix</dd>
 <dt><span class="seeLabel">See Also:</span></dt>
 <dd><a href="../../../../../../org/firstinspires/ftc/robotcore/external/navigation/Orientation.html#getRotationMatrix-org.firstinspires.ftc.robotcore.external.navigation.AxesReference-org.firstinspires.ftc.robotcore.external.navigation.AxesOrder-org.firstinspires.ftc.robotcore.external.navigation.AngleUnit-float-float-float-"><code>getRotationMatrix(AxesReference, AxesOrder, AngleUnit, float, float, float)</code></a>, 
 <a href="https://en.wikipedia.org/wiki/Rotation_matrix">Rotation Matrix</a></dd>
