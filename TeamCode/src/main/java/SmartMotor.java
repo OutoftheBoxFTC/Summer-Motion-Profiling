@@ -5,50 +5,40 @@ import org.openftc.revextensions2.ExpansionHubMotor;
 public class SmartMotor {
     private ExpansionHubMotor motor;
 
-    private double previousPower, power;
-    private DcMotor.RunMode previousRunMode, runMode;
-    private DcMotor.ZeroPowerBehavior previousZeroPowerBehavior, zeroPowerBehavior;
+    private double previousPower;
+    private DcMotor.RunMode previousRunMode;
+    private DcMotor.ZeroPowerBehavior previousZeroPowerBehavior;
 
     public SmartMotor(ExpansionHubMotor motor){
         this.motor = motor;
         if(motor != null){
-            previousRunMode = runMode = motor.getMode();
-            previousZeroPowerBehavior = zeroPowerBehavior = motor.getZeroPowerBehavior();
-            previousPower = power = motor.getPower();
+            previousRunMode = motor.getMode();
+            previousZeroPowerBehavior = motor.getZeroPowerBehavior();
         }
     }
 
     public void setPower(double power){
-        this.power = power;
-    }
-
-    public void setZeroPowerBehavior(DcMotor.ZeroPowerBehavior behaviour){
-        zeroPowerBehavior = behaviour;
-    }
-
-    public void setMode(DcMotor.RunMode mode){
-        runMode = mode;
-    }
-
-    public ExpansionHubMotor getMotor() {
-        return motor;
-    }
-
-    public void flushPower(){
         if(power != previousPower){
             previousPower = power;
             motor.setPower(power);
         }
     }
 
-    public void flushStates(){
-        if(!runMode.equals(previousRunMode)){
-            previousRunMode = runMode;
-            motor.setMode(runMode);
+    public void setZeroPowerBehavior(DcMotor.ZeroPowerBehavior behaviour){
+        if(!previousZeroPowerBehavior.equals(behaviour)){
+            previousZeroPowerBehavior = behaviour;
+            motor.setZeroPowerBehavior(behaviour);
         }
-        if(!zeroPowerBehavior.equals(previousZeroPowerBehavior)){
-            previousZeroPowerBehavior = zeroPowerBehavior;
-            motor.setZeroPowerBehavior(zeroPowerBehavior);
+    }
+
+    public void setMode(DcMotor.RunMode mode){
+        if(!mode.equals(previousRunMode)){
+            previousRunMode = mode;
+            motor.setMode(mode);
         }
+    }
+
+    public ExpansionHubMotor getMotor() {
+        return motor;
     }
 }

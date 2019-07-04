@@ -16,7 +16,8 @@ import java.util.Map;
 public class Hardware implements Runnable {
     private LinearOpMode opMode;
 
-    private ArrayList<RevBulkData> buffer;
+    private ArrayList<RevBulkData> dataBuffer;
+    private double[] drivePowerBuffer;
 
     private SmartMotor a, b, c, d;
     private ExpansionHubEx hub1, hub2;
@@ -26,7 +27,9 @@ public class Hardware implements Runnable {
 
     public Hardware(LinearOpMode opmode){
         this.opMode = opmode;
-        buffer = new ArrayList<>();
+        driveMotors = new ArrayList<>();
+        dataBuffer = new ArrayList<>();
+        drivePowerBuffer = null;
     }
 
     public void init(){
@@ -45,23 +48,29 @@ public class Hardware implements Runnable {
         driveMotors.add(d);
     }
 
+    public void drive(double a, double b, double c, double d){
+        while (drivePowerBuffer != null);
+        drivePowerBuffer = new double[]{a, b, c, d};
+    }
+
     @Override
     public void run() {
         while (opMode.opModeIsActive()){
-            for(SmartMotor motor : driveMotors){
-                motor.flushPower();
+            if(drivePowerBuffer != null){
+                double[] drivePowers = drivePowerBuffer.clone();
+                drivePowerBuffer = null;
+                for (int i = 0; i < 4; i++) {
+                    driveMotors.get(i).setPower(drivePowers[i]);
+                }
             }
-            for(SmartMotor motor : driveMotors){
-                motor.flushStates();
-            }
-            buffer.add(hub1.getBulkInputData());
+            dataBuffer.add(hub1.getBulkInputData());
         }
     }
 
     public RevBulkData newData(){
-        while (buffer.isEmpty());
-        RevBulkData data = buffer.get(buffer.size()-1);
-        buffer.remove(buffer.size()-1);
+        while (dataBuffer.isEmpty());
+        RevBulkData data = dataBuffer.get(dataBuffer.size()-1);
+        dataBuffer.remove(dataBuffer.size()-1);
         return data;
     }
 
