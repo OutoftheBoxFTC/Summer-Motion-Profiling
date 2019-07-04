@@ -1,9 +1,13 @@
 public class Autonamous {
-    private PointEx orientation;
+    private Vector3 orientation;
     private OdometryCalculator odometryCalculator;
     private Odometer odometer;
 
     public void updateOrientation(){
-        
+
+    }
+
+    protected void setStartingOrientation(){
+
     }
 }
