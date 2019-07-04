@@ -1,32 +1,32 @@
 public class Vector3 {
-    private double x, y, r;
-    public Vector3(double x, double y, double r){
-        this.x = x;
-        this.y = y;
-        this.r = r;
+    private double a, b, c;
+    public Vector3(double a, double b, double c){
+        this.a = a;
+        this.b = b;
+        this.c = c;
     }
 
-    public double getR() {
-        return r;
+    public double getC() {
+        return c;
     }
 
-    public void setR(double r) {
-        this.r = r;
+    public void setC(double c) {
+        this.c = c;
     }
 
-    public double getX() {
-        return x;
+    public double getA() {
+        return a;
     }
 
-    public void setX(double x) {
-        this.x = x;
+    public void setA(double a) {
+        this.a = a;
     }
 
-    public double getY() {
-        return y;
+    public double getB() {
+        return b;
     }
 
-    public void setY(double y) {
-        this.y = y;
+    public void setB(double b) {
+        this.b = b;
     }
 }

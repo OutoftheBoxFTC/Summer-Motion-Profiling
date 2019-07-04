@@ -156,23 +156,23 @@ extends java.lang.Object</pre>
 <th class="colOne" scope="col">Constructor and Description</th>
 </tr>
 <tr class="altColor">
-<td class="colOne"><code><span class="memberNameLink"><a href="../../../../../../org/firstinspires/ftc/robotcore/external/matrices/VectorF.html#VectorF-float-">VectorF</a></span>(float&nbsp;x)</code>&nbsp;</td>
+<td class="colOne"><code><span class="memberNameLink"><a href="../../../../../../org/firstinspires/ftc/robotcore/external/matrices/VectorF.html#VectorF-float-">VectorF</a></span>(float&nbsp;a)</code>&nbsp;</td>
 </tr>
 <tr class="rowColor">
 <td class="colOne"><code><span class="memberNameLink"><a href="../../../../../../org/firstinspires/ftc/robotcore/external/matrices/VectorF.html#VectorF-float:A-">VectorF</a></span>(float[]&nbsp;data)</code>&nbsp;</td>
 </tr>
 <tr class="altColor">
-<td class="colOne"><code><span class="memberNameLink"><a href="../../../../../../org/firstinspires/ftc/robotcore/external/matrices/VectorF.html#VectorF-float-float-">VectorF</a></span>(float&nbsp;x,
-       float&nbsp;y)</code>&nbsp;</td>
+<td class="colOne"><code><span class="memberNameLink"><a href="../../../../../../org/firstinspires/ftc/robotcore/external/matrices/VectorF.html#VectorF-float-float-">VectorF</a></span>(float&nbsp;a,
+       float&nbsp;b)</code>&nbsp;</td>
 </tr>
 <tr class="rowColor">
-<td class="colOne"><code><span class="memberNameLink"><a href="../../../../../../org/firstinspires/ftc/robotcore/external/matrices/VectorF.html#VectorF-float-float-float-">VectorF</a></span>(float&nbsp;x,
-       float&nbsp;y,
+<td class="colOne"><code><span class="memberNameLink"><a href="../../../../../../org/firstinspires/ftc/robotcore/external/matrices/VectorF.html#VectorF-float-float-float-">VectorF</a></span>(float&nbsp;a,
+       float&nbsp;b,
        float&nbsp;z)</code>&nbsp;</td>
 </tr>
 <tr class="altColor">
-<td class="colOne"><code><span class="memberNameLink"><a href="../../../../../../org/firstinspires/ftc/robotcore/external/matrices/VectorF.html#VectorF-float-float-float-float-">VectorF</a></span>(float&nbsp;x,
-       float&nbsp;y,
+<td class="colOne"><code><span class="memberNameLink"><a href="../../../../../../org/firstinspires/ftc/robotcore/external/matrices/VectorF.html#VectorF-float-float-float-float-">VectorF</a></span>(float&nbsp;a,
+       float&nbsp;b,
        float&nbsp;z,
        float&nbsp;w)</code>&nbsp;</td>
 </tr>
@@ -341,7 +341,7 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>VectorF</h4>
-<pre>public&nbsp;VectorF(float&nbsp;x)</pre>
+<pre>public&nbsp;VectorF(float&nbsp;a)</pre>
 </li>
 </ul>
 <a name="VectorF-float-float-">
@@ -350,8 +350,8 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>VectorF</h4>
-<pre>public&nbsp;VectorF(float&nbsp;x,
-               float&nbsp;y)</pre>
+<pre>public&nbsp;VectorF(float&nbsp;a,
+               float&nbsp;b)</pre>
 </li>
 </ul>
 <a name="VectorF-float-float-float-">
@@ -360,8 +360,8 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>VectorF</h4>
-<pre>public&nbsp;VectorF(float&nbsp;x,
-               float&nbsp;y,
+<pre>public&nbsp;VectorF(float&nbsp;a,
+               float&nbsp;b,
                float&nbsp;z)</pre>
 </li>
 </ul>
@@ -371,8 +371,8 @@ extends java.lang.Object</pre>
 <ul class="blockListLast">
 <li class="blockList">
 <h4>VectorF</h4>
-<pre>public&nbsp;VectorF(float&nbsp;x,
-               float&nbsp;y,
+<pre>public&nbsp;VectorF(float&nbsp;a,
+               float&nbsp;b,
                float&nbsp;z,
                float&nbsp;w)</pre>
 </li>
@@ -465,7 +465,7 @@ public&nbsp;void&nbsp;put(int&nbsp;index,
 public&nbsp;<a href="../../../../../../org/firstinspires/ftc/robotcore/external/matrices/VectorF.html" title="class in org.firstinspires.ftc.robotcore.external.matrices">VectorF</a>&nbsp;normalized3D()</pre>
 <div class="block">Consider this vector as a 3D coordinate or 3D homogeneous coordinate, and, if the
  latter, return its normalized form. In either case, the result is of length three, and
- contains coordinate values for x, y, and z at indices 0, 1, and 2 respectively.</div>
+ contains coordinate values for a, b, and z at indices 0, 1, and 2 respectively.</div>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>the normalized form of this coordinate vector</dd>

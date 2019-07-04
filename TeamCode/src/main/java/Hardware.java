@@ -67,9 +67,9 @@ public class Hardware implements Runnable {
         }
     }
 
-    public RevBulkData newData(){
+    public Data newData(){
         while (dataBuffer.isEmpty());
-        RevBulkData data = dataBuffer.get(dataBuffer.size()-1);
+        Data data = new Data(dataBuffer.get(dataBuffer.size()-1));
         dataBuffer.remove(dataBuffer.size()-1);
         return data;
     }

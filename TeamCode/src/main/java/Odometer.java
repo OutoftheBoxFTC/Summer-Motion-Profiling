@@ -10,7 +10,7 @@ public class Odometer {
         this.auxRotationFactor = auxRotationFactor;
     }
 
-    public Vector3 update(double left, double right, double aux){
+    public Vector3 updatePosition(double left, double right, double aux){
         double newRotation = (right-left);
         double newFwd = (left+right)/2;
         double newStrafe = aux-newRotation*auxRotationFactor;
@@ -23,6 +23,13 @@ public class Odometer {
         globalRotation = newRotation;
         globalStrafe = newStrafe;
         return new Vector3(strafeIncrement, fwdIncrement, rotationIncrement);
+    }
+
+    public Vector3 getVelocity(double left, double right, double aux){
+        double rotation = right-left,
+                fwd = (right+left)/2,
+                strafe = aux-rotation*auxRotationFactor;
+        return new Vector3(strafe*translationFactor, fwd*translationFactor, rotation*rotationFactor);
     }
 
     public void setFactors(double rotation, double translation, double auxRotation){

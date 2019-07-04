@@ -112,7 +112,7 @@ Changes include:
     - FTC SDK has been modified to support PIDF coefficients (proportional, integral, derivative, and feed forward).
     - FTC Blocks development tool modified to include PIDF programming blocks.
     - Deprecated older PID-related methods and variables.
-    - REV's 1.8.x PIDF-related changes provide a more linear and accurate way to control a motor.
+    - REV's 1.8.a PIDF-related changes provide a more linear and accurate way to control a motor.
 
  * Wireless
     - Added 5GHz support for wireless channel changing for those devices that support it.
@@ -320,9 +320,9 @@ Known issues:
 
 Version 3.10 (built on 17.05.09)
 
-This version of the software provides support for the REV Robotics Expansion Hub.  This version also includes improvements in the USB communication layer in an effort to enhance system resiliency.  If you were using a 2.x version of the software previously, updating to version 3.1 requires that you also update your Driver Station software in addition to updating the Robot Controller software.
+This version of the software provides support for the REV Robotics Expansion Hub.  This version also includes improvements in the USB communication layer in an effort to enhance system resiliency.  If you were using a 2.a version of the software previously, updating to version 3.1 requires that you also update your Driver Station software in addition to updating the Robot Controller software.
 
-Also note that in version 3.10 software, the setMaxSpeed and getMaxSpeed methods are no longer available (not deprecated, they have been removed from the SDK). Also note that the the new 3.x software incorporates motor profiles that a user can select as he/she configures the robot.
+Also note that in version 3.10 software, the setMaxSpeed and getMaxSpeed methods are no longer available (not deprecated, they have been removed from the SDK). Also note that the the new 3.a software incorporates motor profiles that a user can select as he/she configures the robot.
 
 Changes include:
  * Blocks changes
@@ -572,7 +572,7 @@ Version 2.00 (released on 16.08.19)
  * Users can now set the zero power behavior for a DC motor so that the motor will brake or float when power is zero.
  * Prototype Blockly Programming Mode has been added to FTC Robot Controller.  Users can place the Robot Controller into this mode, and then use a device (such as a laptop) that has a Javascript enabled browser to write Blockly-based Op Modes directly onto the Robot Controller.
  * Users can now configure the robot remotely through the FTC Driver Station app.
- * Android Studio project supports Android Studio 2.1.x and compile SDK Version 23 (Marshmallow).
+ * Android Studio project supports Android Studio 2.1.a and compile SDK Version 23 (Marshmallow).
  * Vuforia Computer Vision SDK integrated into FTC SDK.  Users can use sample vision targets to get localization information on a standard FTC field.
  * Project structure has been reorganized so that there is now a TeamCode package that users can use to place their local/custom Op Modes into this package.
  * Inspection function has been integrated into the FTC Robot Controller and Driver Station Apps (Thanks Team HazMat… 9277 & 10650!).
@@ -589,7 +589,7 @@ Version 2.00 (released on 16.08.19)
 
 Release 16.07.08
 
- * For the ftc_app project, the gradle files have been modified to support Android Studio 2.1.x.
+ * For the ftc_app project, the gradle files have been modified to support Android Studio 2.1.a.
 
 
 

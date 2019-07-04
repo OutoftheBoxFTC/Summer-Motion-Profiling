@@ -11,6 +11,6 @@ public class Matrix22 {
     }
 
     public Vector2 transform(Vector2 v){
-        return i.scale(v.getX()).add(j.scale(v.getY()));
+        return i.scale(v.getA()).add(j.scale(v.getB()));
     }
 }

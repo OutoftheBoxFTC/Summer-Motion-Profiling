@@ -1,31 +1,35 @@
 public class Vector2 {
-    private double x, y;
-    public Vector2(double x, double y){
-        this.x = x;
-        this.y = y;
+    private double a, b;
+    public Vector2(double a, double b){
+        this.a = a;
+        this.b = b;
     }
 
-    public void setX(double x) {
-        this.x = x;
+    public void setA(double a) {
+        this.a = a;
     }
 
-    public void setY(double y) {
-        this.y = y;
+    public void setB(double b) {
+        this.b = b;
     }
 
-    public double getX() {
-        return x;
+    public double getA() {
+        return a;
     }
 
-    public double getY() {
-        return y;
+    public double getB() {
+        return b;
     }
 
     public Vector2 scale(double scalar){
-        return new Vector2(x*scalar, y*scalar);
+        return new Vector2(a *scalar, b *scalar);
     }
 
     public Vector2 add(Vector2 v){
-        return new Vector2(v.x+x, v.y+y);
+        return new Vector2(v.a + a, v.b + b);
+    }
+
+    public Vector2 clone(){
+        return new Vector2(a, b);
     }
 }
