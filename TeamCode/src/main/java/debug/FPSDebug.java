@@ -1,3 +1,5 @@
+package debug;
+
 import java.util.ArrayList;
 
 public class FPSDebug {

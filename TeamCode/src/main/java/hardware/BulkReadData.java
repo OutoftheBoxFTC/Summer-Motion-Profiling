@@ -1,10 +1,12 @@
+package hardware;
+
 import org.openftc.revextensions2.RevBulkData;
 
-public class Data {
+public class BulkReadData {
     private static final int LEFT = 0, AUX = 1, RIGHT = 2;
     private double left, right, aux, vLeft, vRight, vAux;
 
-    public Data(RevBulkData data){
+    public BulkReadData(RevBulkData data){
         left = data.getMotorCurrentPosition(LEFT);
         right = data.getMotorCurrentPosition(RIGHT);
         aux = data.getMotorCurrentPosition(AUX);

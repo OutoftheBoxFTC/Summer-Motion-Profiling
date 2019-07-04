@@ -1,3 +1,5 @@
+package math;
+
 public class Vector2 {
     private double a, b;
     public Vector2(double a, double b){

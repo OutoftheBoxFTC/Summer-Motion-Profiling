@@ -1,3 +1,5 @@
+package math;
+
 public class Matrix22 {
     private Vector2 i, j;
     public Matrix22(double a, double b, double c, double d){

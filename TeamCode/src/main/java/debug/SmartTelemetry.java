@@ -1,3 +1,5 @@
+package debug;
+
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 import java.util.ArrayList;
@@ -38,6 +40,7 @@ public class SmartTelemetry {
         for(String header : headerMessages.keySet()){
             telemetry.addData(header, headerMessages.get(header));
         }
+        telemetry.update();
     }
 
     public void setHeader(String header, String message){

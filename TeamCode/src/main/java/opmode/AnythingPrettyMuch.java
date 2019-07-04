@@ -1,30 +1,42 @@
+package opmode;
+
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+
+import debug.FPSDebug;
+import debug.SmartTelemetry;
+import hardware.BulkReadData;
+import hardware.Hardware;
+import math.Matrix22;
+import math.Vector2;
+import math.Vector3;
+import odometry.Odometer;
+import odometry.OdometerDynamics;
 
 public abstract class AnythingPrettyMuch extends LinearOpMode{
     protected Vector2 position;
     protected double initialRotation;
     private Vector3 velocity;
-    protected OdometryCalculator odometryCalculator;
     protected Odometer odometer;
     protected Hardware robot;
     protected FPSDebug fpsDebug;
     protected SmartTelemetry telemetry;
 
-    public AnythingPrettyMuch(OdometryCalculator calculator){
-        //TODO set
-        odometer = new Odometer(0, 0, 0);
-        this.odometryCalculator = calculator;
+    public AnythingPrettyMuch(Odometer odometer){
+        this.odometer = odometer;
         this.telemetry = new SmartTelemetry(super.telemetry);
         fpsDebug = new FPSDebug(telemetry, "Main Loop");
     }
 
     public void update(){
-        Data data = robot.newData();//stalls here until hardware loop obtains new data
+        BulkReadData data = robot.newData();//stalls here until hardware loop obtains new data
         fpsDebug.startIncrement();
+
         updateOrientation(data);
+
         fpsDebug.endIncrement();
         fpsDebug.update();
         fpsDebug.queryFPS();
+        telemetry.update();
     }
 
     private Matrix22 rotationMatrix(double rotation){
@@ -39,14 +51,14 @@ public abstract class AnythingPrettyMuch extends LinearOpMode{
         this.velocity = new Vector3(0, 0, 0);//hopefully
     }
 
-    private void updateOrientation(Data data){
-        Vector3 dynamicRobotIncrements = odometer.updatePosition(data.getLeft(), data.getRight(), data.getAux());
-        double newRotation = odometer.getGlobalRotation()+initialRotation;
+    private void updateOrientation(BulkReadData data){
+        OdometerDynamics dynamicRobotIncrements = odometer.updateRobotDynamics(data);
 
-        velocity = odometer.getVelocity(data.getvLeft(), data.getvRight(), data.getvAux());
-
+        Vector3 globalDynamics = odometer.getGlobalDynamics();
+        double newRotation = initialRotation+globalDynamics.getC();
         Matrix22 rotation = rotationMatrix(newRotation);
-        Vector2 staticRobotIncrements = odometryCalculator.findStaticIncrement(dynamicRobotIncrements);
+        velocity = odometer.getVelocity(data);
+        Vector2 staticRobotIncrements = odometer.findStaticIncrements(dynamicRobotIncrements);
         Vector2 fieldIncrements = rotation.transform(staticRobotIncrements);
 
         position = position.add(fieldIncrements);
