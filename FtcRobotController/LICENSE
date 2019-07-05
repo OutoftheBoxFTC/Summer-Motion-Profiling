@@ -1,7 +1,7 @@
 License information
 
 ================================================================================
-FtcDriverStation, FtcRobotController, FtcCommon, Hardware, RobotCore
+FtcDriverStation, FtcRobotController, FtcCommon, hardware.Hardware, RobotCore
 ModernRobotics, Analytics, and WirelessP2p have the following license:
 
 Copyright (c) 2014-2016 Qualcomm Technologies Inc

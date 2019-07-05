@@ -17,7 +17,7 @@ Sensor:    	This is a Sample OpMode that shows how to use a specific sensor.
             It is not intended to drive a functioning robot, it is simply showing the minimal code
             required to read and display the sensor values.
 
-Hardware:	This is not an actual OpMode, but a helper class that is used to describe
+hardware.Hardware:	This is not an actual OpMode, but a helper class that is used to describe
             one particular robot's hardware configuration:   eg: For the K9 or Pushbot.
             Look at any Pushbot sample to see how this can be used in an OpMode.
             Teams can copy one of these to create their own robot definition.
@@ -40,7 +40,7 @@ Library:    This is a class, or set of classes used to implement some strategy.
 After the prefix, other conventions will apply:
 
 * Sensor class names should constructed as:       Sensor - Company - Type
-* Hardware class names should be constructed as:  Hardware - Robot type
+* hardware.Hardware class names should be constructed as:  hardware.Hardware - Robot type
 * Pushbot class names should be constructed as:   Pushbot - Mode - Action - OpModetype
 * Concept class names should be constructed as:   Concept - Topic - OpModetype
 * Library class names should be constructed as:   Library - Topic - OpModetype
@@ -51,7 +51,7 @@ Code is formatted as per the Google Style Guide:
 
 https://google.github.io/styleguide/javaguide.html
 
-With “Sensor” and “Hardware” samples, the code should demonstrate the essential function,
+With “Sensor” and “hardware.Hardware” samples, the code should demonstrate the essential function,
 and not be embellished with too much additional “clever” code.  If a sensor has special
 addressing needs, or has a variety of modes or outputs, these should be demonstrated as
 simply as possible.

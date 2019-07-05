@@ -85,7 +85,7 @@ Changes include:
  * Fix to prevent crash when deprecated configuration annotations are used.
  * Change to allow FTC Robot Controller APK to be auto-updated using FIRST Global Control Hub update scripts.
  * Removed samples for non supported / non legal hardware.
- * Improvements to Telemetry.addData block with "text" socket.
+ * Improvements to debug.SmartTelemetry.addData block with "text" socket.
  * Updated Blocks sample op mode list to include Rover Ruckus Vuforia example.
  * Update SDK library version number.
      
@@ -141,7 +141,7 @@ Changes include:
     - Support for USB connected UVC webcams.
     - Refactored optimized Blocks Vuforia code to support Rover Ruckus image targets.
     - Added programming blocks to support PIDF (proportional, integral, derivative and feed forward) motor control.
-    - Added formatting options (under Telemetry and Miscellaneous categories) so user can set how many decimal places to display a numerical value.
+    - Added formatting options (under debug.SmartTelemetry and Miscellaneous categories) so user can set how many decimal places to display a numerical value.
     - Support to play audio files (which are uploaded through Blocks web interface) on Driver Station in addition to the Robot Controller.
     - Fixed bug with Download Image of Blocks feature.
     - Support for REV Robotics Blinkin LED Controller.
@@ -439,7 +439,7 @@ Version 2.5 (internal release on released on 16.12.13)
      - Added type safety to blocks for Quaternion.
      - Added type safety to blocks for Servo.
      - Added type safety to blocks for ServoController.
-     - Added type safety to blocks for Telemetry.
+     - Added type safety to blocks for debug.SmartTelemetry.
      - Added type safety to blocks for Temperature.
      - Added type safety to blocks for TouchSensor.
      - Added type safety to blocks for UltrasonicSensor.
@@ -615,7 +615,7 @@ Release 16.03.09
     - For legacy module (NXT compatible), user no longer has to toggle between read and write modes when reading from or writing to a legacy device.
  * Changes made to enhance reliability/robustness during ESD event.
  * Changes made to make code thread safe.
- * Debug keystore added so that user-generated robot controller APKs will all use the same signed key (to avoid conflicts if a team has multiple developer laptops for example).
+ * debug.FPSDebug keystore added so that user-generated robot controller APKs will all use the same signed key (to avoid conflicts if a team has multiple developer laptops for example).
  * Firmware version information for Modern Robotics modules are now logged.
  * Changes made to improve USB comm reliability and robustness.
  * Added support for voltage indicator for legacy (NXT-compatible) motor controllers.
@@ -668,7 +668,7 @@ Release 16.01.04
  * Corrrected "Dead zone" joystick code.
  * LED.getDeviceName and .getConnectionInfo() return null
  * apps check for ROBOCOL_VERSION mismatch
- * Fix for Telemetry also has off-by-one errors in its data string sizing / short size limitations error
+ * Fix for debug.SmartTelemetry also has off-by-one errors in its data string sizing / short size limitations error
  * User telemetry output is sorted.
  * added formatting variants to DbgLog and RobotLog APIs
  * code modified to allow for a long list of op mode names.

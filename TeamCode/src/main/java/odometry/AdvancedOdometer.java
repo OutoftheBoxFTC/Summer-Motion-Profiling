@@ -39,7 +39,29 @@ public class AdvancedOdometer extends Odometer{
         Vector3 robotIncrements = data.getDynamicRobotIncrements(),
                 robotVelocityIncrements = data.getDynamicVelocityIncrements(),
                 initialRobotVelocity = data.getPreviousVelocity();
-        
+        double rInc = robotIncrements.getC(),
+                vrI = initialRobotVelocity.getC(),
+                vrInc = robotVelocityIncrements.getC();
+        double xInc = robotIncrements.getA(),
+                vxI = initialRobotVelocity.getA(),
+                vxInc = robotVelocityIncrements.getA();
+        double yInc = robotIncrements.getB(),
+                vyI = initialRobotVelocity.getB(),
+                vyInc = robotVelocityIncrements.getB();
+        double t = 2*rInc/(vrInc+2*vrI);
+        double ar = vrInc/t,
+                ax = vxInc/t,
+                ay = vyInc/t;
+        boolean imaginaryIntegrals = ar<0;
+        double bound = (vrI+vrInc)/Math.sqrt(Math.PI*Math.abs(ar));
+        if(imaginaryIntegrals){
+            bound = -bound;
+        }
+        double sIntegral = MathUtil.S((vrI+vrInc)/Math.sqrt(Math.PI*ar)),
+                cIntegral = MathUtil.C((vrI+vrInc)/Math.sqrt(Math.PI*ar));
+
+        double a = 1/4*Math.pow(ar/2, -3/2);
+        return null;
     }
 
     @Override
