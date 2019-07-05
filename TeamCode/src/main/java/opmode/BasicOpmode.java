@@ -10,7 +10,7 @@ import math.Matrix22;
 import math.Vector2;
 import math.Vector3;
 import odometry.Odometer;
-import odometry.OdometerDynamics;
+import odometry.SimpleOdometerDynamics;
 /**
  * Notes:
  *  "Dynamics" refers to any robot centric metric
@@ -56,7 +56,7 @@ public abstract class BasicOpmode extends LinearOpMode{
     }
 
     private void updateOrientation(BulkReadData data){
-        OdometerDynamics dynamicRobotIncrements = odometer.updateRobotDynamics(data);
+        SimpleOdometerDynamics dynamicRobotIncrements = odometer.updateRobotDynamics(data);
 
         Vector3 globalDynamics = odometer.getGlobalDynamics();
         double newRotation = initialRotation+globalDynamics.getC();

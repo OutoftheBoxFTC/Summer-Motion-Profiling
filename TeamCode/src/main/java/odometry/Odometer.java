@@ -12,9 +12,9 @@ public abstract class Odometer {
         this.auxRotationFactor = auxRotationFactor;
     }
 
-    public abstract OdometerDynamics updateRobotDynamics(BulkReadData data);
+    public abstract SimpleOdometerDynamics updateRobotDynamics(BulkReadData data);
 
-    public abstract Vector2 findStaticIncrements(OdometerDynamics data);
+    public abstract Vector2 findStaticIncrements(SimpleOdometerDynamics data);
     public abstract Vector3 getGlobalDynamics();
 
     public void setFactors(double rotation, double translation, double auxRotation){

@@ -12,7 +12,7 @@ public class SimpleOdometer extends Odometer {
         globalRobotDynamics = new Vector3(0, 0, 0);
     }
 
-    public OdometerDynamics updateRobotDynamics(BulkReadData data){
+    public SimpleOdometerDynamics updateRobotDynamics(BulkReadData data){
         double left = data.getLeft(), right = data.getRight(), aux = data.getAux();
 
         double newRotation = (right-left);
@@ -24,10 +24,10 @@ public class SimpleOdometer extends Odometer {
         double strafeIncrement = (newStrafe-globalRobotDynamics.getA())*translationFactor;
 
         globalRobotDynamics.set(newStrafe, newFwd, newRotation);
-        return new OdometerDynamics(new Vector3(strafeIncrement, fwdIncrement, rotationIncrement));
+        return new SimpleOdometerDynamics(new Vector3(strafeIncrement, fwdIncrement, rotationIncrement));
     }
 
-    public Vector2 findStaticIncrements(OdometerDynamics dynamics){
+    public Vector2 findStaticIncrements(SimpleOdometerDynamics dynamics){
         Vector3 robotIncrements = dynamics.getDynamicRobotIncrements();
 
         double strafe = robotIncrements.getA(),

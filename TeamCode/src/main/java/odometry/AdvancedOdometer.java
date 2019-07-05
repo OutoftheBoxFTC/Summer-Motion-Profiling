@@ -1,6 +1,7 @@
 package odometry;
 
 import hardware.BulkReadData;
+import math.MathUtil;
 import math.Vector2;
 import math.Vector3;
 
@@ -33,16 +34,18 @@ public class AdvancedOdometer extends Odometer{
     }
 
     @Override
-    public Vector2 findStaticIncrements(OdometerDynamics unCastedData) {
+    public Vector2 findStaticIncrements(SimpleOdometerDynamics unCastedData) {
         AdvancedOdometerDynamics data = (AdvancedOdometerDynamics)unCastedData;
         Vector3 robotIncrements = data.getDynamicRobotIncrements(),
-                robotVelocityIncrements = data.getDynamicRobotIncrements(),
+                robotVelocityIncrements = data.getDynamicVelocityIncrements(),
                 initialRobotVelocity = data.getPreviousVelocity();
-
+        
     }
 
     @Override
     public Vector3 getGlobalDynamics() {
         return globalRobotDynamics.clone();
     }
+
+
 }
