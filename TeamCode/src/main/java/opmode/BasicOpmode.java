@@ -9,6 +9,8 @@ import hardware.Hardware;
 import math.Matrix22;
 import math.Vector2;
 import math.Vector3;
+import math.Vector4;
+import motion.RobotKinematics;
 import odometry.Odometer;
 import odometry.SimpleOdometerDynamics;
 /**
@@ -24,11 +26,13 @@ public abstract class BasicOpmode extends LinearOpMode{
     protected Hardware robot;
     protected FPSDebug fpsDebug;
     protected SmartTelemetry telemetry;
+    protected RobotKinematics robotKinematics;
 
-    public BasicOpmode(Odometer odometer){
+    public BasicOpmode(Odometer odometer, RobotKinematics robotKinematics){
         this.odometer = odometer;
         this.telemetry = new SmartTelemetry(super.telemetry);
         fpsDebug = new FPSDebug(telemetry, "Main Loop");
+        this.robotKinematics = robotKinematics;
     }
 
     public void update(){
@@ -36,7 +40,8 @@ public abstract class BasicOpmode extends LinearOpMode{
         fpsDebug.startIncrement();
 
         updateOrientation(data);
-
+        Vector4 wheels = robotKinematics.getWheelVelocities(new Vector3(0, 0, 1));
+        robot.drive(wheels.getA(), wheels.getB(), wheels.getC(), wheels.getD());
         fpsDebug.endIncrement();
         fpsDebug.update();
         fpsDebug.queryFPS();

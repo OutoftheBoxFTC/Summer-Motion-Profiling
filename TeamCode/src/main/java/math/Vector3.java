@@ -45,4 +45,12 @@ public class Vector3 {
     public Vector3 subtract(Vector3 v) {
         return new Vector3(a-v.a, b-v.b, c-v.c);
     }
+
+    public Vector3 add(Vector3 v){
+        return new Vector3(v.a+a, v.b+b, v.c+c);
+    }
+
+    public Vector3 scale(double scalar){
+        return new Vector3(a*scalar, b*scalar, c*scalar);
+    }
 }
