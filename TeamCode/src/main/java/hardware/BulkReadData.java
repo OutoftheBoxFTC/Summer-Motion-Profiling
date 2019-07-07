@@ -1,10 +1,14 @@
 package hardware;
 
+import com.qualcomm.hardware.bosch.BNO055IMU;
+
+import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.openftc.revextensions2.RevBulkData;
 
 public class BulkReadData {
     private static final int LEFT = 0, AUX = 1, RIGHT = 2;
-    private double left, right, aux, vLeft, vRight, vAux;
+    private int left, right, aux, vLeft, vRight, vAux;
+    private double gyro;
 
     public BulkReadData(RevBulkData data){
         left = data.getMotorCurrentPosition(LEFT);
@@ -15,27 +19,38 @@ public class BulkReadData {
         vAux = data.getMotorVelocity(AUX);
     }
 
-    public double getLeft() {
+    public int getLeft() {
         return left;
     }
 
-    public double getRight() {
+    public int getRight() {
         return right;
     }
 
-    public double getAux() {
+    public int getAux() {
         return aux;
     }
 
-    public double getvLeft() {
+    public int getvLeft() {
         return vLeft;
     }
 
-    public double getvRight() {
+    public int getvRight() {
         return vRight;
     }
 
-    public double getvAux() {
+    public int getvAux() {
         return vAux;
+    }
+
+    public double getGyro() {
+        return gyro;
+    }
+
+    public void addGyro(BNO055IMU gyro) {
+        Orientation orientation = gyro.getAngularOrientation();
+        double yaw = orientation.firstAngle;
+        double tau = Math.PI*2;
+        this.gyro = ((yaw%tau)+tau)%tau;
     }
 }

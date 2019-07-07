@@ -6,6 +6,7 @@ import math.Vector3;
 
 public class SimpleOdometer extends Odometer {
     private Vector3 globalRobotDynamics;
+    private int leftOffset, auxOffset, rightOffset;
 
     public SimpleOdometer(double rotationFactor, double translationFactor, double auxRotationFactor){
         super(rotationFactor, translationFactor, auxRotationFactor);
@@ -13,7 +14,7 @@ public class SimpleOdometer extends Odometer {
     }
 
     public SimpleOdometerDynamics updateRobotDynamics(BulkReadData data){
-        double left = data.getLeft(), right = data.getRight(), aux = data.getAux();
+        int left = data.getLeft()-leftOffset, right = data.getRight()-rightOffset, aux = data.getAux()-auxOffset;
 
         double newRotation = (right-left);
         double newFwd = (left+right)/2;
@@ -42,6 +43,13 @@ public class SimpleOdometer extends Odometer {
 
     @Override
     public Vector3 getGlobalDynamics() {
-        return globalRobotDynamics.clone();
+        return globalRobotDynamics.dot(new Vector3(translationFactor, translationFactor, rotationFactor));
+    }
+
+    @Override
+    public void calibrate(BulkReadData data) {
+        leftOffset = data.getLeft();
+        rightOffset = data.getRight();
+        auxOffset = data.getAux();
     }
 }

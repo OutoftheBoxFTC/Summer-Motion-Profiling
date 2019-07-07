@@ -2,74 +2,68 @@ package opmode;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
 import debug.FPSDebug;
 import debug.SmartTelemetry;
 import hardware.BulkReadData;
 import hardware.Hardware;
 import math.Matrix22;
-import math.Vector2;
 import math.Vector3;
 import math.Vector4;
-import motion.RobotKinematics;
-import odometry.Odometer;
-import odometry.SimpleOdometerDynamics;
+import state.StateMachine;
+import drivetrain.RobotDrive;
 /**
  * Notes:
  *  "Dynamics" refers to any robot centric metric
  *  Velocity is obtained from odometry wheel readings rather than position differentiation (for now)
  */
 public abstract class BasicOpmode extends LinearOpMode{
-    protected Vector2 position;
-    protected double initialRotation;
-    private Vector3 velocity;
-    protected Odometer odometer;
     protected Hardware robot;
     protected FPSDebug fpsDebug;
     protected SmartTelemetry telemetry;
-    protected RobotKinematics robotKinematics;
+    protected RobotDrive robotDrive;
+    protected StateMachine stateMachine;
+    private ExecutorService threadManager;
 
-    public BasicOpmode(Odometer odometer, RobotKinematics robotKinematics){
-        this.odometer = odometer;
+    private double driveLoopPriority;
+
+    public BasicOpmode(RobotDrive robotDrive, double driveLoopPriority){
+        this.robotDrive = robotDrive;
+        this.driveLoopPriority = driveLoopPriority;
+    }
+
+    @Override
+    public void runOpMode() {
         this.telemetry = new SmartTelemetry(super.telemetry);
         fpsDebug = new FPSDebug(telemetry, "Main Loop");
-        this.robotKinematics = robotKinematics;
+        stateMachine = new StateMachine();
+
+        robot = new Hardware(this, telemetry);
+        robot.init();
+        threadManager = Executors.newFixedThreadPool(1);
+        setupStates(stateMachine);
+        threadManager.execute(robot);
+        double driveIterations = 0;
+        while (!isStopRequested()){
+            BulkReadData data = robot.newData();//stalls here until hardware loop obtains new data
+            fpsDebug.startIncrement();
+            stateMachine.update(data);
+            while (driveIterations >= 1) {
+                Vector3 robotVelocity = stateMachine.getMotorVelocity();
+                Vector4 wheels = robotDrive.getWheelVelocities(robotVelocity);
+                robot.drive(wheels.getA(), wheels.getB(), wheels.getC(), wheels.getD());
+                driveIterations--;
+            }
+            driveIterations += driveLoopPriority;
+            fpsDebug.endIncrement();
+            fpsDebug.update();
+            fpsDebug.queryFPS();
+            telemetry.update();
+        }
+
     }
 
-    public void update(){
-        BulkReadData data = robot.newData();//stalls here until hardware loop obtains new data
-        fpsDebug.startIncrement();
-
-        updateOrientation(data);
-        Vector4 wheels = robotKinematics.getWheelVelocities(new Vector3(0, 0, 1));
-        robot.drive(wheels.getA(), wheels.getB(), wheels.getC(), wheels.getD());
-        fpsDebug.endIncrement();
-        fpsDebug.update();
-        fpsDebug.queryFPS();
-        telemetry.update();
-    }
-
-    private Matrix22 rotationMatrix(double rotation){
-        double cos = Math.cos(rotation),
-                sine = Math.sin(rotation);
-        return new Matrix22(cos, sine, sine, cos);
-    }
-
-    protected void setStartingOrientation(Vector3 initialOrientation){
-        this.position = new Vector2(initialOrientation.getA(), initialOrientation.getB());
-        this.initialRotation = initialOrientation.getC();
-        this.velocity = new Vector3(0, 0, 0);//hopefully
-    }
-
-    private void updateOrientation(BulkReadData data){
-        SimpleOdometerDynamics dynamicRobotIncrements = odometer.updateRobotDynamics(data);
-
-        Vector3 globalDynamics = odometer.getGlobalDynamics();
-        double newRotation = initialRotation+globalDynamics.getC();
-        Matrix22 rotation = rotationMatrix(newRotation);
-        velocity = odometer.getVelocity(data);
-        Vector2 staticRobotIncrements = odometer.findStaticIncrements(dynamicRobotIncrements);
-        Vector2 fieldIncrements = rotation.transform(staticRobotIncrements);
-
-        position = position.add(fieldIncrements);
-    }
+    protected abstract void setupStates(StateMachine states);
 }

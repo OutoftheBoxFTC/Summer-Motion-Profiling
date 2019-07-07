@@ -3,8 +3,10 @@ package debug;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 public class SmartTelemetry {
     private Telemetry telemetry;
@@ -47,8 +49,27 @@ public class SmartTelemetry {
         headerMessages.put(header, message);
     }
 
-    public void clearHeader(String header){
-        headerMessages.remove(header);
+    public void clearHeaders(String... headers){
+        for(String header : headers) {
+            if(headerMessages.keySet().contains(header)) {
+                headerMessages.remove(header);
+            }
+        }
+    }
+
+    public void clearAllHeadersBut(String... keep){
+        Set<String> headers = headerMessages.keySet();
+        ArrayList<String> keepList = new ArrayList<>(Arrays.asList(keep));
+        ArrayList<String> removed = new ArrayList<>();
+        for (String header : headers) {
+            if(!keepList.contains(header)){
+               removed.add(header);
+            }
+        }
+
+        for(String header : removed){
+            headerMessages.remove(header);
+        }
     }
 
     public Telemetry getTelemetry() {

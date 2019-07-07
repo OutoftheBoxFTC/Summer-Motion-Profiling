@@ -35,7 +35,6 @@ public class FPSDebug {
     public void startIncrement() {
         if(lastTime==0) {
             lastTime = System.currentTimeMillis();
-            timeStamps.add(lastTime);
         }
     }
 
@@ -43,6 +42,7 @@ public class FPSDebug {
         if(lastTime==0)
             return;
         timeIncrements.add(System.currentTimeMillis()-lastTime);
+        timeStamps.add(lastTime);
         lastTime = 0;
     }
 }

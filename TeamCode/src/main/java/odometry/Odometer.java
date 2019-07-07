@@ -30,4 +30,6 @@ public abstract class Odometer {
                 strafe = aux-rotation*auxRotationFactor;
         return new Vector3(strafe*translationFactor, fwd*translationFactor, rotation*rotationFactor);
     }
+
+    public abstract void calibrate(BulkReadData data);
 }

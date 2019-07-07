@@ -1,14 +1,14 @@
-package motion;
+package drivetrain;
 
 import math.Matrix34;
 import math.Matrix43;
 import math.Vector3;
 import math.Vector4;
 
-public class HolonomicKinematics extends RobotKinematics {
+public class HolonomicDrive extends RobotDrive {
     private Matrix43 velocityTransformation;
     private Matrix34 wheelTransformation;
-    public HolonomicKinematics(double rotationFactor){
+    public HolonomicDrive(double rotationFactor){
         double m = 1/2,
                 n = rotationFactor/4;
        wheelTransformation = new Matrix34(

@@ -53,4 +53,14 @@ public class Vector3 {
     public Vector3 scale(double scalar){
         return new Vector3(a*scalar, b*scalar, c*scalar);
     }
+
+    public Vector3 dot(Vector3 v) {
+        return new Vector3(v.a*a, v.b*b, v.c*c);
+    }
+
+    public void set(Vector3 v) {
+        a = v.a;
+        b = v.b;
+        c = v.c;
+    }
 }

@@ -1,15 +1,15 @@
-package motion;
+package drivetrain;
 
 import math.Matrix34;
 import math.Matrix43;
 import math.Vector3;
 import math.Vector4;
 
-public class MecanumKinematics extends RobotKinematics{
+public class MecanumDrive extends RobotDrive {
 
     private Matrix43 velocityTransformation;
     private Matrix34 wheelTransformation;
-    public MecanumKinematics(Polarity p, double theta, double rotationFactor){
+    public MecanumDrive(Polarity p, double theta, double rotationFactor){
         int polarity = p.getP();
         double l = 4.0*polarity/Math.sin(theta),
                 m = 4.0,
