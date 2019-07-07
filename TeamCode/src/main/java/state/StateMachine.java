@@ -15,6 +15,8 @@ public class StateMachine {
 
     private ArrayList<LogicState> deactivatedLogicStates, activatedLogicStates;
 
+    private HashMap<String, Long> queriedActivations;
+
     public StateMachine(){
         driveStates = new HashMap<>();
         logicStates = new HashMap<>();
@@ -25,19 +27,37 @@ public class StateMachine {
         activatedDriveState = null;
         activatedLogicStates = new ArrayList<>();
         deactivatedLogicStates = new ArrayList<>();
+        queriedActivations = new HashMap<>();
     }
 
     public void update(BulkReadData data){
+        for(LogicState state : activatedLogicStates){
+            state.init(data);
+        }
+        activatedLogicStates.clear();
         for(LogicState state : activeLogicStates){
             state.update(data);
         }
+
+        if(!queriedActivations.isEmpty()) {
+            ArrayList<String> removedQueries = new ArrayList<>();
+            for (String key : queriedActivations.keySet()) {
+                if (queriedActivations.get(key) < System.currentTimeMillis()) {
+                    activatedLogicStates.add(logicStates.get(key));
+                    removedQueries.add(key);
+                }
+            }
+            for(String key : removedQueries){
+                queriedActivations.remove(key);
+            }
+        }
+
         activeLogicStates.addAll(activatedLogicStates);
         activeLogicStates.removeAll(deactivatedLogicStates);
-        activatedLogicStates.clear();
         deactivatedLogicStates.clear();
     }
 
-    public Vector3 getMotorVelocity(){
+    public Vector3 getDriveVelocities(){
         Vector3 velocity = new Vector3(0, 0, 0);
         if(activeDriveState!=null){
             velocity = activeDriveState.getMotorPowers();
@@ -51,7 +71,14 @@ public class StateMachine {
     }
 
     public void appendLogicStates(HashMap<String, LogicState> states){
+        for (String key : states.keySet()){
+            states.get(key).setThisState(key);
+        }
         logicStates.putAll(states);
+    }
+
+    public void appendDriveStates(HashMap<String, DriveState> states){
+        driveStates.putAll(states);
     }
 
     public void deactivateLogic(String state){
@@ -70,7 +97,15 @@ public class StateMachine {
         return logicStates.get(logicState);
     }
 
-    public boolean isActive(LogicState state){
-        return activeLogicStates.contains(state);
+    public boolean logicStateActive(String logicState){
+        return activeLogicStates.contains(logicStates.get(logicState));
+    }
+
+    public boolean driveStateActive(String driveState){
+        return activeDriveState.equals(driveStates.get(driveState));
+    }
+
+    public void activateLogic(String state, long time) {
+
     }
 }

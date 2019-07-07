@@ -6,9 +6,20 @@ import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.openftc.revextensions2.RevBulkData;
 
 public class BulkReadData {
-    private static final int LEFT = 0, AUX = 1, RIGHT = 2;
+    public static final int LEFT = 0, AUX = 1, RIGHT = 2;
     private int left, right, aux, vLeft, vRight, vAux;
     private double gyro;
+    private CalibrationData calibration;
+
+    public BulkReadData(RevBulkData data, CalibrationData calibration){
+        left = data.getMotorCurrentPosition(LEFT)-calibration.getLeftOffset();
+        right = data.getMotorCurrentPosition(RIGHT)-calibration.getRightOffset();
+        aux = data.getMotorCurrentPosition(AUX)-calibration.getAuxOffset();
+        vLeft = data.getMotorVelocity(LEFT);
+        vRight = data.getMotorVelocity(RIGHT);
+        vAux = data.getMotorVelocity(AUX);
+        this.calibration = calibration;
+    }
 
     public BulkReadData(RevBulkData data){
         left = data.getMotorCurrentPosition(LEFT);
@@ -51,6 +62,10 @@ public class BulkReadData {
         Orientation orientation = gyro.getAngularOrientation();
         double yaw = orientation.firstAngle;
         double tau = Math.PI*2;
-        this.gyro = ((yaw%tau)+tau)%tau;
+        if(calibration==null){
+            this.gyro = ((yaw%tau)+tau)%tau;
+        } else {
+            this.gyro = (((yaw-calibration.getGyroOffset())%tau)+tau)%tau;
+        }
     }
 }

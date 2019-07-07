@@ -39,6 +39,8 @@ public class Hardware implements Runnable {
 
     private SmartTelemetry telemetry;
 
+    private CalibrationData calibration;
+
     public Hardware(LinearOpMode opmode, SmartTelemetry telemetry){
         this.opMode = opmode;
         driveMotors = new ArrayList<>();
@@ -96,14 +98,20 @@ public class Hardware implements Runnable {
                     driveMotors.get(i).setPower(drivePowers[i]);
                 }
             }
-            BulkReadData data = new BulkReadData(hub.getBulkInputData());
-            if(useGyro){
+            RevBulkData rawData = hub.getBulkInputData();
+            BulkReadData data = new BulkReadData(rawData, calibration);
+            if(useGyro || calibration==null){
                 data.addGyro(imu);
+            }
+            if(calibration==null){
+                calibration = new CalibrationData(data);
+                data = new BulkReadData(rawData, calibration);
             }
             if(drivePowersBuffered){
                 //HOPEFULLY by now main loop is waiting for data and not about to send drive powers lol
                 drivePowerBuffer.remove(0);
             }
+
             fpsDebug.endIncrement();
             fpsDebug.update();
             dataBuffer.add(data);

@@ -48,7 +48,7 @@ public abstract class BasicOpmode extends LinearOpMode{
             robot.init();
             threadManager = Executors.newFixedThreadPool(1);
         }
-        setupStates(stateMachine);
+        setup();
         if (!debug){
             threadManager.execute(robot);
         }
@@ -61,7 +61,7 @@ public abstract class BasicOpmode extends LinearOpMode{
             fpsDebug.startIncrement();
             stateMachine.update(data);
             while (driveIterations >= 1) {
-                Vector3 robotVelocity = stateMachine.getMotorVelocity();
+                Vector3 robotVelocity = stateMachine.getDriveVelocities();
                 Vector4 wheels = robotDrive.getWheelVelocities(robotVelocity);
                 robot.drive(wheels.getA(), wheels.getB(), wheels.getC(), wheels.getD());
                 driveIterations--;
@@ -76,5 +76,5 @@ public abstract class BasicOpmode extends LinearOpMode{
         threadManager.shutdown();
     }
 
-    protected abstract void setupStates(StateMachine states);
+    protected abstract void setup();
 }

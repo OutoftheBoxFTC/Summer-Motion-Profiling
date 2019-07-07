@@ -24,11 +24,13 @@ public class FPSDebug {
     }
 
     public void queryFPS(){
-        double fps = 0, factor = 1.0e9/timeIncrements.size();
+        double fps = 0, fpsFactor = 1.0e9/timeIncrements.size(), time=0, timeFactor = 1/1.0e9/timeIncrements.size();
         for (long timeIncrement : timeIncrements) {
-            fps += factor/timeIncrement;
+            fps += fpsFactor/timeIncrement;
+            time += timeIncrement*timeFactor;
         }
-        telemetry.setHeader(loopName + " FPS", String.valueOf(fps));
+        telemetry.setHeader(loopName + " FPS", String.valueOf((int)fps));
+        telemetry.setHeader(loopName + "Duration", String.valueOf(time));
     }
 
     public void startIncrement() {

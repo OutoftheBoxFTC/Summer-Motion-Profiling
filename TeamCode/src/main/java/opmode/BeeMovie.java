@@ -1,12 +1,12 @@
 package opmode;
 
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+
 import java.util.HashMap;
 
 import drivetrain.HolonomicDrive;
 import hardware.BulkReadData;
 import state.LogicState;
-import state.StateMachine;
-import com.qualcomm.robotcore.eventloop.opmode.*;
 
 @TeleOp(name = "Bee Movie")
 public class BeeMovie extends BasicOpmode {
@@ -1909,7 +1909,7 @@ public class BeeMovie extends BasicOpmode {
 
 
     @Override
-    protected void setupStates(final StateMachine states) {
+    protected void setup() {
         HashMap<String, LogicState> stateList = new HashMap<>();
         for (int i = 0; i < script.length; i++) {
             final String line = script[i];
@@ -1938,11 +1938,11 @@ public class BeeMovie extends BasicOpmode {
             @Override
             public void update(BulkReadData data) {
                 if(isStarted()){
-                    states.activateLogic("0");
+                    stateMachine.activateLogic("0");
                 }
             }
         });
-        states.appendLogicStates(stateList);
-        states.activateLogic("-1");
+        stateMachine.appendLogicStates(stateList);
+        stateMachine.activateLogic("-1");
     }
 }
