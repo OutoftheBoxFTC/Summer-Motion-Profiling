@@ -9,11 +9,9 @@ public class Matrix43 {
     }
 
     public Matrix43(double... params){
-        if(params.length==16) {
-            i = new Vector4(params[0], params[3], params[6], params[9]);
-            j = new Vector4(params[1], params[4], params[7], params[10]);
-            k = new Vector4(params[2], params[5], params[8], params[11]);
-        }
+        i = new Vector4(params[0], params[3], params[6], params[9]);
+        j = new Vector4(params[1], params[4], params[7], params[10]);
+        k = new Vector4(params[2], params[5], params[8], params[11]);
     }
 
     public Vector4 transform(Vector3 v){

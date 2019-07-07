@@ -2,6 +2,7 @@ package odometry;
 
 import math.Vector3;
 
+@Deprecated
 public class AdvancedOdometerDynamics extends SimpleOdometerDynamics {
     private Vector3 dynamicVelocityIncrements, previousVelocity;
     public AdvancedOdometerDynamics(Vector3 dynamicRobotIncrements, Vector3 dynamicVelocityIncrements, Vector3 previousVelocity) {

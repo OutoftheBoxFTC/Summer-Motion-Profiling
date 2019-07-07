@@ -58,7 +58,11 @@ public class Hardware implements Runnable {
         c = new SmartMotor((ExpansionHubMotor)getOrNull(map.dcMotor, "c"));
         d = new SmartMotor((ExpansionHubMotor)getOrNull(map.dcMotor, "d"));
         imu = getOrNull(map, BNO055IMU.class, "imu");
-        initIMU();driveMotors.add(a);
+        if(imu != null) {
+            initIMU();
+        }
+
+        driveMotors.add(a);
         driveMotors.add(b);
         driveMotors.add(c);
         driveMotors.add(d);
@@ -82,7 +86,7 @@ public class Hardware implements Runnable {
 
     @Override
     public void run() {
-        while (opMode.opModeIsActive()){
+        while (!opMode.isStopRequested()){
             fpsDebug.startIncrement();
 
             boolean drivePowersBuffered = !drivePowerBuffer.isEmpty();
@@ -114,6 +118,9 @@ public class Hardware implements Runnable {
         return data;
     }
 
+    /**
+     * Optional due to addition of 3ms delay every hw loop
+     */
     public void enableGyro(){
         useGyro = true;
     }

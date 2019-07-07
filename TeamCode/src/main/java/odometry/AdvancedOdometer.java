@@ -5,10 +5,11 @@ import math.MathUtil;
 import math.Vector2;
 import math.Vector3;
 
+@Deprecated
 public class AdvancedOdometer extends Odometer{
 
     private Vector3 globalRobotDynamics, globalRobotVelocityDynamics;
-    private double leftOffset, auxOffset, rightOffset;
+    private int leftOffset, auxOffset, rightOffset;
 
     public AdvancedOdometer(double rotationFactor, double translationFactor, double auxRotationFactor) {
         super(rotationFactor, translationFactor, auxRotationFactor);
@@ -16,8 +17,8 @@ public class AdvancedOdometer extends Odometer{
 
     @Override
     public AdvancedOdometerDynamics updateRobotDynamics(BulkReadData data) {
-        double left = data.getLeft()-leftOffset, right = data.getRight()-rightOffset, aux = data.getAux()-auxOffset;
-        double rotation = right-left, fwd = (left+right)/2, strafe = aux-rotation*auxRotationFactor;
+        int left = data.getLeft()-leftOffset, right = data.getRight()-rightOffset, aux = data.getAux()-auxOffset;
+        double rotation = right-left, fwd = (left+right)/2.0, strafe = aux-rotation*auxRotationFactor;
         Vector3 globalRobotDynamics = new Vector3(strafe*translationFactor, fwd*translationFactor, rotation*rotationFactor);
 
         double vLeft = data.getvLeft(), vRight = data.getvRight(), vAux = data.getvAux();

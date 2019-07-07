@@ -17,15 +17,14 @@ public class FPSDebug {
 
     public void update() {
         long now = timeStamps.get(0);
-        while (now - timeStamps.get(0)>1000){
+        while (now - timeStamps.get(0)>1e9){
             timeIncrements.remove(0);
             timeStamps.remove(0);
         }
     }
 
     public void queryFPS(){
-        double fps = 0,
-        factor = 1000.0/timeIncrements.size();
+        double fps = 0, factor = 1.0e9/timeIncrements.size();
         for (long timeIncrement : timeIncrements) {
             fps += factor/timeIncrement;
         }
@@ -34,14 +33,14 @@ public class FPSDebug {
 
     public void startIncrement() {
         if(lastTime==0) {
-            lastTime = System.currentTimeMillis();
+            lastTime = System.nanoTime();
         }
     }
 
     public void endIncrement(){
         if(lastTime==0)
             return;
-        timeIncrements.add(System.currentTimeMillis()-lastTime);
+        timeIncrements.add(System.nanoTime()-lastTime);
         timeStamps.add(lastTime);
         lastTime = 0;
     }

@@ -10,10 +10,12 @@ public class Matrix34 {
     }
 
     public Matrix34(double... params){
-        i = new Vector3(params[0], params[4], params[8]);
-        j = new Vector3(params[1], params[5], params[9]);
-        k = new Vector3(params[2], params[6], params[10]);
-        l = new Vector3(params[3], params[7], params[11]);
+        if(params.length==12) {
+            i = new Vector3(params[0], params[4], params[8]);
+            j = new Vector3(params[1], params[5], params[9]);
+            k = new Vector3(params[2], params[6], params[10]);
+            l = new Vector3(params[3], params[7], params[11]);
+        }
     }
 
     public Vector3 transform(Vector4 v){
