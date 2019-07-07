@@ -1923,8 +1923,13 @@ public class BeeMovie extends BasicOpmode {
                         telemetry.setHeader("script", line);
                     }
                     else if(System.currentTimeMillis()-lastTime>=10){
-                        stateMachine.activateLogic(String.valueOf(thisState+1));
                         stateMachine.deactivateLogic(String.valueOf(thisState));
+                        if(thisState==script.length-1){
+                            stop();
+                        }
+                        else {
+                            stateMachine.activateLogic(String.valueOf(thisState + 1));
+                        }
                     }
                 }
             });
