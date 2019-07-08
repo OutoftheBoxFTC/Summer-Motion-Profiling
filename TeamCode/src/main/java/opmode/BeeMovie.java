@@ -1,5 +1,7 @@
 package opmode;
 
+import android.util.Log;
+
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import java.util.HashMap;
@@ -1933,13 +1935,12 @@ public class BeeMovie extends BasicOpmode {
             });
         }
         stateList.put("-1", new LogicState(stateMachine) {
+
             @Override
             public void update(BulkReadData data) {
-                telemetry.setHeader("Started", String.valueOf(isStarted()));
                 if(isStarted()){
                     stateMachine.activateLogic("0");
                     deactivateThis();
-                    telemetry.clearHeaders("Started");
                 }
             }
         });

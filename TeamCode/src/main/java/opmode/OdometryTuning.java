@@ -39,6 +39,7 @@ public class OdometryTuning extends BasicOpmode {
                     deactivateThis();
                     stateMachine.activateLogic("rotation");
                     stateMachine.setActiveDriveState("rotation");
+                    telemetry.clearHeaders();
                 }
             }
         });
@@ -127,10 +128,9 @@ public class OdometryTuning extends BasicOpmode {
                 return new Vector3(0, 0, 0.2);
             }
         });
-
-        stateMachine.activateLogic("init");
-        stateMachine.setActiveDriveState("none");
         stateMachine.appendLogicStates(logicStates);
         stateMachine.appendDriveStates(driveStates);
+        stateMachine.activateLogic("init");
+        stateMachine.setActiveDriveState("none");
     }
 }

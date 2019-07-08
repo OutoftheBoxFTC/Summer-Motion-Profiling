@@ -60,7 +60,6 @@ public abstract class BasicOpmode extends LinearOpMode{
                 data = robot.newData();//stalls here until hardware loop obtains new data
             }
             fpsDebug.startIncrement();
-            Log.d("Checkpoint 1", data==null?"No":"Yes");
             stateMachine.update(data);
             while (driveIterations >= 1) {
                 Vector3 robotVelocity = stateMachine.getDriveVelocities();

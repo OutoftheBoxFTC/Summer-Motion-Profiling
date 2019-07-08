@@ -4,7 +4,7 @@ import hardware.BulkReadData;
 
 public abstract class LogicState {
     protected StateMachine stateMachine;
-    private String stateName;
+    protected String stateName;
     public LogicState(StateMachine stateMachine){
         this.stateMachine = stateMachine;
     }

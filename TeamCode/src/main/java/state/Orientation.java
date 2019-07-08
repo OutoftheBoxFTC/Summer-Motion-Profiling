@@ -22,6 +22,11 @@ public class Orientation extends LogicState{
     }
 
     @Override
+    public void init(BulkReadData data) {
+
+    }
+
+    @Override
     public void update(BulkReadData data) {
         velocity.set(odometer.getVelocity(data));
 

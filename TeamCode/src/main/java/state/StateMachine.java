@@ -2,10 +2,11 @@ package state;
 
 import android.util.Log;
 
+import com.qualcomm.robotcore.util.RobotLog;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import debug.SmartTelemetry;
 import hardware.BulkReadData;
 import math.Vector3;
 
@@ -19,10 +20,8 @@ public class StateMachine {
     private ArrayList<LogicState> deactivatedLogicStates, activatedLogicStates;
 
     private HashMap<String, Long> queriedActivations;
-    private SmartTelemetry telemetry;
 
     public StateMachine(){
-        this.telemetry = telemetry;
         driveStates = new HashMap<>();
         logicStates = new HashMap<>();
 
@@ -42,7 +41,6 @@ public class StateMachine {
         activeLogicStates.addAll(activatedLogicStates);
         activatedLogicStates.clear();
         for(LogicState state : activeLogicStates){
-            Log.d("Checkpoint 2", data==null?"No":"Yes");
             state.update(data);
         }
 
@@ -58,6 +56,12 @@ public class StateMachine {
                 queriedActivations.remove(key);
             }
         }
+
+        if(activatedDriveState != null){
+            activeDriveState = activatedDriveState;
+            activatedDriveState = null;
+        }
+
         activeLogicStates.removeAll(deactivatedLogicStates);
         deactivatedLogicStates.clear();
     }
@@ -66,11 +70,6 @@ public class StateMachine {
         Vector3 velocity = new Vector3(0, 0, 0);
         if(activeDriveState!=null){
             velocity = activeDriveState.getMotorPowers();
-        }
-
-        if(activatedDriveState != null){
-            activeDriveState = activatedDriveState;
-            activatedDriveState = null;
         }
         return velocity;
     }
@@ -110,8 +109,8 @@ public class StateMachine {
         return activeDriveState.equals(driveStates.get(driveState));
     }
 
-    public void activateLogic(String state, long time) {
-
+    public void activateLogic(String state, long delay) {
+        //TODO finish me
     }
 
     public String[] getActiveStates() {

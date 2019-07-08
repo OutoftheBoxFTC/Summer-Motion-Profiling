@@ -31,6 +31,9 @@ public class FPSDebug {
 
     public void queryFPS(){
         telemetry.setHeader(loopName + " FPS", String.valueOf((int) fpsAvg));
+    }
+
+    public void queryDuration(){
         telemetry.setHeader(loopName + " Duration", String.valueOf(timeAvg) + "ms");
     }
 
