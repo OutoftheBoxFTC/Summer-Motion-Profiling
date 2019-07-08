@@ -1,6 +1,7 @@
 package hardware;
 
 import android.support.annotation.NonNull;
+import android.util.Log;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
@@ -35,7 +36,7 @@ public class Hardware implements Runnable {
 
     private BNO055IMU imu;
 
-    private boolean useGyro;
+    private boolean useGyro, dataLogged;
 
     private SmartTelemetry telemetry;
 
@@ -49,6 +50,7 @@ public class Hardware implements Runnable {
         fpsDebug = new FPSDebug(telemetry, "Hardware");
         this.telemetry = telemetry;
         useGyro = false;
+        dataLogged = false;
     }
 
     public void init(){
@@ -111,15 +113,16 @@ public class Hardware implements Runnable {
                 //HOPEFULLY by now main loop is waiting for data and not about to send drive powers lol
                 drivePowerBuffer.remove(0);
             }
-
             fpsDebug.endIncrement();
             fpsDebug.update();
             dataBuffer.add(data);
+            dataLogged = true;
         }
     }
 
     public BulkReadData newData(){
-        while (dataBuffer.isEmpty());
+        while (!dataLogged);
+        dataLogged = false;
         fpsDebug.queryFPS();
         BulkReadData data = dataBuffer.get(dataBuffer.size()-1);
         dataBuffer.remove(dataBuffer.size()-1);

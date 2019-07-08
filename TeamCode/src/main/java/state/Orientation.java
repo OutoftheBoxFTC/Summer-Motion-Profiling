@@ -14,6 +14,7 @@ public class Orientation extends LogicState{
     private double initialRotation;
 
     public Orientation(StateMachine stateMachine, Odometer odometer, Vector3 position, Vector3 velocity) {
+        super(stateMachine);
         this.odometer = odometer;
         this.position = position;
         this.velocity = velocity;

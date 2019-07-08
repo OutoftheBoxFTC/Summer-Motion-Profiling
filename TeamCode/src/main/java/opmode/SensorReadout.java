@@ -11,7 +11,7 @@ import math.Vector4;
 import state.DriveState;
 import state.LogicState;
 
-@TeleOp(name = "FunctionalityTest")
+@TeleOp(name = "Functionality Test")
 public class SensorReadout extends BasicOpmode {
 
     public SensorReadout() {
@@ -22,6 +22,16 @@ public class SensorReadout extends BasicOpmode {
     protected void setup() {
         robot.enableGyro();
         HashMap<String, LogicState> logicStates = new HashMap<>();
+        logicStates.put("init", new LogicState(stateMachine) {
+            @Override
+            public void update(BulkReadData data) {
+                if(isStarted()){
+                    deactivateThis();
+                    stateMachine.activateLogic("Sensor Readout");
+                    telemetry.clearAllHeadersExcept();
+                }
+            }
+        });
         logicStates.put("Sensor Readout", new LogicState(stateMachine) {
             @Override
             public void update(BulkReadData data) {
@@ -44,7 +54,7 @@ public class SensorReadout extends BasicOpmode {
         });
         stateMachine.appendLogicStates(logicStates);
         stateMachine.appendDriveStates(driveStates);
-        stateMachine.activateLogic("Sensor Readout");
+        stateMachine.activateLogic("init");
         stateMachine.setActiveDriveState("Controller Drive");
     }
 }

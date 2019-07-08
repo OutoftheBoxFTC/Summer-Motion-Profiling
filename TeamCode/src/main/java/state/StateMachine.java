@@ -1,8 +1,11 @@
 package state;
 
+import android.util.Log;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import debug.SmartTelemetry;
 import hardware.BulkReadData;
 import math.Vector3;
 
@@ -16,8 +19,10 @@ public class StateMachine {
     private ArrayList<LogicState> deactivatedLogicStates, activatedLogicStates;
 
     private HashMap<String, Long> queriedActivations;
+    private SmartTelemetry telemetry;
 
     public StateMachine(){
+        this.telemetry = telemetry;
         driveStates = new HashMap<>();
         logicStates = new HashMap<>();
 
@@ -34,8 +39,10 @@ public class StateMachine {
         for(LogicState state : activatedLogicStates){
             state.init(data);
         }
+        activeLogicStates.addAll(activatedLogicStates);
         activatedLogicStates.clear();
         for(LogicState state : activeLogicStates){
+            Log.d("Checkpoint 2", data==null?"No":"Yes");
             state.update(data);
         }
 
@@ -51,8 +58,6 @@ public class StateMachine {
                 queriedActivations.remove(key);
             }
         }
-
-        activeLogicStates.addAll(activatedLogicStates);
         activeLogicStates.removeAll(deactivatedLogicStates);
         deactivatedLogicStates.clear();
     }
@@ -72,7 +77,7 @@ public class StateMachine {
 
     public void appendLogicStates(HashMap<String, LogicState> states){
         for (String key : states.keySet()){
-            states.get(key).setThisState(key);
+            states.get(key).setStateName(key);
         }
         logicStates.putAll(states);
     }
@@ -107,5 +112,13 @@ public class StateMachine {
 
     public void activateLogic(String state, long time) {
 
+    }
+
+    public String[] getActiveStates() {
+        ArrayList<String> activeStates = new ArrayList<>();
+        for(LogicState state : activeLogicStates){
+            activeStates.add(state.getStateName());
+        }
+        return activeStates.toArray(new String[activatedLogicStates.size()]);
     }
 }

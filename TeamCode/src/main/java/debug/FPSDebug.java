@@ -7,30 +7,31 @@ public class FPSDebug {
     private SmartTelemetry telemetry;
     private long lastTime = 0;
     private String loopName;
+    double fpsAvg, timeAvg;
+
+    long totalTime;
 
     public FPSDebug(SmartTelemetry telemetry, String loopName){
         timeIncrements = new ArrayList<>();
         timeStamps = new ArrayList<>();
         this.telemetry = telemetry;
         this.loopName = loopName;
+        totalTime = 0;
     }
 
     public void update() {
-        long now = timeStamps.get(0);
+        long now = timeStamps.get(timeStamps.size()-1);
         while (now - timeStamps.get(0)>1e9){
-            timeIncrements.remove(0);
+            totalTime -= timeIncrements.remove(0);
             timeStamps.remove(0);
         }
+        this.fpsAvg = Math.round((double)timeIncrements.size()/totalTime*1.0e12)/1.0e3;
+        this.timeAvg = Math.round((double)totalTime/1.0e3/timeIncrements.size())/1.0e3;
     }
 
     public void queryFPS(){
-        double fps = 0, fpsFactor = 1.0e9/timeIncrements.size(), time=0, timeFactor = 1/1.0e9/timeIncrements.size();
-        for (long timeIncrement : timeIncrements) {
-            fps += fpsFactor/timeIncrement;
-            time += timeIncrement*timeFactor;
-        }
-        telemetry.setHeader(loopName + " FPS", String.valueOf((int)fps));
-        telemetry.setHeader(loopName + "Duration", String.valueOf(time));
+        telemetry.setHeader(loopName + " FPS", String.valueOf((int) fpsAvg));
+        telemetry.setHeader(loopName + " Duration", String.valueOf(timeAvg) + "ms");
     }
 
     public void startIncrement() {
@@ -42,7 +43,9 @@ public class FPSDebug {
     public void endIncrement(){
         if(lastTime==0)
             return;
-        timeIncrements.add(System.nanoTime()-lastTime);
+        long timeIncrement = System.nanoTime()-lastTime;
+        totalTime += timeIncrement;
+        timeIncrements.add(timeIncrement);
         timeStamps.add(lastTime);
         lastTime = 0;
     }

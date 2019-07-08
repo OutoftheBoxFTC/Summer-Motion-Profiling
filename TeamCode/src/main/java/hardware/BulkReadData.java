@@ -12,22 +12,18 @@ public class BulkReadData {
     private CalibrationData calibration;
 
     public BulkReadData(RevBulkData data, CalibrationData calibration){
-        left = data.getMotorCurrentPosition(LEFT)-calibration.getLeftOffset();
-        right = data.getMotorCurrentPosition(RIGHT)-calibration.getRightOffset();
-        aux = data.getMotorCurrentPosition(AUX)-calibration.getAuxOffset();
+        left = data.getMotorCurrentPosition(LEFT);
+        right = data.getMotorCurrentPosition(RIGHT);
+        aux = data.getMotorCurrentPosition(AUX);
+        if(calibration != null){
+            left -= calibration.getLeftOffset();
+            right -= calibration.getRightOffset();
+            aux = calibration.getAuxOffset();
+        }
         vLeft = data.getMotorVelocity(LEFT);
         vRight = data.getMotorVelocity(RIGHT);
         vAux = data.getMotorVelocity(AUX);
         this.calibration = calibration;
-    }
-
-    public BulkReadData(RevBulkData data){
-        left = data.getMotorCurrentPosition(LEFT);
-        right = data.getMotorCurrentPosition(RIGHT);
-        aux = data.getMotorCurrentPosition(AUX);
-        vLeft = data.getMotorVelocity(LEFT);
-        vRight = data.getMotorVelocity(RIGHT);
-        vAux = data.getMotorVelocity(AUX);
     }
 
     public int getLeft() {

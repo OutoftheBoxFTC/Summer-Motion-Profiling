@@ -4,6 +4,7 @@ import android.util.Log;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
+import java.util.Arrays;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -59,6 +60,7 @@ public abstract class BasicOpmode extends LinearOpMode{
                 data = robot.newData();//stalls here until hardware loop obtains new data
             }
             fpsDebug.startIncrement();
+            Log.d("Checkpoint 1", data==null?"No":"Yes");
             stateMachine.update(data);
             while (driveIterations >= 1) {
                 Vector3 robotVelocity = stateMachine.getDriveVelocities();
@@ -70,7 +72,7 @@ public abstract class BasicOpmode extends LinearOpMode{
             fpsDebug.endIncrement();
             fpsDebug.update();
             fpsDebug.queryFPS();
-            Log.d("Test", String.valueOf(isStopRequested()));
+            telemetry.setHeader("Activated Logic States", Arrays.deepToString(stateMachine.getActiveStates()));
             telemetry.update();
         }
         threadManager.shutdown();

@@ -4,7 +4,7 @@ import hardware.BulkReadData;
 
 public abstract class LogicState {
     protected StateMachine stateMachine;
-    private String thisState;
+    private String stateName;
     public LogicState(StateMachine stateMachine){
         this.stateMachine = stateMachine;
     }
@@ -12,14 +12,18 @@ public abstract class LogicState {
     public abstract void update(BulkReadData data);
 
     protected void deactivateThis(){
-        stateMachine.deactivateLogic(thisState);
+        stateMachine.deactivateLogic(stateName);
     }
 
-    public void setThisState(String thisState) {
-        this.thisState = thisState;
+    public void setStateName(String stateName) {
+        this.stateName = stateName;
     }
 
     public void init(BulkReadData data){
 
+    }
+
+    public String getStateName() {
+        return stateName;
     }
 }

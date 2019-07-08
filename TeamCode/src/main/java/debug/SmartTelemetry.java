@@ -5,6 +5,7 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
 
@@ -13,11 +14,11 @@ public class SmartTelemetry {
     private ArrayList<String[]> pingMessages;
     private ArrayList<Long> endTimes;
 
-    private Map<String, String> headerMessages;
+    private Map<String, Object> headerMessages;
 
     public SmartTelemetry(Telemetry telemetry){
         this.telemetry = telemetry;
-        headerMessages = new HashMap<>();
+        headerMessages = new LinkedHashMap<>();
         pingMessages = new ArrayList<>();
         endTimes = new ArrayList<>();
     }
@@ -45,7 +46,7 @@ public class SmartTelemetry {
         telemetry.update();
     }
 
-    public void setHeader(String header, String message){
+    public void setHeader(String header, Object message){
         headerMessages.put(header, message);
     }
 
@@ -57,7 +58,7 @@ public class SmartTelemetry {
         }
     }
 
-    public void clearAllHeadersBut(String... keep){
+    public void clearAllHeadersExcept(String... keep){
         Set<String> headers = headerMessages.keySet();
         ArrayList<String> keepList = new ArrayList<>(Arrays.asList(keep));
         ArrayList<String> removed = new ArrayList<>();

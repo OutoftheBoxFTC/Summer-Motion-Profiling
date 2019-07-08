@@ -1906,8 +1906,6 @@ public class BeeMovie extends BasicOpmode {
         super(new HolonomicDrive(1), 0, true);
     }
 
-
-
     @Override
     protected void setup() {
         HashMap<String, LogicState> stateList = new HashMap<>();
@@ -1922,8 +1920,8 @@ public class BeeMovie extends BasicOpmode {
                         lastTime = System.currentTimeMillis();
                         telemetry.setHeader("script", line);
                     }
-                    else if(System.currentTimeMillis()-lastTime>=10){
-                        stateMachine.deactivateLogic(String.valueOf(thisState));
+                    else if(System.currentTimeMillis()-lastTime>=1000){
+                        deactivateThis();
                         if(thisState==script.length-1){
                             stop();
                         }
@@ -1937,8 +1935,11 @@ public class BeeMovie extends BasicOpmode {
         stateList.put("-1", new LogicState(stateMachine) {
             @Override
             public void update(BulkReadData data) {
+                telemetry.setHeader("Started", String.valueOf(isStarted()));
                 if(isStarted()){
                     stateMachine.activateLogic("0");
+                    deactivateThis();
+                    telemetry.clearHeaders("Started");
                 }
             }
         });
