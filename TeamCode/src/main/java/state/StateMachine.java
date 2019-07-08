@@ -1,14 +1,11 @@
 package state;
 
-import android.util.Log;
-
-import com.qualcomm.robotcore.util.RobotLog;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 
 import hardware.BulkReadData;
 import math.Vector3;
+import motion.DriveState;
 
 public class StateMachine {
     private HashMap<String, DriveState> driveStates;
@@ -69,12 +66,12 @@ public class StateMachine {
     public Vector3 getDriveVelocities(){
         Vector3 velocity = new Vector3(0, 0, 0);
         if(activeDriveState!=null){
-            velocity = activeDriveState.getMotorPowers();
+            velocity = activeDriveState.getRobotVelocity();
         }
         return velocity;
     }
 
-    public void appendLogicStates(HashMap<String, LogicState> states){
+    public void appendLogicStates(HashMap<String, ? extends LogicState> states){
         for (String key : states.keySet()){
             states.get(key).setStateName(key);
         }
@@ -83,6 +80,7 @@ public class StateMachine {
 
     public void appendDriveStates(HashMap<String, DriveState> states){
         driveStates.putAll(states);
+        appendLogicStates(states);
     }
 
     public void deactivateLogic(String state){
@@ -95,6 +93,8 @@ public class StateMachine {
 
     public void setActiveDriveState(String state){
         activatedDriveState = driveStates.get(state);
+        deactivateLogic(activatedDriveState.stateName);
+        activateLogic(state);
     }
 
     public LogicState getState(String logicState){

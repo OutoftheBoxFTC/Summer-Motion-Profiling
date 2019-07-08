@@ -1,6 +1,8 @@
 package odometry;
 
 import hardware.BulkReadData;
+import math.Matrix22;
+import math.Matrix33;
 import math.Vector2;
 import math.Vector3;
 
@@ -48,7 +50,7 @@ public class SimpleOdometer extends Odometer {
 
     @Override
     public Vector3 getGlobalDynamics() {
-        return globalRobotDynamics.subtract(globalDynamicsOffset).dot(new Vector3(translationFactor, translationFactor, rotationFactor));
+        return new Matrix33(globalRobotDynamics.subtract(globalDynamicsOffset)).transform(new Vector3(translationFactor, translationFactor, rotationFactor));
     }
 
     @Override

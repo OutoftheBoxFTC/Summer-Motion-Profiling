@@ -1,10 +1,18 @@
 package math;
 
 public class Vector3 {
+    private static final Vector3 ZERO = new Vector3(0, 0, 0);
+
     private double a, b, c;
     public Vector3(double a, double b, double c){
         this.a = a;
         this.b = b;
+        this.c = c;
+    }
+
+    public Vector3(Vector2 v, double c){
+        a = v.getA();
+        b = v.getB();
         this.c = c;
     }
 
@@ -54,13 +62,13 @@ public class Vector3 {
         return new Vector3(a*scalar, b*scalar, c*scalar);
     }
 
-    public Vector3 dot(Vector3 v) {
-        return new Vector3(v.a*a, v.b*b, v.c*c);
-    }
-
     public void set(Vector3 v) {
         a = v.a;
         b = v.b;
         c = v.c;
+    }
+
+    public static Vector3 ZERO(){
+        return ZERO.clone();
     }
 }

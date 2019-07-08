@@ -12,7 +12,20 @@ public class Matrix22 {
         this.j = j;
     }
 
+    public Matrix22(Vector2 v){
+        i = new Vector2(v.getA(), 0);
+        j = new Vector2(0, v.getB());
+    }
+
     public Vector2 transform(Vector2 v){
         return i.scale(v.getA()).add(j.scale(v.getB()));
+    }
+
+    public Matrix22 compose(Matrix22 m){
+        return new Matrix22(transform(m.i), transform(m.j));
+    }
+
+    public Matrix22 scale(double scalar) {
+        return new Matrix22(i.scale(scalar), j.scale(scalar));
     }
 }

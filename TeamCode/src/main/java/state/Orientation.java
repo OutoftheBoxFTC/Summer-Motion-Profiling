@@ -45,6 +45,6 @@ public class Orientation extends LogicState{
     private Matrix22 rotationMatrix(double rotation){
         double cos = Math.cos(rotation),
                 sine = Math.sin(rotation);
-        return new Matrix22(cos, sine, sine, cos);
+        return new Matrix22(cos, -sine, sine, cos);
     }
 }

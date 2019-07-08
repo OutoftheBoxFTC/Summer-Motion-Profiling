@@ -5,9 +5,12 @@ import java.util.HashMap;
 import drivetrain.HolonomicDrive;
 import hardware.BulkReadData;
 import math.Vector3;
+import motion.DriveToZero;
+import motion.PIDControl;
+import motion.PIDControl2;
 import odometry.Odometer;
 import odometry.SimpleOdometer;
-import state.DriveState;
+import motion.DriveState;
 import state.LogicState;
 import state.Orientation;
 
@@ -47,34 +50,29 @@ public class OdometryTest extends BasicOpmode {
             public void update(BulkReadData data) {
                 if(gamepad1.a){
                     deactivateThis();
-                    stateMachine.activateLogic("Drive To Zero");
+                    stateMachine.activateLogic("Terminate At Zero");
                     stateMachine.setActiveDriveState("Drive To Zero");
 
                 }
             }
         });
 
-        logicStates.put("Drive To Zero", new LogicState(stateMachine) {
+        logicStates.put("Terminate At Zero", new LogicState(stateMachine) {
             @Override
             public void update(BulkReadData data) {
 
             }
         });
 
-        driveStates.put("None", new DriveState() {
+        driveStates.put("None", new DriveState(stateMachine) {
             @Override
-            public Vector3 getMotorPowers() {
+            public Vector3 getRobotVelocity() {
                 return new Vector3(0, 0, 0);
             }
         });
 
-        driveStates.put("Drive To Zero", new DriveState() {
-            @Override
-            public Vector3 getMotorPowers() {
-                return new Vector3(0, 0, 0);
-                //TODO finish meeee
-            }
-        });
+        //TODO tune these and create some kind of global tuning reference system
+        driveStates.put("Drive To Zero", new DriveToZero(position, new PIDControl2(1, 1, 1), new PIDControl(1, 1, 1), stateMachine));
         stateMachine.appendDriveStates(driveStates);
         stateMachine.appendLogicStates(logicStates);
         stateMachine.setActiveDriveState("None");

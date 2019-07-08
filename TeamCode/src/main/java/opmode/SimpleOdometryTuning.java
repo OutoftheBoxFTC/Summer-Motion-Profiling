@@ -9,7 +9,7 @@ import hardware.BulkReadData;
 import math.Vector3;
 import odometry.Odometer;
 import odometry.SimpleOdometer;
-import state.DriveState;
+import motion.DriveState;
 import state.LogicState;
 
 @TeleOp(name = "Simple Odometer Tuning")
@@ -37,13 +37,13 @@ public class SimpleOdometryTuning extends BasicOpmode {
             public void update(BulkReadData data) {
                 if(isStarted()){
                     deactivateThis();
-                    stateMachine.activateLogic("rotation");
+                    stateMachine.activateLogic("rotation tracking");
                     stateMachine.setActiveDriveState("rotation");
                     telemetry.clearAllHeadersExcept("Main Loop FPS", "Hardware FPS", "Activated Logic States");
                 }
             }
         });
-        logicStates.put("rotation", new LogicState(stateMachine) {
+        logicStates.put("rotation tracking", new LogicState(stateMachine) {
             private int rotations;
             private double previousGyro;
 
@@ -117,15 +117,15 @@ public class SimpleOdometryTuning extends BasicOpmode {
         });
 
         HashMap<String, DriveState> driveStates = new HashMap<>();
-        driveStates.put("none", new DriveState() {
+        driveStates.put("none", new DriveState(stateMachine) {
             @Override
-            public Vector3 getMotorPowers() {
+            public Vector3 getRobotVelocity() {
                 return new Vector3(0, 0, 0);
             }
         });
-        driveStates.put("rotation", new DriveState() {
+        driveStates.put("rotation", new DriveState(stateMachine) {
             @Override
-            public Vector3 getMotorPowers() {
+            public Vector3 getRobotVelocity() {
                 return new Vector3(0, 0, 0.2);
             }
         });
