@@ -5,7 +5,7 @@ import math.Matrix22;
 import math.Vector2;
 import math.Vector3;
 import odometry.Odometer;
-import odometry.SimpleOdometerDynamics;
+import odometry.SimpleDynamicIncrements;
 
 public class Orientation extends LogicState{
     private Vector3 position, velocity;
@@ -23,14 +23,14 @@ public class Orientation extends LogicState{
 
     @Override
     public void init(BulkReadData data) {
-
+        odometer.calibrate(data);
     }
 
     @Override
     public void update(BulkReadData data) {
         velocity.set(odometer.getVelocity(data));
 
-        SimpleOdometerDynamics dynamicRobotIncrements = odometer.updateRobotDynamics(data);
+        SimpleDynamicIncrements dynamicRobotIncrements = odometer.updateRobotDynamics(data);
         Vector3 globalDynamics = odometer.getGlobalDynamics();
 
         double newRotation = initialRotation+globalDynamics.getC();

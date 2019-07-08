@@ -5,14 +5,20 @@ import math.Vector2;
 import math.Vector3;
 
 public class SimpleOdometer extends Odometer {
-    private Vector3 globalRobotDynamics;
+    private Vector3 globalRobotDynamics, globalDynamicsOffset;
 
     public SimpleOdometer(double rotationFactor, double translationFactor, double auxRotationFactor){
         super(rotationFactor, translationFactor, auxRotationFactor);
         globalRobotDynamics = new Vector3(0, 0, 0);
+        globalDynamicsOffset = new Vector3(0, 0, 0);
     }
 
-    public SimpleOdometerDynamics updateRobotDynamics(BulkReadData data){
+    public SimpleOdometer(){
+        super();
+        globalRobotDynamics = new Vector3(0, 0, 0);
+    }
+
+    public SimpleDynamicIncrements updateRobotDynamics(BulkReadData data){
         int left = data.getLeft(), right = data.getRight(), aux = data.getAux();
 
         double newRotation = (right-left);
@@ -24,10 +30,10 @@ public class SimpleOdometer extends Odometer {
         double strafeIncrement = (newStrafe-globalRobotDynamics.getA())*translationFactor;
 
         globalRobotDynamics.set(newStrafe, newFwd, newRotation);
-        return new SimpleOdometerDynamics(new Vector3(strafeIncrement, fwdIncrement, rotationIncrement));
+        return new SimpleDynamicIncrements(new Vector3(strafeIncrement, fwdIncrement, rotationIncrement));
     }
 
-    public Vector2 findStaticIncrements(SimpleOdometerDynamics dynamics){
+    public Vector2 findStaticIncrements(SimpleDynamicIncrements dynamics){
         Vector3 robotIncrements = dynamics.getDynamicRobotIncrements();
 
         double strafe = robotIncrements.getA(),
@@ -42,6 +48,14 @@ public class SimpleOdometer extends Odometer {
 
     @Override
     public Vector3 getGlobalDynamics() {
-        return globalRobotDynamics.dot(new Vector3(translationFactor, translationFactor, rotationFactor));
+        return globalRobotDynamics.subtract(globalDynamicsOffset).dot(new Vector3(translationFactor, translationFactor, rotationFactor));
+    }
+
+    @Override
+    public void calibrate(BulkReadData data) {
+        Vector3 oldDynamics = globalRobotDynamics.clone();
+        updateRobotDynamics(data);
+        Vector3 newDynamics = globalRobotDynamics.clone();
+        globalDynamicsOffset.set(newDynamics.subtract(oldDynamics));
     }
 }

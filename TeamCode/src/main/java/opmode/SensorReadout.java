@@ -28,7 +28,7 @@ public class SensorReadout extends BasicOpmode {
                 if(isStarted()){
                     deactivateThis();
                     stateMachine.activateLogic("Sensor Readout");
-                    telemetry.clearAllHeadersExcept();
+                    telemetry.clearAllHeadersExcept("Main Loop FPS", "Hardware FPS", "Activated Logic States");
                 }
             }
         });

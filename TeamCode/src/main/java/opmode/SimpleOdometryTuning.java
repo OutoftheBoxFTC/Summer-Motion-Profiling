@@ -12,13 +12,13 @@ import odometry.SimpleOdometer;
 import state.DriveState;
 import state.LogicState;
 
-@TeleOp(name = "Odometry Tuning")
-public class OdometryTuning extends BasicOpmode {
+@TeleOp(name = "Simple Odometer Tuning")
+public class SimpleOdometryTuning extends BasicOpmode {
 
     private Odometer odometer;
     private static final double TAU = Math.PI*2;
 
-    public OdometryTuning() {
+    public SimpleOdometryTuning() {
         super(new HolonomicDrive(1), 0.1, false);
     }
 
@@ -30,7 +30,7 @@ public class OdometryTuning extends BasicOpmode {
         logicStates.put("init", new LogicState(stateMachine) {
             @Override
             public void init(BulkReadData data) {
-                telemetry.pingMessage("Instructions", "Hit start, then wait for the robot to finish rotating. Note down the generated factors", 7000);
+                telemetry.pingMessage("Instructions", "Hit start, then wait for the robot to finish rotating. Note down the generated factors", 10000);
             }
 
             @Override
@@ -39,7 +39,7 @@ public class OdometryTuning extends BasicOpmode {
                     deactivateThis();
                     stateMachine.activateLogic("rotation");
                     stateMachine.setActiveDriveState("rotation");
-                    telemetry.clearHeaders();
+                    telemetry.clearAllHeadersExcept("Main Loop FPS", "Hardware FPS", "Activated Logic States");
                 }
             }
         });
@@ -62,6 +62,7 @@ public class OdometryTuning extends BasicOpmode {
                     stateMachine.activateLogic("Stop Moving");
                 }
                 odometer.updateRobotDynamics(data);
+                telemetry.setHeader("rotations", String.valueOf(rotations));
                 telemetry.setHeader("gyro", String.valueOf(gyro));
                 if(gyro < previousGyro){
                     rotations++;

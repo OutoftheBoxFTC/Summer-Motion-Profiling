@@ -29,14 +29,16 @@ public class SmartTelemetry {
     }
 
     public void update(){
-        for (int i = 0; i < pingMessages.size(); i++) {
-            if(System.currentTimeMillis()<endTimes.get(i)){
+        for (int i = 0; i < pingMessages.size();) {
+            if(System.currentTimeMillis() > endTimes.get(i)){
                 endTimes.remove(i);
                 pingMessages.remove(i);
-            }
-            else if(pingMessages.get(i).length==2){
-                String[] message = pingMessages.get(i);
-                telemetry.addData(message[0], message[1]);
+            } else {
+                if (pingMessages.get(i).length == 2) {
+                    String[] message = pingMessages.get(i);
+                    telemetry.addData(message[0], message[1]);
+                }
+                i++;
             }
         }
 

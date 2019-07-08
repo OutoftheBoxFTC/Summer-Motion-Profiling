@@ -2,9 +2,9 @@ package odometry;
 
 import math.Vector3;
 
-public class SimpleOdometerDynamics {
+public class SimpleDynamicIncrements {
     private final Vector3 dynamicRobotIncrements;
-    public SimpleOdometerDynamics(Vector3 dynamicRobotIncrements){
+    public SimpleDynamicIncrements(Vector3 dynamicRobotIncrements){
         this.dynamicRobotIncrements = dynamicRobotIncrements;
     }
 

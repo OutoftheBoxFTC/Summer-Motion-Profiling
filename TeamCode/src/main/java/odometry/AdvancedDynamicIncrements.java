@@ -3,9 +3,9 @@ package odometry;
 import math.Vector3;
 
 @Deprecated
-public class AdvancedOdometerDynamics extends SimpleOdometerDynamics {
+public class AdvancedDynamicIncrements extends SimpleDynamicIncrements {
     private Vector3 dynamicVelocityIncrements, previousVelocity;
-    public AdvancedOdometerDynamics(Vector3 dynamicRobotIncrements, Vector3 dynamicVelocityIncrements, Vector3 previousVelocity) {
+    public AdvancedDynamicIncrements(Vector3 dynamicRobotIncrements, Vector3 dynamicVelocityIncrements, Vector3 previousVelocity) {
         super(dynamicRobotIncrements);
         this.dynamicVelocityIncrements = dynamicVelocityIncrements;
         this.previousVelocity = previousVelocity;

@@ -15,7 +15,7 @@ public class AdvancedOdometer extends Odometer{
     }
 
     @Override
-    public AdvancedOdometerDynamics updateRobotDynamics(BulkReadData data) {
+    public AdvancedDynamicIncrements updateRobotDynamics(BulkReadData data) {
         int left = data.getLeft(), right = data.getRight(), aux = data.getAux();
         double rotation = right-left, fwd = (left+right)/2.0, strafe = aux-rotation*auxRotationFactor;
         Vector3 globalRobotDynamics = new Vector3(strafe*translationFactor, fwd*translationFactor, rotation*rotationFactor);
@@ -27,7 +27,7 @@ public class AdvancedOdometer extends Odometer{
         Vector3 positionIncrements = globalRobotDynamics.subtract(this.globalRobotDynamics),
                 velocityIncrements = globalRobotVelocityDynamics.subtract(this.globalRobotVelocityDynamics);
 
-        AdvancedOdometerDynamics dynamics = new AdvancedOdometerDynamics(positionIncrements, velocityIncrements, this.globalRobotVelocityDynamics);
+        AdvancedDynamicIncrements dynamics = new AdvancedDynamicIncrements(positionIncrements, velocityIncrements, this.globalRobotVelocityDynamics);
 
         this.globalRobotDynamics = globalRobotDynamics;
         this.globalRobotVelocityDynamics = globalRobotVelocityDynamics;
@@ -37,8 +37,8 @@ public class AdvancedOdometer extends Odometer{
 
     //TODO finish meeee
     @Override
-    public Vector2 findStaticIncrements(SimpleOdometerDynamics unCastedData) {
-        AdvancedOdometerDynamics data = (AdvancedOdometerDynamics)unCastedData;
+    public Vector2 findStaticIncrements(SimpleDynamicIncrements unCastedData) {
+        AdvancedDynamicIncrements data = (AdvancedDynamicIncrements)unCastedData;
         Vector3 robotIncrements = data.getDynamicRobotIncrements(),
                 robotVelocityIncrements = data.getDynamicVelocityIncrements(),
                 initialRobotVelocity = data.getPreviousVelocity();
@@ -70,5 +70,14 @@ public class AdvancedOdometer extends Odometer{
     @Override
     public Vector3 getGlobalDynamics() {
         return globalRobotDynamics.clone();
+    }
+
+    //TODO see method documentation and make this do that. idk how to deal with the velocity dynamics atm. Offsetting is a bad idea.
+    @Override
+    public void calibrate(BulkReadData data) {
+        Vector3 oldDynamics = this.globalRobotDynamics;
+        updateRobotDynamics(data);
+        Vector3 newDynamics = this.globalRobotDynamics;
+
     }
 }
