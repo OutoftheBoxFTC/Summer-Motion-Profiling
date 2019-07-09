@@ -12,9 +12,9 @@ import motion.DriveState;
 import state.LogicState;
 
 @TeleOp(name = "Functionality Test")
-public class SensorReadout extends BasicOpmode {
+public class FunctionalityTest extends BasicOpmode {
 
-    public SensorReadout() {
+    public FunctionalityTest() {
         super(new HolonomicDrive(1), 0, false);
     }
 

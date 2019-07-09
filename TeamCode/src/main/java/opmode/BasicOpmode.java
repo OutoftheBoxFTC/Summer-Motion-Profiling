@@ -1,7 +1,5 @@
 package opmode;
 
-import android.util.Log;
-
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import java.util.Arrays;
@@ -64,6 +62,7 @@ public abstract class BasicOpmode extends LinearOpMode{
             while (driveIterations >= 1) {
                 Vector3 robotVelocity = stateMachine.getDriveVelocities();
                 Vector4 wheels = robotDrive.getWheelVelocities(robotVelocity);
+                wheels.scale(1/Math.max(wheels.getA(), Math.max(wheels.getB(), Math.max(wheels.getC(), wheels.getD()))));
                 robot.drive(wheels.getA(), wheels.getB(), wheels.getC(), wheels.getD());
                 driveIterations--;
             }
@@ -71,7 +70,7 @@ public abstract class BasicOpmode extends LinearOpMode{
             fpsDebug.endIncrement();
             fpsDebug.update();
             fpsDebug.queryFPS();
-            telemetry.setHeader("Activated Logic States", Arrays.deepToString(stateMachine.getActiveStates()));
+            telemetry.setHeader("Activated Logic States", Arrays.deepToString(stateMachine.getActiveLogicStates()));
             telemetry.update();
         }
         threadManager.shutdown();

@@ -8,6 +8,8 @@ import odometry.Odometer;
 import odometry.SimpleDynamicIncrements;
 
 public class Orientation extends LogicState{
+    private static final double TAU = Math.PI*2;
+
     private Vector3 position, velocity;
     private Odometer odometer;
 
@@ -33,7 +35,7 @@ public class Orientation extends LogicState{
         SimpleDynamicIncrements dynamicRobotIncrements = odometer.updateRobotDynamics(data);
         Vector3 globalDynamics = odometer.getGlobalDynamics();
 
-        double newRotation = initialRotation+globalDynamics.getC();
+        double newRotation = ((initialRotation+globalDynamics.getC())%TAU+TAU)%TAU;//limits rotation to between 0 (inclusive) and 2pi (exclusive)
         Matrix22 rotation = rotationMatrix(newRotation);
 
         Vector2 staticRobotIncrements = odometer.findStaticIncrements(dynamicRobotIncrements);

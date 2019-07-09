@@ -5,6 +5,7 @@ import math.Vector2;
 import math.Vector3;
 
 public abstract class Odometer {
+    //TODO tune me
     private static final double
             ROTATION_FACTOR = 1,
             TRANSLATION_FACTOR = 1,

@@ -97,7 +97,7 @@ public class StateMachine {
         activateLogic(state);
     }
 
-    public LogicState getState(String logicState){
+    public LogicState getLogicState(String logicState){
         return logicStates.get(logicState);
     }
 
@@ -113,7 +113,7 @@ public class StateMachine {
         //TODO finish me
     }
 
-    public String[] getActiveStates() {
+    public String[] getActiveLogicStates() {
         ArrayList<String> activeStates = new ArrayList<>();
         for(LogicState state : activeLogicStates){
             activeStates.add(state.getStateName());

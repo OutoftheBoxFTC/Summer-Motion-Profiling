@@ -10,7 +10,7 @@ public class Vector2 {
     }
 
     /**
-     * takes the first two terms of a 3d vector and creates a 2d vector from them
+     * takes the first two elements of a 3d vector and creates a 2d vector from them
      * @param v
      */
     public Vector2(Vector3 v) {

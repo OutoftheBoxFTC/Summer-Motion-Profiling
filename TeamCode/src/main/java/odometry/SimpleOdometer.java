@@ -1,7 +1,6 @@
 package odometry;
 
 import hardware.BulkReadData;
-import math.Matrix22;
 import math.Matrix33;
 import math.Vector2;
 import math.Vector3;
