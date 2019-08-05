@@ -6,6 +6,7 @@ import android.util.Log;
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.HardwareDevice;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.RobotLog;
@@ -176,5 +177,9 @@ public class Hardware implements Runnable {
 
     public BNO055IMU getIMU() {
         return imu;
+    }
+
+    public LinearOpMode getOpMode(){
+        return opMode;
     }
 }
