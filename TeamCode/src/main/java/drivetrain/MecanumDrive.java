@@ -22,7 +22,7 @@ public class MecanumDrive extends RobotDrive {
         ).scale(0.25);
 
         wheelTransformation = new Matrix34(
-                -1/l, l, l, -1/l,
+                -1/l, 1/l, 1/l, -1/l,
                 1/m, 1/m, 1/m, 1/m,
                 -1/n, 1/n, -1/n, 1/n
         );

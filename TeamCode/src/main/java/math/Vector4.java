@@ -52,4 +52,9 @@ public class Vector4 {
     public Vector4 clone(){
         return scale(1);
     }
+
+    @Override
+    public String toString() {
+        return a + ", " + b + ", " + c + ", " + d;
+    }
 }

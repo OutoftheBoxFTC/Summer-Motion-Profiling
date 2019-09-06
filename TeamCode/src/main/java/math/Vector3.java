@@ -71,4 +71,9 @@ public class Vector3 {
     public static Vector3 ZERO(){
         return ZERO.clone();
     }
+
+    @Override
+    public String toString() {
+        return a + ", " + b + ", " + c;
+    }
 }
