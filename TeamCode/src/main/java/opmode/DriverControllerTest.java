@@ -14,9 +14,8 @@ import odometry.SimpleOdometer;
 import state.LogicState;
 import state.Orientation;
 
-@TeleOp(name = "Driver Controller Test.")
+@TeleOp(name = "Driver Controller Test")
 public class DriverControllerTest extends BasicOpmode {
-    private Vector3 position;
 
     public DriverControllerTest() {
         super(new HolonomicDrive(1), 0.3, false);
@@ -26,14 +25,12 @@ public class DriverControllerTest extends BasicOpmode {
     protected void setup() {
         HashMap<String, LogicState> logicStates = new HashMap<>();
         HashMap<String, DriveState> driveStates = new HashMap<>();
-        position = new Vector3(0, 0, 0);
         logicStates.put("init", new LogicState(stateMachine) {
             @Override
             public void update(BulkReadData data) {
                 if (isStarted()){
-                    stateMachine.setActiveDriveState("field centric");
+                    stateMachine.setActiveDriveState("robot centric");
                     stateMachine.activateLogic("run");
-                    stateMachine.activateLogic("orientation");
                     deactivateThis();
                 }
             }
@@ -51,15 +48,6 @@ public class DriverControllerTest extends BasicOpmode {
             }
         });
 
-        logicStates.put("orientation", new Orientation(stateMachine, new SimpleOdometer(), position, new Vector3(0, 0, 0)){
-            @Override
-            public void update(BulkReadData data) {
-                telemetry.setHeader("x", position.getA());
-                telemetry.setHeader("y", position.getB());
-                telemetry.setHeader("r", Math.toDegrees(position.getC()));
-            }
-        });
-
         driveStates.put("none", new DriveState(stateMachine) {
             @Override
             public Vector3 getRobotVelocity() {
@@ -67,7 +55,6 @@ public class DriverControllerTest extends BasicOpmode {
             }
         });
         driveStates.put("robot centric", new DriverControl(gamepad1, stateMachine));
-        driveStates.put("field centric", new FieldCentricDriverControl(position, gamepad1, stateMachine));
 
         stateMachine.appendLogicStates(logicStates);
         stateMachine.appendDriveStates(driveStates);

@@ -1,5 +1,7 @@
 package opmode;
 
+import android.util.Log;
+
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import java.util.Arrays;
@@ -33,7 +35,7 @@ public abstract class BasicOpmode extends LinearOpMode{
 
     public BasicOpmode(RobotDrive robotDrive, double driveLoopPriority, boolean debug){
         this.robotDrive = robotDrive;
-        this.driveLoopPriority = driveLoopPriority;
+        this.driveLoopPriority = Math.min(1, driveLoopPriority);
         this.debug = debug;
     }
 
@@ -62,7 +64,9 @@ public abstract class BasicOpmode extends LinearOpMode{
             while (driveIterations >= 1) {
                 Vector3 robotVelocity = stateMachine.getDriveVelocities();
                 Vector4 wheels = robotDrive.getWheelVelocities(robotVelocity);
-                wheels.scale(1/Math.max(wheels.getA(), Math.max(wheels.getB(), Math.max(wheels.getC(), wheels.getD()))));
+                double downScale = Math.max(wheels.getA(), Math.max(wheels.getB(), Math.max(wheels.getC(), wheels.getD())));
+                downScale = Math.max(1, downScale);
+                wheels.scale(1/downScale);
                 robot.drive(wheels.getA(), wheels.getB(), wheels.getC(), wheels.getD());
                 driveIterations--;
             }

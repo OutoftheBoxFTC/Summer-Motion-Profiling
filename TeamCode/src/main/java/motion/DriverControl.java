@@ -1,5 +1,7 @@
 package motion;
 
+import android.util.Log;
+
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.sun.tools.javac.util.Position;
 
@@ -18,6 +20,7 @@ public class DriverControl extends DriveState {
 
     @Override
     public Vector3 getRobotVelocity() {
+        Log.d("test", "here");
         return new Vector3(driverController.right_stick_x, driverController.right_stick_y, driverController.left_stick_x);
     }
 }

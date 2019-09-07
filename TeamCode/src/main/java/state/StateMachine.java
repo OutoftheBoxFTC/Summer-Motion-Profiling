@@ -92,8 +92,10 @@ public class StateMachine {
     }
 
     public void setActiveDriveState(String state){
+        if(activatedDriveState != null) {
+            deactivateLogic(activatedDriveState.stateName);
+        }
         activatedDriveState = driveStates.get(state);
-        deactivateLogic(activatedDriveState.stateName);
         activateLogic(state);
     }
 
@@ -105,7 +107,7 @@ public class StateMachine {
         return activeLogicStates.contains(logicStates.get(logicState));
     }
 
-    public boolean driveStateActive(String driveState){
+    public boolean driveStateIsActive(String driveState){
         return activeDriveState.equals(driveStates.get(driveState));
     }
 

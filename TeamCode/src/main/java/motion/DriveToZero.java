@@ -17,8 +17,6 @@ public class DriveToZero extends DriveState {
 
     private boolean wasInDistance;
 
-
-
     public DriveToZero(Vector3 position, PIDControl2 translationControl, PIDControl rotationControl, StateMachine stateMachine){
         super(stateMachine);
         this.position = position;

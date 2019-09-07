@@ -17,6 +17,7 @@ public class SimpleOdometer extends Odometer {
     public SimpleOdometer(){
         super();
         globalRobotDynamics = new Vector3(0, 0, 0);
+        globalDynamicsOffset = new Vector3(0, 0, 0);
     }
 
     public SimpleDynamicIncrements updateRobotDynamics(BulkReadData data){

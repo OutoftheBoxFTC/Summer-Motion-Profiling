@@ -6,6 +6,7 @@ import android.util.Log;
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareDevice;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.RobotLog;
@@ -22,6 +23,8 @@ import debug.FPSDebug;
 import debug.SmartTelemetry;
 
 public class Hardware implements Runnable {
+    private static final long MIN_WAIT_TIME=1000000;
+
     private LinearOpMode opMode;
 
     private ArrayList<BulkReadData> dataBuffer;
@@ -65,7 +68,8 @@ public class Hardware implements Runnable {
         if(imu != null) {
             initIMU();
         }
-
+        b.getMotor().setDirection(DcMotorSimple.Direction.REVERSE);
+        c.getMotor().setDirection(DcMotorSimple.Direction.REVERSE);
         driveMotors.add(a);
         driveMotors.add(b);
         driveMotors.add(c);
@@ -91,13 +95,16 @@ public class Hardware implements Runnable {
     @Override
     public void run() {
         while (!opMode.isStopRequested()){
+            long startTime = System.nanoTime();
             fpsDebug.startIncrement();
 
             boolean drivePowersBuffered = !drivePowerBuffer.isEmpty();
             if(drivePowersBuffered){
                 double[] drivePowers = drivePowerBuffer.get(0);
-                for (int i = 0; i < 4; i++) {
-                    driveMotors.get(i).setPower(drivePowers[i]);
+                if(drivePowers != null) {
+                    for (int i = 0; i < 4; i++) {
+                        driveMotors.get(i).setPower(drivePowers[i]);
+                    }
                 }
             }
             RevBulkData rawData = hub.getBulkInputData();
@@ -116,6 +123,7 @@ public class Hardware implements Runnable {
             fpsDebug.endIncrement();
             fpsDebug.update();
             dataBuffer.add(data);
+            while (System.nanoTime()-startTime<MIN_WAIT_TIME);
             dataLogged = true;
         }
     }
