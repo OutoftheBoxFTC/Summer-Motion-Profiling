@@ -1,7 +1,5 @@
 package opmode;
 
-import android.util.Log;
-
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import java.util.Arrays;
@@ -10,10 +8,8 @@ import java.util.concurrent.Executors;
 
 import debug.FPSDebug;
 import debug.SmartTelemetry;
-import drivetrain.RobotDrive;
 import hardware.BulkReadData;
 import hardware.Hardware;
-import math.Vector3;
 import math.Vector4;
 import state.StateMachine;
 /**
@@ -25,7 +21,6 @@ public abstract class BasicOpmode extends LinearOpMode{
     protected Hardware robot;
     protected FPSDebug fpsDebug;
     protected SmartTelemetry telemetry;
-    protected RobotDrive robotDrive;
     protected StateMachine stateMachine;
     private ExecutorService threadManager;
 
@@ -33,8 +28,7 @@ public abstract class BasicOpmode extends LinearOpMode{
 
     protected final boolean debug;
 
-    public BasicOpmode(RobotDrive robotDrive, double driveLoopPriority, boolean debug){
-        this.robotDrive = robotDrive;
+    public BasicOpmode(double driveLoopPriority, boolean debug){
         this.driveLoopPriority = Math.min(1, driveLoopPriority);
         this.debug = debug;
     }
@@ -62,11 +56,7 @@ public abstract class BasicOpmode extends LinearOpMode{
             fpsDebug.startIncrement();
             stateMachine.update(data);
             while (driveIterations >= 1) {
-                Vector3 robotVelocity = stateMachine.getDriveVelocities();
-                Vector4 wheels = robotDrive.getWheelVelocities(robotVelocity);
-                double downScale = Math.max(wheels.getA(), Math.max(wheels.getB(), Math.max(wheels.getC(), wheels.getD())));
-                downScale = Math.max(1, downScale);
-                wheels.scale(1/downScale);
+                Vector4 wheels = stateMachine.getDriveVelocities();
                 robot.drive(wheels.getA(), wheels.getB(), wheels.getC(), wheels.getD());
                 driveIterations--;
             }

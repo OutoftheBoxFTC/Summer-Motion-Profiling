@@ -2,6 +2,7 @@ package motion;
 
 import com.qualcomm.robotcore.hardware.Gamepad;
 
+import drivetrain.MecanumDrive;
 import math.Matrix22;
 import math.Vector2;
 import math.Vector3;
@@ -10,8 +11,8 @@ import state.StateMachine;
 public class FieldCentricDriverControl extends DriverControl {
     private Vector3 position;
 
-    public FieldCentricDriverControl(Vector3 position, Gamepad driverController, StateMachine stateMachine){
-        super(driverController, stateMachine);
+    public FieldCentricDriverControl(Vector3 position, Gamepad driverController, StateMachine stateMachine, MecanumDrive drive){
+        super(driverController, stateMachine, drive);
         this.position = position;
     }
 

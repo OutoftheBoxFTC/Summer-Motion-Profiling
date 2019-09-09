@@ -3,15 +3,18 @@ package opmode;
 import java.util.HashMap;
 
 import drivetrain.HolonomicDrive;
+import drivetrain.MecanumDrive;
+import drivetrain.RobotDrive;
 import hardware.BulkReadData;
 import math.Vector2;
 import math.Vector3;
 import motion.DriveToZero;
 import motion.PIDControl;
 import motion.PIDControl2;
+import motion.VelocityDriveState;
 import odometry.Odometer;
 import odometry.SimpleOdometer;
-import motion.DriveState;
+import state.DriveState;
 import state.LogicState;
 import state.Orientation;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
@@ -21,10 +24,10 @@ public class SimpleOdometryTest extends BasicOpmode {
     private Odometer odometer;
     private Vector3 position, velocity;
     private static final double TRANSLATION_TOLERANCE = 0.1, ROTATION_TOLERANCE = Math.toRadians(0.5);
-
+    private MecanumDrive drive = new MecanumDrive(MecanumDrive.Polarity.IN, Math.PI/4, 1);
 
     public SimpleOdometryTest() {
-        super(new HolonomicDrive(1), 0.1, true);
+        super(0.1, true);
     }
 
     @Override
@@ -81,7 +84,7 @@ public class SimpleOdometryTest extends BasicOpmode {
             }
         });
 
-        driveStates.put("None", new DriveState(stateMachine) {
+        driveStates.put("None", new VelocityDriveState(stateMachine, drive) {
             @Override
             public Vector3 getRobotVelocity() {
                 return new Vector3(0, 0, 0);
@@ -89,7 +92,7 @@ public class SimpleOdometryTest extends BasicOpmode {
         });
 
         //TODO tune these and create some kind of global tuning reference system
-        driveStates.put("Drive To Zero", new DriveToZero(position, new PIDControl2(1, 1, 1), new PIDControl(1, 1, 1), stateMachine));
+        driveStates.put("Drive To Zero", new DriveToZero(position, new PIDControl2(1, 1, 1), new PIDControl(1, 1, 1), stateMachine, drive));
         stateMachine.appendDriveStates(driveStates);
         stateMachine.appendLogicStates(logicStates);
         stateMachine.setActiveDriveState("None");

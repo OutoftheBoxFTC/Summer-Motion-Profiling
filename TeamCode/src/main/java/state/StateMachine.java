@@ -4,8 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import hardware.BulkReadData;
-import math.Vector3;
-import motion.DriveState;
+import math.Vector4;
 
 public class StateMachine {
     private HashMap<String, DriveState> driveStates;
@@ -63,10 +62,10 @@ public class StateMachine {
         deactivatedLogicStates.clear();
     }
 
-    public Vector3 getDriveVelocities(){
-        Vector3 velocity = new Vector3(0, 0, 0);
+    public Vector4 getDriveVelocities(){
+        Vector4 velocity = new Vector4(0, 0, 0, 0);
         if(activeDriveState!=null){
-            velocity = activeDriveState.getRobotVelocity();
+            velocity = activeDriveState.getWheelVelocities();
         }
         return velocity;
     }

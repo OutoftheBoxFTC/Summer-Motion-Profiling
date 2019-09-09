@@ -1,12 +1,9 @@
 package opmode;
 
-import android.util.Log;
-
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import java.util.HashMap;
 
-import drivetrain.HolonomicDrive;
 import hardware.BulkReadData;
 import state.LogicState;
 
@@ -1905,7 +1902,7 @@ public class BeeMovie extends BasicOpmode {
             "I had virtually no rehearsal for that."
     };
     public BeeMovie() {
-        super(new HolonomicDrive(1), 0, true);
+        super(0, true);
     }
 
     @Override

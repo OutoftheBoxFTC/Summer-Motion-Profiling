@@ -4,27 +4,27 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import java.util.HashMap;
 
-import drivetrain.HolonomicDrive;
+import drivetrain.MecanumDrive;
 import hardware.BulkReadData;
 import math.Vector3;
-import motion.DriveState;
 import motion.DriverControl;
-import motion.FieldCentricDriverControl;
-import odometry.SimpleOdometer;
+import motion.VelocityDriveState;
+import state.DriveState;
 import state.LogicState;
-import state.Orientation;
 
 @TeleOp(name = "Driver Controller Test")
 public class DriverControllerTest extends BasicOpmode {
+    private MecanumDrive drive;
 
     public DriverControllerTest() {
-        super(new HolonomicDrive(1), 0.3, false);
+        super(0.3, false);
     }
 
     @Override
     protected void setup() {
         HashMap<String, LogicState> logicStates = new HashMap<>();
         HashMap<String, DriveState> driveStates = new HashMap<>();
+        drive = new MecanumDrive(MecanumDrive.Polarity.IN, Math.PI/4, 1);
         logicStates.put("init", new LogicState(stateMachine) {
             @Override
             public void update(BulkReadData data) {
@@ -48,13 +48,13 @@ public class DriverControllerTest extends BasicOpmode {
             }
         });
 
-        driveStates.put("none", new DriveState(stateMachine) {
+        driveStates.put("none", new VelocityDriveState(stateMachine, drive) {
             @Override
             public Vector3 getRobotVelocity() {
                 return new Vector3(0, 0, 0);
             }
         });
-        driveStates.put("robot centric", new DriverControl(gamepad1, stateMachine));
+        driveStates.put("robot centric", new DriverControl(gamepad1, stateMachine, drive));
 
         stateMachine.appendLogicStates(logicStates);
         stateMachine.appendDriveStates(driveStates);

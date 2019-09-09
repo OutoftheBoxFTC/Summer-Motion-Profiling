@@ -1,12 +1,13 @@
 package motion;
 
+import drivetrain.MecanumDrive;
 import hardware.BulkReadData;
 import math.Matrix22;
 import math.Vector2;
 import math.Vector3;
 import state.StateMachine;
 
-public class DriveToZero extends DriveState {
+public class DriveToZero extends VelocityDriveState {
     //TODO debug and check this. Getting a seamless transition (where it doesn't return 0 on the first iteration) is key
     private static final double DISTANCE_THRESHOLD = 5;//translation pid kicks in within 5" of the target
 
@@ -17,8 +18,8 @@ public class DriveToZero extends DriveState {
 
     private boolean wasInDistance;
 
-    public DriveToZero(Vector3 position, PIDControl2 translationControl, PIDControl rotationControl, StateMachine stateMachine){
-        super(stateMachine);
+    public DriveToZero(Vector3 position, PIDControl2 translationControl, PIDControl rotationControl, StateMachine stateMachine, MecanumDrive drive){
+        super(stateMachine, drive);
         this.position = position;
         this.translationControl = translationControl;
         this.rotationControl = rotationControl;

@@ -3,24 +3,22 @@ package motion;
 import android.util.Log;
 
 import com.qualcomm.robotcore.hardware.Gamepad;
-import com.sun.tools.javac.util.Position;
 
-import math.Matrix22;
-import math.Vector2;
+import drivetrain.MecanumDrive;
 import math.Vector3;
+import state.DriveState;
 import state.StateMachine;
 
-public class DriverControl extends DriveState {
+public class DriverControl extends VelocityDriveState {
     private Gamepad driverController;
 
-    public DriverControl(Gamepad driverController, StateMachine stateMachine) {
-        super(stateMachine);
+    public DriverControl(Gamepad driverController, StateMachine stateMachine, MecanumDrive drive) {
+        super(stateMachine, drive);
         this.driverController = driverController;
     }
 
     @Override
     public Vector3 getRobotVelocity() {
-        Log.d("test", "here");
         return new Vector3(driverController.right_stick_x, driverController.right_stick_y, driverController.left_stick_x);
     }
 }

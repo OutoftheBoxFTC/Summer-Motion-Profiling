@@ -4,12 +4,12 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import java.util.HashMap;
 
-import drivetrain.HolonomicDrive;
 import drivetrain.MecanumDrive;
 import hardware.BulkReadData;
 import math.Vector3;
 import math.Vector4;
-import motion.DriveState;
+import motion.VelocityDriveState;
+import state.DriveState;
 import state.LogicState;
 /**
  * This class is a raw debug class of all sensors/functionality to test against expected behaviour.
@@ -25,9 +25,8 @@ import state.LogicState;
  */
 @TeleOp(name = "Functionality Test")
 public class FunctionalityTest extends BasicOpmode {
-
     public FunctionalityTest() {
-        super(new MecanumDrive(MecanumDrive.Polarity.IN, Math.PI/4, 1), 1, false);
+        super(1, false);
     }
 
     @Override
@@ -60,11 +59,9 @@ public class FunctionalityTest extends BasicOpmode {
         HashMap<String, DriveState> driveStates = new HashMap<>();
         driveStates.put("Controller Drive", new DriveState(stateMachine) {
             @Override
-            public Vector3 getRobotVelocity() {
+            public Vector4 getWheelVelocities() {
                 //a, b, c, d
-                Vector3 vel = robotDrive.getRobotVelocity(new Vector4(gamepad1.y?0.5:0, gamepad1.x?0.5:0, gamepad1.a?0.5:0, gamepad1.b?0.5:0));
-                telemetry.setHeader("vel", vel.toString());
-                return vel;
+                return new Vector4(gamepad1.y?0.5:0, gamepad1.x?0.5:0, gamepad1.a?0.5:0, gamepad1.b?0.5:0);
             }
         });
         stateMachine.appendLogicStates(logicStates);

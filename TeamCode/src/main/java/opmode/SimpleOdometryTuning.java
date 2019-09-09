@@ -5,11 +5,14 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import java.util.HashMap;
 
 import drivetrain.HolonomicDrive;
+import drivetrain.MecanumDrive;
 import hardware.BulkReadData;
 import math.Vector3;
+import math.Vector4;
+import motion.VelocityDriveState;
 import odometry.Odometer;
 import odometry.SimpleOdometer;
-import motion.DriveState;
+import state.DriveState;
 import state.LogicState;
 
 @TeleOp(name = "Simple Odometer Tuning")
@@ -17,9 +20,10 @@ public class SimpleOdometryTuning extends BasicOpmode {
 
     private Odometer odometer;
     private static final double TAU = Math.PI*2;
-
+    private MecanumDrive drive;
     public SimpleOdometryTuning() {
-        super(new HolonomicDrive(1), 0.1, false);
+        super(0.1, false);
+        drive = new MecanumDrive(MecanumDrive.Polarity.IN, Math.PI/4, 1);
     }
 
     @Override
@@ -119,11 +123,11 @@ public class SimpleOdometryTuning extends BasicOpmode {
         HashMap<String, DriveState> driveStates = new HashMap<>();
         driveStates.put("none", new DriveState(stateMachine) {
             @Override
-            public Vector3 getRobotVelocity() {
-                return new Vector3(0, 0, 0);
+            public Vector4 getWheelVelocities() {
+                return new Vector4(0, 0, 0, 0);
             }
         });
-        driveStates.put("rotation", new DriveState(stateMachine) {
+        driveStates.put("rotation", new VelocityDriveState(stateMachine, drive) {
             @Override
             public Vector3 getRobotVelocity() {
                 return new Vector3(0, 0, 0.2);
