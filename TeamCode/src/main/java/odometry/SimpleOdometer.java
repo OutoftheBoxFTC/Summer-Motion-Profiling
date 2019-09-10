@@ -24,7 +24,7 @@ public class SimpleOdometer extends Odometer {
         int left = data.getLeft(), right = data.getRight(), aux = data.getAux();
 
         double newRotation = (right-left);
-        double newFwd = (left+right)/2;
+        double newFwd = ((double)(left+right))/2;
         double newStrafe = aux-newRotation*auxRotationFactor;
 
         double rotationIncrement = (newRotation-globalRobotDynamics.getC())*rotationFactor;
