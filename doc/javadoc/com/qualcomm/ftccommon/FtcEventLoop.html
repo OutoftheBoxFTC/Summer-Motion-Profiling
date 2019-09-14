@@ -340,7 +340,7 @@ extends <a href="../../../com/qualcomm/ftccommon/FtcEventLoopBase.html" title="c
 <tr id="i19" class="rowColor">
 <td class="colFirst"><code>protected void</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../com/qualcomm/ftccommon/FtcEventLoop.html#sendUIState--">sendUIState</a></span>()</code>
-<div class="block">The driver station is requesting our opmode list/ UI state.</div>
+<div class="block">The driver station is requesting our opmode list/ UI states.</div>
 </td>
 </tr>
 <tr id="i20" class="altColor">
@@ -672,11 +672,13 @@ extends <a href="../../../com/qualcomm/ftccommon/FtcEventLoopBase.html" title="c
 <li class="blockList">
 <h4>sendUIState</h4>
 <pre>protected&nbsp;void&nbsp;sendUIState()</pre>
-<div class="block">The driver station is requesting our opmode list/ UI state. Build up an appropriately-delimited
- list and send it back to them. Also take this opportunity to forcibly refresh their error/warning
- state: the opmode list is only infrequently requested (so sending another datagram isn't
- a traffic burden) and it's requested just after a driver station reconnects after a disconnect
- (so doing the refresh now is probably an opportune thing to do).</div>
+<div class="block">The driver station is requesting our opmode list/ UI states. Build up an
+    appropriately-delimited
+    list and send it back to them. Also take this opportunity to forcibly refresh their
+    error/warning
+    state: the opmode list is only infrequently requested (so sending another datagram isn't
+    a traffic burden) and it's requested just after a driver station reconnects after a disconnect
+    (so doing the refresh now is probably an opportune thing to do).</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
 <dd><code><a href="../../../com/qualcomm/ftccommon/FtcEventLoopBase.html#sendUIState--">sendUIState</a></code>&nbsp;in class&nbsp;<code><a href="../../../com/qualcomm/ftccommon/FtcEventLoopBase.html" title="class in com.qualcomm.ftccommon">FtcEventLoopBase</a></code></dd>

@@ -3,7 +3,8 @@ package hardware;
 import com.qualcomm.hardware.bosch.BNO055IMU;
 
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
-import org.openftc.revextensions2.RevBulkData;
+
+import RevExtensions2.RevBulkData;
 
 public class BulkReadData {
     public static final int LEFT = 0, AUX = 1, RIGHT = 2;

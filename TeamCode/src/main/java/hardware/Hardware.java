@@ -11,14 +11,12 @@ import com.qualcomm.robotcore.hardware.HardwareDevice;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.RobotLog;
 
-import org.openftc.revextensions2.ExpansionHubEx;
-import org.openftc.revextensions2.ExpansionHubMotor;
-import org.openftc.revextensions2.RevBulkData;
-import org.openftc.revextensions2.RevExtensions2;
-
 import java.util.ArrayList;
 import java.util.Map;
 
+import RevExtensions2.ExpansionHubEx;
+import RevExtensions2.ExpansionHubMotor;
+import RevExtensions2.RevBulkData;
 import debug.FPSDebug;
 import debug.SmartTelemetry;
 
@@ -57,7 +55,6 @@ public class Hardware implements Runnable {
     }
 
     public void init(){
-        RevExtensions2.init();
         HardwareMap map = opMode.hardwareMap;
         hub = getOrNull(map, ExpansionHubEx.class, "hub");
         a = new SmartMotor((ExpansionHubMotor)getOrNull(map.dcMotor, "a"));

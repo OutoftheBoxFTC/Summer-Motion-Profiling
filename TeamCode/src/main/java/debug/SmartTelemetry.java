@@ -1,19 +1,24 @@
 package debug;
 
+import com.qualcomm.robotcore.util.RobotLog;
+
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
+import logger.Connector;
+import math.Vector3;
 
 public class SmartTelemetry {
     private Telemetry telemetry;
     private ArrayList<String[]> pingMessages;
     private ArrayList<Long> endTimes;
-
+    Connector connector;
     private Map<String, Object> headerMessages;
 
     public SmartTelemetry(Telemetry telemetry){
@@ -21,6 +26,12 @@ public class SmartTelemetry {
         headerMessages = new LinkedHashMap<>();
         pingMessages = new ArrayList<>();
         endTimes = new ArrayList<>();
+        connector = Connector.getInstance();
+        try {
+            connector.start();
+        } catch (IOException e) {
+            RobotLog.e(e.getMessage());
+        }
     }
 
     public void pingMessage(String header, String message, long timeMs){
@@ -44,8 +55,14 @@ public class SmartTelemetry {
 
         for(String header : headerMessages.keySet()){
             telemetry.addData(header, headerMessages.get(header));
+            connector.addTelemetry(header + ": " + headerMessages.get(header));
         }
         telemetry.update();
+        try {
+            connector.update();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public void setHeader(String header, Object message){
@@ -58,6 +75,10 @@ public class SmartTelemetry {
                 headerMessages.remove(header);
             }
         }
+    }
+
+    public void addOrientation(Vector3 orientation){
+        connector.addOrientation(orientation);
     }
 
     public void clearAllHeadersExcept(String... keep){

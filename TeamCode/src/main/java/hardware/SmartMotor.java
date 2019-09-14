@@ -2,7 +2,7 @@ package hardware;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
 
-import org.openftc.revextensions2.ExpansionHubMotor;
+import RevExtensions2.ExpansionHubMotor;
 
 public class SmartMotor {
     private ExpansionHubMotor motor;
