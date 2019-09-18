@@ -2,6 +2,7 @@ package debug;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -13,7 +14,7 @@ public class SmartTelemetry {
     private Telemetry telemetry;
     private ArrayList<String[]> pingMessages;
     private ArrayList<Long> endTimes;
-
+    private Connector connector;
     private Map<String, Object> headerMessages;
 
     public SmartTelemetry(Telemetry telemetry){
@@ -21,6 +22,12 @@ public class SmartTelemetry {
         headerMessages = new LinkedHashMap<>();
         pingMessages = new ArrayList<>();
         endTimes = new ArrayList<>();
+        connector = Connector.getInstance();
+        try {
+            connector.start();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public void pingMessage(String header, String message, long timeMs){
@@ -44,8 +51,14 @@ public class SmartTelemetry {
 
         for(String header : headerMessages.keySet()){
             telemetry.addData(header, headerMessages.get(header));
+            connector.addTelemetry(header + ": " + headerMessages.get(header));
         }
         telemetry.update();
+        try {
+            connector.update();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public void setHeader(String header, Object message){

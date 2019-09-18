@@ -9,6 +9,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareDevice;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.RobotLog;
 
 import org.openftc.revextensions2.ExpansionHubEx;
@@ -31,6 +32,7 @@ public class Hardware implements Runnable {
     private ArrayList<double[]> drivePowerBuffer;
 
     private SmartMotor a, b, c, d;
+    private Servo servo;
     private ExpansionHubEx hub;
 
     private ArrayList<SmartMotor> driveMotors;
@@ -64,6 +66,7 @@ public class Hardware implements Runnable {
         b = new SmartMotor((ExpansionHubMotor)getOrNull(map.dcMotor, "b"));
         c = new SmartMotor((ExpansionHubMotor)getOrNull(map.dcMotor, "c"));
         d = new SmartMotor((ExpansionHubMotor)getOrNull(map.dcMotor, "d"));
+        servo = map.get(Servo.class, "servo");
         imu = getOrNull(map, BNO055IMU.class, "imu");
         if(imu != null) {
             initIMU();
@@ -184,5 +187,9 @@ public class Hardware implements Runnable {
 
     public BNO055IMU getIMU() {
         return imu;
+    }
+
+    public Servo getServo(){
+        return servo;
     }
 }

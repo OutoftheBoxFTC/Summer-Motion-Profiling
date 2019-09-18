@@ -57,4 +57,8 @@ public class Vector4 {
     public String toString() {
         return a + ", " + b + ", " + c + ", " + d;
     }
+
+    public static Vector4 ZERO(){
+        return new Vector4(0, 0, 0, 0);
+    }
 }
