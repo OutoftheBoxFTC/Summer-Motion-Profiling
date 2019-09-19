@@ -20,7 +20,7 @@ public class SmartMotor {
     }
 
     public void setPower(double power){
-        if(power != previousPower){
+        if(Math.abs(power-previousPower)>=0.005){
             previousPower = power;
             motor.setPower(power);
         }

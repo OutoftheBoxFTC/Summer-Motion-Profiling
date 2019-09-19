@@ -4,12 +4,9 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import java.util.HashMap;
 
-import drivetrain.MecanumDrive;
 import hardware.BulkReadData;
 import hardware.Hardware;
-import math.Vector3;
 import math.Vector4;
-import motion.VelocityDriveState;
 import state.DriveState;
 import state.LogicState;
 /**
