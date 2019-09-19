@@ -47,7 +47,12 @@ public class DriverControllerTest extends BasicOpmode {
 
             @Override
             public void update(BulkReadData data) {
-
+                int servoPos = 0;
+                servoPos += gamepad1.right_trigger;
+                servoPos -= gamepad1.left_trigger;
+                servoPos = Math.max(0, servoPos);
+                servoPos = Math.min(1, servoPos);
+                robot.getServo().setPosition(servoPos);
             }
         });
 
