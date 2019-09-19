@@ -7,6 +7,7 @@ import java.util.HashMap;
 import drivetrain.HolonomicDrive;
 import drivetrain.MecanumDrive;
 import hardware.BulkReadData;
+import hardware.Hardware;
 import math.Vector3;
 import math.Vector4;
 import motion.VelocityDriveState;
@@ -30,7 +31,9 @@ public class SimpleOdometryTuning extends BasicOpmode {
     protected void setup() {
         odometer = new SimpleOdometer(1, 1, 1);
         final HashMap<String, LogicState> logicStates = new HashMap<>();
-        robot.enableGyro();
+        robot.registerDevice(Hardware.HardwareDevice.GYRO);
+        robot.registerDevice(Hardware.HardwareDevice.DRIVE_MOTORS);
+        robot.registerDevice(Hardware.HardwareDevice.HUB_1_BULK);
         logicStates.put("init", new LogicState(stateMachine) {
             @Override
             public void init(BulkReadData data) {

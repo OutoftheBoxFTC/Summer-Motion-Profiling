@@ -6,6 +6,7 @@ import java.util.HashMap;
 
 import drivetrain.MecanumDrive;
 import hardware.BulkReadData;
+import hardware.Hardware;
 import math.Vector3;
 import motion.DriverControl;
 import motion.VelocityDriveState;
@@ -22,6 +23,8 @@ public class DriverControllerTest extends BasicOpmode {
 
     @Override
     protected void setup() {
+        robot.registerDevice(Hardware.HardwareDevice.DRIVE_MOTORS);
+
         HashMap<String, LogicState> logicStates = new HashMap<>();
         HashMap<String, DriveState> driveStates = new HashMap<>();
         drive = new MecanumDrive(MecanumDrive.Polarity.IN, Math.PI/4, 1);

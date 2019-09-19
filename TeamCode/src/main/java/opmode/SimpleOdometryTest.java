@@ -6,6 +6,7 @@ import drivetrain.HolonomicDrive;
 import drivetrain.MecanumDrive;
 import drivetrain.RobotDrive;
 import hardware.BulkReadData;
+import hardware.Hardware;
 import math.Vector2;
 import math.Vector3;
 import motion.DriveToZero;
@@ -24,14 +25,18 @@ public class SimpleOdometryTest extends BasicOpmode {
     private Odometer odometer;
     private Vector3 position, velocity;
     private static final double TRANSLATION_TOLERANCE = 0.1, ROTATION_TOLERANCE = Math.toRadians(0.5);
-    private MecanumDrive drive = new MecanumDrive(MecanumDrive.Polarity.IN, Math.PI/4, 1);
+    private MecanumDrive drive;
 
     public SimpleOdometryTest() {
         super(0.1, true);
+        drive = new MecanumDrive(MecanumDrive.Polarity.IN, Math.PI/4, 1);
     }
 
     @Override
     protected void setup() {
+        robot.registerDevice(Hardware.HardwareDevice.GYRO);
+        robot.registerDevice(Hardware.HardwareDevice.DRIVE_MOTORS);
+        robot.registerDevice(Hardware.HardwareDevice.HUB_1_BULK);
         odometer = new SimpleOdometer();
         position = new Vector3(0, 0, 0);
         velocity = new Vector3(0, 0, 0);
@@ -61,7 +66,7 @@ public class SimpleOdometryTest extends BasicOpmode {
         logicStates.put("Tracking", new LogicState(stateMachine) {
             @Override
             public void init(BulkReadData data) {
-                telemetry.pingMessage("Instructions", "Fugg wid it", 6000);
+                telemetry.pingMessage("Instructions", "Mess with it", 6000);
             }
 
             @Override

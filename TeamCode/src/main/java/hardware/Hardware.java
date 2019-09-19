@@ -1,13 +1,11 @@
 package hardware;
 
 import android.support.annotation.NonNull;
-import android.util.Log;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
-import com.qualcomm.robotcore.hardware.HardwareDevice;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.RobotLog;
 
@@ -39,41 +37,63 @@ public class Hardware implements Runnable {
 
     private BNO055IMU imu;
 
-    private boolean useGyro, dataLogged;
+    private boolean dataLogged;
 
     private SmartTelemetry telemetry;
 
+    private ArrayList<HardwareDevice> registeredDevices, enabledDevices;
+
     private CalibrationData calibration;
+
 
     public Hardware(LinearOpMode opmode, SmartTelemetry telemetry){
         this.opMode = opmode;
         driveMotors = new ArrayList<>();
         dataBuffer = new ArrayList<>();
         drivePowerBuffer = new ArrayList<>();
+        registeredDevices = new ArrayList<>();
+        enabledDevices = new ArrayList<>();
         fpsDebug = new FPSDebug(telemetry, "Hardware");
         this.telemetry = telemetry;
-        useGyro = false;
         dataLogged = false;
     }
 
     public void init(){
         RevExtensions2.init();
         HardwareMap map = opMode.hardwareMap;
-        hub = getOrNull(map, ExpansionHubEx.class, "hub");
-        a = new SmartMotor((ExpansionHubMotor)getOrNull(map.dcMotor, "a"));
-        b = new SmartMotor((ExpansionHubMotor)getOrNull(map.dcMotor, "b"));
-        c = new SmartMotor((ExpansionHubMotor)getOrNull(map.dcMotor, "c"));
-        d = new SmartMotor((ExpansionHubMotor)getOrNull(map.dcMotor, "d"));
-        imu = getOrNull(map, BNO055IMU.class, "imu");
-        if(imu != null) {
-            initIMU();
+        calibration = new CalibrationData();
+        if(registeredDevices.contains(HardwareDevice.HUB_1_BULK)) {
+            hub = getOrNull(map, ExpansionHubEx.class, "hub");
         }
-        b.getMotor().setDirection(DcMotorSimple.Direction.REVERSE);
-        c.getMotor().setDirection(DcMotorSimple.Direction.REVERSE);
-        driveMotors.add(a);
-        driveMotors.add(b);
-        driveMotors.add(c);
-        driveMotors.add(d);
+        if(registeredDevices.contains(HardwareDevice.DRIVE_MOTORS)) {
+            a = new SmartMotor((ExpansionHubMotor) getOrNull(map.dcMotor, "a"));
+            b = new SmartMotor((ExpansionHubMotor) getOrNull(map.dcMotor, "b"));
+            c = new SmartMotor((ExpansionHubMotor) getOrNull(map.dcMotor, "c"));
+            d = new SmartMotor((ExpansionHubMotor) getOrNull(map.dcMotor, "d"));
+
+            b.getMotor().setDirection(DcMotorSimple.Direction.REVERSE);
+            d.getMotor().setDirection(DcMotorSimple.Direction.REVERSE);
+            driveMotors.add(a);
+            driveMotors.add(b);
+            driveMotors.add(c);
+            driveMotors.add(d);
+        }
+        if(registeredDevices.contains(HardwareDevice.GYRO)) {
+            imu = getOrNull(map, BNO055IMU.class, "imu");
+            if(imu != null) {
+                initIMU();
+            }
+        }
+    }
+
+    public void calibrate(){
+        //calibrates all analog devices
+        if(registeredDevices.contains(HardwareDevice.HUB_1_BULK)) {
+            calibration.addHub1BulkData(hub.getBulkInputData());
+        }
+        if(registeredDevices.contains(HardwareDevice.GYRO)){
+            calibration.addGyroData(imu);
+        }
     }
 
     private void initIMU(){
@@ -94,36 +114,41 @@ public class Hardware implements Runnable {
 
     @Override
     public void run() {
+        ArrayList<HardwareDevice> enabledDevices = new ArrayList<>();
         while (!opMode.isStopRequested()){
             long startTime = System.nanoTime();
             fpsDebug.startIncrement();
-
             boolean drivePowersBuffered = !drivePowerBuffer.isEmpty();
-            if(drivePowersBuffered){
-                double[] drivePowers = drivePowerBuffer.get(0);
-                if(drivePowers != null) {
-                    for (int i = 0; i < 4; i++) {
-                        driveMotors.get(i).setPower(drivePowers[i]);
+            if(enabledDevices.contains(HardwareDevice.DRIVE_MOTORS)) {
+                if (drivePowersBuffered) {
+                    double[] drivePowers = drivePowerBuffer.get(0);
+                    if (drivePowers != null) {
+                        for (int i = 0; i < 4; i++) {
+                            driveMotors.get(i).setPower(drivePowers[i]);
+                        }
                     }
                 }
             }
-            RevBulkData rawData = hub.getBulkInputData();
-            BulkReadData data = new BulkReadData(rawData, calibration);
-            if(useGyro || calibration==null){
+            BulkReadData data = new BulkReadData(calibration);
+            if(enabledDevices.contains(HardwareDevice.HUB_1_BULK)) {
+                RevBulkData rawData = hub.getBulkInputData();
+                data.addHub1BulkData(rawData);
+            }
+            if(registeredDevices.contains(HardwareDevice.GYRO)){
                 data.addGyro(imu);
             }
-            if(calibration==null){
-                calibration = new CalibrationData(data);
-                data = new BulkReadData(rawData, calibration);
-            }
+
             if(drivePowersBuffered){
-                //HOPEFULLY by now main loop is waiting for data and not about to send drive powers lol
+                //HOPEFULLY by now main loop is waiting for calibration and not about to send drive powers lol
                 drivePowerBuffer.remove(0);
             }
+
             fpsDebug.endIncrement();
             fpsDebug.update();
             dataBuffer.add(data);
             while (System.nanoTime()-startTime<MIN_WAIT_TIME);
+            enabledDevices.clear();
+            enabledDevices.addAll(this.enabledDevices);
             dataLogged = true;
         }
     }
@@ -138,17 +163,6 @@ public class Hardware implements Runnable {
     }
 
     /**
-     * Optional due to addition of 3ms delay every hw loop
-     */
-    public void enableGyro(){
-        useGyro = true;
-    }
-
-    public void disableGyro(){
-        useGyro = false;
-    }
-
-    /**
      * Get the value associated with an id and instead of raising an error return null and log it
      *
      * @param map  the hardware map from the HardwareMap
@@ -156,7 +170,7 @@ public class Hardware implements Runnable {
      * @param <T>  the type of hardware map
      * @return the hardware device associated with the name
      */
-    public  <T extends HardwareDevice> T getOrNull(@NonNull HardwareMap.DeviceMapping<T> map, String name) {
+    public  <T extends com.qualcomm.robotcore.hardware.HardwareDevice> T getOrNull(@NonNull HardwareMap.DeviceMapping<T> map, String name) {
         for (Map.Entry<String, T> item : map.entrySet()) {
             if (!item.getKey().equalsIgnoreCase(name)) {
                 continue;
@@ -184,5 +198,29 @@ public class Hardware implements Runnable {
 
     public BNO055IMU getIMU() {
         return imu;
+    }
+
+    public Hardware registerDevice(HardwareDevice device){
+        registeredDevices.add(device);
+        enabledDevices.add(device);
+        return this;
+    }
+
+    public Hardware enableDevice(HardwareDevice device){
+        enabledDevices.add(device);
+        return this;
+    }
+
+    public Hardware disableDevice(HardwareDevice device){
+        enabledDevices.remove(device);
+        return this;
+    }
+
+    public enum HardwareDevice {
+        DRIVE_MOTORS,
+        HUB_1_BULK,
+        HUB_2_BULK,
+        PIXYCAM,
+        GYRO
     }
 }

@@ -40,11 +40,12 @@ public abstract class BasicOpmode extends LinearOpMode{
         stateMachine = new StateMachine();
         if (!debug) {
             robot = new Hardware(this, telemetry);
-            robot.init();
             threadManager = Executors.newFixedThreadPool(1);
         }
         setup();
         if (!debug){
+            robot.init();
+            robot.calibrate();
             threadManager.execute(robot);
         }
         double driveIterations = 0;

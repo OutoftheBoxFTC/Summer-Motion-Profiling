@@ -11,18 +11,7 @@ public class BulkReadData {
     private double gyro;
     private CalibrationData calibration;
 
-    public BulkReadData(RevBulkData data, CalibrationData calibration){
-        left = data.getMotorCurrentPosition(LEFT);
-        right = data.getMotorCurrentPosition(RIGHT);
-        aux = data.getMotorCurrentPosition(AUX);
-        if(calibration != null){
-            left -= calibration.getLeftOffset();
-            right -= calibration.getRightOffset();
-            aux = calibration.getAuxOffset();
-        }
-        vLeft = data.getMotorVelocity(LEFT);
-        vRight = data.getMotorVelocity(RIGHT);
-        vAux = data.getMotorVelocity(AUX);
+    public BulkReadData(CalibrationData calibration){
         this.calibration = calibration;
     }
 
@@ -58,10 +47,23 @@ public class BulkReadData {
         Orientation orientation = gyro.getAngularOrientation();
         double yaw = orientation.firstAngle;
         double tau = Math.PI*2;
-        if(calibration==null){
-            this.gyro = ((yaw%tau)+tau)%tau;
-        } else {
-            this.gyro = (((yaw-calibration.getGyroOffset())%tau)+tau)%tau;
+        if(calibration!=null){
+            yaw -= calibration.getGyroOffset();
         }
+        this.gyro = ((yaw%tau)+tau)%tau;
+    }
+
+    public void addHub1BulkData(RevBulkData data){
+        left = data.getMotorCurrentPosition(LEFT);
+        right = data.getMotorCurrentPosition(RIGHT);
+        aux = data.getMotorCurrentPosition(AUX);
+        if(calibration != null){
+            left -= calibration.getLeftOffset();
+            right -= calibration.getRightOffset();
+            aux = calibration.getAuxOffset();
+        }
+        vLeft = data.getMotorVelocity(LEFT);
+        vRight = data.getMotorVelocity(RIGHT);
+        vAux = data.getMotorVelocity(AUX);
     }
 }
