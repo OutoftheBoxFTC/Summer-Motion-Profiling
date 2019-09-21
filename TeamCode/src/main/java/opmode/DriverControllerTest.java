@@ -52,7 +52,6 @@ public class DriverControllerTest extends BasicOpmode {
                 servoPos -= gamepad1.left_trigger;
                 servoPos = Math.max(0, servoPos);
                 servoPos = Math.min(1, servoPos);
-                robot.getServo().setPosition(servoPos);
             }
         });
 

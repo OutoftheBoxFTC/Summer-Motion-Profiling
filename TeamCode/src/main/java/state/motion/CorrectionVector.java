@@ -39,8 +39,8 @@ public class CorrectionVector extends VelocityDriveState {
         Matrix22 formulaMatrix = new Matrix22(slope, -1, (-1/slope), -1).inverse();
         Vector2 solutionAnswers = new Vector2(-target.getB() + (slope * target.getA()), -position.getB() + (-1/slope * position.getA()));
         Vector2 solutions = formulaMatrix.transform(solutionAnswers);
-        double x = solutions.getA();
-        double y = solutions.getB();
+        double x = new Vector2(position.getA(), position.getB()).distanceTo(solutions);
+        double y = new Vector2(position.getA(), position.getB()).distanceTo(target);
         if(movement_type == MOVEMENT_TYPE.FORWARD) {
             velocities = new Vector3(x, y, (targetRot - (position.getC()-offset)) * kp);
         }else{
