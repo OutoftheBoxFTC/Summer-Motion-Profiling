@@ -34,8 +34,6 @@ public abstract class BasicOpmode extends LinearOpMode{
     public BasicOpmode(double driveLoopPriority, boolean debug){
         this.driveLoopPriority = Math.min(1, driveLoopPriority);
         this.debug = debug;
-        gamepad1 = new SmartGamepad(super.gamepad1);
-        gamepad2 = new SmartGamepad(super.gamepad2);
     }
 
     @Override
@@ -47,6 +45,8 @@ public abstract class BasicOpmode extends LinearOpMode{
             robot = new Hardware(this, telemetry);
             threadManager = Executors.newFixedThreadPool(1);
         }
+        gamepad1 = new SmartGamepad(super.gamepad1);
+        gamepad2 = new SmartGamepad(super.gamepad2);
         setup();
         if (!debug){
             robot.init();

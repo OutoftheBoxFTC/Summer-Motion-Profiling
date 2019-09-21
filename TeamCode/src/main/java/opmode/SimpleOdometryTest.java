@@ -71,7 +71,7 @@ public class SimpleOdometryTest extends BasicOpmode {
 
             @Override
             public void update(BulkReadData data) {
-                if(gamepad1.a){
+                if(gamepad1.a.isActive()){
                     deactivateThis();
                     stateMachine.activateLogic("Terminate At Zero");
                     stateMachine.setActiveDriveState("Drive To Zero");
