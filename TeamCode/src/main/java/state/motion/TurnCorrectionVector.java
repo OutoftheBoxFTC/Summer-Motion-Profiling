@@ -8,16 +8,23 @@ import motion.VelocityDriveState;
 import state.StateMachine;
 
 public class TurnCorrectionVector extends VelocityDriveState {
-    double targetAngle, offset, kp, correction;
+    double targetAngle, offset, kp, correction, tolerance;
     boolean finished = false;
-    public TurnCorrectionVector(double kp, StateMachine stateMachine, RobotDrive drive) {
+    Vector3 position;
+    public TurnCorrectionVector(StateMachine stateMachine, RobotDrive drive){
         super(stateMachine, drive);
+    }
+    public void start(double kp, double angle, double tolerance, Vector3 position) {
         this.kp = kp;
+        targetAngle = angle;
+        finished = false;
+        this.tolerance = tolerance;
+        this.position = position;
     }
     @Override
     public void update(BulkReadData data) {
         correction = kp * (targetAngle - (data.getGyro() - offset));
-        finished = Math.abs(targetAngle - (data.getGyro() - offset)) < 3;
+        finished = Math.abs(targetAngle - (data.getGyro() - offset)) < tolerance;
     }
 
     @Override
@@ -27,11 +34,5 @@ public class TurnCorrectionVector extends VelocityDriveState {
 
     public boolean finished(){
         return finished;
-    }
-
-    public void setTurn(double angle, BulkReadData data){
-        targetAngle = angle;
-        offset = data.getGyro();
-        finished = false;
     }
 }

@@ -90,6 +90,10 @@ public class SmartTelemetry {
         }
     }
 
+    public void stop() throws IOException {
+        connector.end();
+    }
+
     public Telemetry getTelemetry() {
         return telemetry;
     }
