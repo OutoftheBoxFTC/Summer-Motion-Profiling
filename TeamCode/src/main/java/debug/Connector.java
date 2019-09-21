@@ -73,7 +73,7 @@ public class Connector {
         }
         byte[] toSend = json.getBytes();
         int sendLen = toSend.length;
-        for(int i = 1; i <= 255; i ++) {
+        for(int i = 100; i <= 150; i ++) {
             packet = new DatagramPacket(toSend, sendLen, InetAddress.getByName("192.168.1." + i), 1119);
             socket.send(packet);
             RobotLog.i(packet.getAddress().toString());
