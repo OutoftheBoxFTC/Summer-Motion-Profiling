@@ -61,12 +61,13 @@ public abstract class BasicOpmode extends LinearOpMode{
                 robot.drive(wheels.getA(), wheels.getB(), wheels.getC(), wheels.getD());
                 driveIterations--;
             }
+            telemetry.setHeader("controller", gamepad1.right_stick_y);
             driveIterations += driveLoopPriority;
             fpsDebug.endIncrement();
             fpsDebug.update();
             fpsDebug.queryFPS();
             telemetry.setHeader("Activated Logic States", Arrays.deepToString(stateMachine.getActiveLogicStates()));
-            telemetry.update();
+            //telemetry.update();
         }
         threadManager.shutdown();
     }

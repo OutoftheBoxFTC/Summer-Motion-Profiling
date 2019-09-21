@@ -19,7 +19,7 @@ public abstract class VelocityDriveState extends DriveState {
         Vector4 wheels = robotDrive.getWheelVelocities(robotVelocity);
         double downScale = Math.max(wheels.getA(), Math.max(wheels.getB(), Math.max(wheels.getC(), wheels.getD())));
         downScale = Math.max(1, downScale);
-        wheels.scale(1/downScale);
+        wheels = wheels.scale(1/downScale);
         return wheels;
     }
 

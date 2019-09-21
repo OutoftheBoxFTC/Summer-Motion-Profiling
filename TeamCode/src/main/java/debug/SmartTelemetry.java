@@ -16,6 +16,7 @@ public class SmartTelemetry {
     private ArrayList<Long> endTimes;
     private Connector connector;
     private Map<String, Object> headerMessages;
+    private boolean loggerEnabled, loggerStarted;
 
     public SmartTelemetry(Telemetry telemetry){
         this.telemetry = telemetry;
@@ -23,11 +24,8 @@ public class SmartTelemetry {
         pingMessages = new ArrayList<>();
         endTimes = new ArrayList<>();
         connector = Connector.getInstance();
-        try {
-            connector.start();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        loggerEnabled = false;
+        loggerStarted = false;
     }
 
     public void pingMessage(String header, String message, long timeMs){
@@ -51,13 +49,17 @@ public class SmartTelemetry {
 
         for(String header : headerMessages.keySet()){
             telemetry.addData(header, headerMessages.get(header));
-            connector.addTelemetry(header + ": " + headerMessages.get(header));
+            if(loggerEnabled){
+                connector.addTelemetry(header + ": " + headerMessages.get(header));
+            }
         }
         telemetry.update();
-        try {
-            connector.update();
-        } catch (IOException e) {
-            e.printStackTrace();
+        if(loggerEnabled) {
+            try {
+                connector.update();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -90,5 +92,17 @@ public class SmartTelemetry {
 
     public Telemetry getTelemetry() {
         return telemetry;
+    }
+
+    public void enableLogger(){
+        loggerEnabled = true;
+        if(!loggerStarted){
+            loggerStarted = true;
+            try {
+                connector.start();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 }

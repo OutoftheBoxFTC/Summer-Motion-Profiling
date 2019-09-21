@@ -35,8 +35,8 @@ public class Connector {
     }
 
     public void start() throws IOException {
-        telemetry = new ArrayList<String>();
-        sensorIO = new ArrayList<String>();
+        telemetry = new ArrayList<>();
+        sensorIO = new ArrayList<>();
         socket = new DatagramSocket(1119);
         socket.setReuseAddress(true);
         socket.setBroadcast(true);
