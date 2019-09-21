@@ -28,4 +28,12 @@ public class Matrix22 {
     public Matrix22 scale(double scalar) {
         return new Matrix22(i.scale(scalar), j.scale(scalar));
     }
+
+    public double determinate(){
+        return (i.getA()*j.getB())-(i.getB()*j.getA());
+    }
+
+    public Matrix22 inverse(){
+        return new Matrix22(j.getB(), i.getB(), j.getA(), i.getA()).scale(1/determinate());
+    }
 }

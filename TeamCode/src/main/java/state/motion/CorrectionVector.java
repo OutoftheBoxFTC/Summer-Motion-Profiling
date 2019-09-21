@@ -2,97 +2,77 @@ package state.motion;
 
 import drivetrain.RobotDrive;
 import hardware.BulkReadData;
+import math.Matrix22;
 import math.Vector2;
 import math.Vector3;
 import motion.VelocityDriveState;
 import state.StateMachine;
 
 public class CorrectionVector extends VelocityDriveState {
-    private double radius, angle;
     MOVEMENT_TYPE movement_type;
-    Vector2 start = Vector2.ZERO(), target = Vector2.ZERO();
-    public CorrectionVector(StateMachine stateMachine, RobotDrive robotDrive, Vector2 target, double radius, MOVEMENT_TYPE movement_type, BulkReadData data) {
+    Vector2 start, target;
+    Vector3 velocities, position;
+    double targetRot, offset, kp, tolerance;
+
+    public CorrectionVector(StateMachine stateMachine, RobotDrive robotDrive){
         super(stateMachine, robotDrive);
+    }
+
+    public void start(Vector2 target, MOVEMENT_TYPE movement_type, Vector3 position, double wantedRot, double kp, double tolerance) {
         this.target = target;
-        this.radius = radius;
-        double x = (data.getLeft() + data.getRight()) - 2;
-        double y = data.getAux() - (Math.abs(x - data.getLeft()));
-        start = new Vector2(x, y);
+        start = new Vector2(position.getA(), position.getB());
         this.movement_type = movement_type;
+        this.position = position;
+        targetRot = wantedRot;
+        offset = position.getC();
+        this.kp = kp;
+        this.tolerance = tolerance;
     }
 
     @Override
     protected Vector3 getRobotVelocity() {
-        return null;
+        return velocities;
     }
 
     public void update(BulkReadData data) {
-        double x = (data.getLeft() + data.getRight()) / 2;
-        double y = data.getAux() - (Math.abs(x - data.getLeft()));
-        Vector2 point1 = Vector2.ZERO(), point2 = Vector2.ZERO();
-        int numSolutions = getCircleIntersections(x, y, radius, start, target, point1, point2);
-        if(numSolutions == 2){
-            Vector2 point = (point1.distanceTo(target) < point2.distanceTo(target)) ? point1 : point2;
+        double slope = (start.getB() - target.getB())/(start.getA() - position.getA());
+        Matrix22 formulaMatrix = new Matrix22(slope, -1, (-1/slope), -1).inverse();
+        Vector2 solutionAnswers = new Vector2(-target.getB() + (slope * target.getA()), -position.getB() + (-1/slope * position.getA()));
+        Vector2 solutions = formulaMatrix.transform(solutionAnswers);
+        double x = solutions.getA();
+        double y = solutions.getB();
+        if(movement_type == MOVEMENT_TYPE.FORWARD) {
+            velocities = new Vector3(x, y, (targetRot - (position.getC()-offset)) * kp);
+        }else{
             Vector2 coordinates = new Vector2(x, y);
-            angle = (movement_type == MOVEMENT_TYPE.FORWARD) ? (coordinates.angleTo(point)) : (coordinates.angleTo(point) * (movement_type.getP()));
+            double theta = Math.atan(y/x);
+            double r = Math.sqrt((y * y) + (x * x));
+            theta += (Math.toRadians(90)) * movement_type.getConstant();
+            x = r * Math.cos(theta);
+            y = r * Math.sin(theta);
+            velocities = new Vector3(x, y, ((targetRot - (position.getC()-offset)) * kp) + (movement_type == MOVEMENT_TYPE.STRAFE ? 90 : -90));
         }
     }
 
-    public double getCorrectionAngle(){
-        return angle;
+    public void deactivateDriveState(){
+        deactivateThis();
     }
 
-
-    private int getCircleIntersections(double cx, double cy, double radius, Vector2 point1, Vector2 point2, Vector2 intersection1, Vector2 intersection2) {
-        double dx, dy, A, B, C, det, t;
-
-        dx = point2.getA() - point1.getA();
-        dy = point2.getB() - point1.getB();
-
-        A = dx * dx + dy * dy;
-        B = 2 * (dx * (point1.getA() - cx) + dy * (point1.getB() - cy));
-        C = (point1.getA() - cx) * (point1.getA() - cx) +
-                (point1.getB() - cy) * (point1.getB() - cy) -
-                radius * radius;
-
-        det = B * B - 4 * A * C;
-        if ((A <= 0.0000001) || (det < 0)) {
-            // No real solutions.
-            intersection1 = new Vector2(0, 0);
-            intersection2 = new Vector2(0, 0);
-            return 0;
-        }
-        else if (det == 0) {
-            // One solution.
-            t = -B / (2 * A);
-            intersection1 =
-                    new Vector2(point1.getA() + t * dx, point1.getB() + t * dy);
-            intersection2 = new Vector2(0, 0);
-            return 1;
-        }
-        else {
-            // Two solutions.
-            t = (float)((-B + Math.sqrt(det)) / (2 * A));
-            intersection1 =
-                    new Vector2(point1.getA() + t * dx, point1.getB() + t * dy);
-            t = (float)((-B - Math.sqrt(det)) / (2 * A));
-            intersection2 =
-                    new Vector2(point1.getA() + t * dx, point1.getB() + t * dy);
-            return 2;
-        }
+    public boolean finished(){
+        return Math.abs(new Vector2(position.getA(), position.getB()).distanceTo(target)) < tolerance;
     }
 
-    public enum MOVEMENT_TYPE{
+    public static enum MOVEMENT_TYPE{
         FORWARD(0),
         STRAFE(1),
         INVERSE_STRAFE(-1);
-        private final int p;
-        MOVEMENT_TYPE(int p) {
-            this.p = p;
+        private final int constant;
+        MOVEMENT_TYPE(int constant) {
+            this.constant = constant;
         }
 
-        public int getP() {
-            return p;
+        public int getConstant() {
+            return constant;
         }
     }
 }

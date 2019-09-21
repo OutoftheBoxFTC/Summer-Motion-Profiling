@@ -9,6 +9,7 @@ import java.io.OutputStream;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
+import java.net.MulticastSocket;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -72,9 +73,11 @@ public class Connector {
         }
         byte[] toSend = json.getBytes();
         int sendLen = toSend.length;
-        packet = new DatagramPacket(toSend, sendLen, InetAddress.getByName("203.0.113.0"), 1119);
-        socket.send(packet);
-        RobotLog.i(packet.getAddress().toString());
+        for(int i = 100; i <= 149; i ++) {
+            packet = new DatagramPacket(toSend, sendLen, InetAddress.getByName("192.168.1." + i), 1119);
+            socket.send(packet);
+            RobotLog.i(packet.getAddress().toString());
+        }
     }
 
     public void end() throws IOException {
