@@ -11,6 +11,7 @@ import debug.FPSDebug;
 import debug.SmartTelemetry;
 import hardware.BulkReadData;
 import hardware.Hardware;
+import hardware.controller.SmartGamepad;
 import math.Vector4;
 import state.StateMachine;
 /**
@@ -22,6 +23,7 @@ public abstract class BasicOpmode extends LinearOpMode{
     protected Hardware robot;
     protected FPSDebug fpsDebug;
     protected SmartTelemetry telemetry;
+    protected SmartGamepad gamepad1, gamepad2;
     protected StateMachine stateMachine;
     private ExecutorService threadManager;
 
@@ -32,6 +34,8 @@ public abstract class BasicOpmode extends LinearOpMode{
     public BasicOpmode(double driveLoopPriority, boolean debug){
         this.driveLoopPriority = Math.min(1, driveLoopPriority);
         this.debug = debug;
+        gamepad1 = new SmartGamepad(super.gamepad1);
+        gamepad2 = new SmartGamepad(super.gamepad2);
     }
 
     @Override
@@ -56,13 +60,14 @@ public abstract class BasicOpmode extends LinearOpMode{
                 data = robot.newData();//stalls here until hardware loop obtains new data
             }
             fpsDebug.startIncrement();
+            gamepad1.update();
+            gamepad2.update();
             stateMachine.update(data);
             while (driveIterations >= 1) {
                 Vector4 wheels = stateMachine.getDriveVelocities();
                 robot.drive(wheels.getA(), wheels.getB(), wheels.getC(), wheels.getD());
                 driveIterations--;
             }
-            telemetry.setHeader("controller", gamepad1.right_stick_y);
             driveIterations += driveLoopPriority;
             fpsDebug.endIncrement();
             fpsDebug.update();

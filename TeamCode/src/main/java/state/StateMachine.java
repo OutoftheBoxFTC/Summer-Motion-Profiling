@@ -91,11 +91,17 @@ public class StateMachine {
     }
 
     public void setActiveDriveState(String state){
-        if(activatedDriveState != null) {
-            deactivateLogic(activatedDriveState.stateName);
+        if(activatedDriveState == null){
+            activatedDriveState = driveStates.get(state);
+            activateLogic(state);
         }
-        activatedDriveState = driveStates.get(state);
-        activateLogic(state);
+        else {
+            if(!activatedDriveState.getStateName().equals(state)){
+                deactivateLogic(activatedDriveState.stateName);
+                activatedDriveState = driveStates.get(state);
+                activateLogic(state);
+            }
+        }
     }
 
     public LogicState getLogicState(String logicState){
