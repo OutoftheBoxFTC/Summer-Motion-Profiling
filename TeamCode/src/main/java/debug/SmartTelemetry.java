@@ -51,7 +51,11 @@ public class SmartTelemetry {
 
         for(String header : headerMessages.keySet()){
             telemetry.addData(header, headerMessages.get(header));
-            connector.addTelemetry(header, headerMessages.get(header).toString());
+            if(header.toLowerCase().equals("position")){
+                connector.addOrientation((Vector3)headerMessages.get(header));
+            }else {
+                connector.addTelemetry(header, headerMessages.get(header).toString());
+            }
         }
         telemetry.update();
         long now = System.currentTimeMillis();

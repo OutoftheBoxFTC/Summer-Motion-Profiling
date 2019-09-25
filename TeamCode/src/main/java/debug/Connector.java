@@ -24,13 +24,12 @@ import math.Vector3;
 
 public class Connector {
     private static Connector instance = new Connector();
-    DatagramSocket socket;
-    Vector3 orientation = Vector3.ZERO();
-    List<String> telemetry, telemetryHeaders;
-    List<String> sensorIO;
-    RootObject rootObject = new RootObject(new Coordinates(), new SensorIO(), new TelemetryData());
-    OutputStream stream;
-    DatagramPacket packet;
+    private DatagramSocket socket;
+    private Vector3 orientation = Vector3.ZERO();
+    private List<String> telemetry, telemetryHeaders, sensorIO;
+    private RootObject rootObject = new RootObject(new Coordinates(), new SensorIO(), new TelemetryData());
+    private OutputStream stream;
+    private DatagramPacket packet;
     private Connector(){ }
 
     public static Connector getInstance(){
