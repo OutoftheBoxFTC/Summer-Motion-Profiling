@@ -11,7 +11,9 @@ import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.MulticastSocket;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import debug.JsonFormat.Coordinates;
 import debug.JsonFormat.RootObject;
@@ -24,7 +26,7 @@ public class Connector {
     private static Connector instance = new Connector();
     DatagramSocket socket;
     Vector3 orientation = Vector3.ZERO();
-    List<String> telemetry;
+    List<String> telemetry, telemetryHeaders;
     List<String> sensorIO;
     RootObject rootObject = new RootObject(new Coordinates(), new SensorIO(), new TelemetryData());
     OutputStream stream;
@@ -37,14 +39,24 @@ public class Connector {
 
     public void start() throws IOException {
         telemetry = new ArrayList<>();
+        telemetryHeaders = new ArrayList<>();
         sensorIO = new ArrayList<>();
         socket = new DatagramSocket(1119);
         socket.setReuseAddress(true);
         socket.setBroadcast(true);
     }
 
-    public void addTelemetry(String data){
-        telemetry.add(data);
+    public void addTelemetry(String header, String data){
+        if(telemetryHeaders.contains(header)){
+            int index = telemetryHeaders.indexOf(header);
+            telemetry.remove(index);
+            telemetryHeaders.remove(index);
+            telemetryHeaders.add(header);
+            telemetry.add(header + ": " + data);
+        }else{
+            telemetryHeaders.add(header);
+            telemetry.add(header + ": " + data);
+        }
     }
 
     public void addSensorIO(String data){
@@ -66,17 +78,13 @@ public class Connector {
         rootObject.Coordinates.y = orientation.getB();
         rootObject.Coordinates.rot = orientation.getC();
         String json = SimpleGson.getInstance().toJson(rootObject);
-        String test = telemetry.get(0);
-        for(int i = 1; i < telemetry.size(); i ++){
-            test += ", ";
-            test += telemetry.get(i);
-        }
         byte[] toSend = json.getBytes();
         int sendLen = toSend.length;
-        for(int i = 100; i <= 150; i ++) {
-            packet = new DatagramPacket(toSend, sendLen, InetAddress.getByName("192.168.1." + i), 1119);
-            socket.send(packet);
-            RobotLog.i(packet.getAddress().toString());
+        packet = new DatagramPacket(toSend, sendLen, InetAddress.getByName("255.255.255.255"), 1119);
+        socket.send(packet);
+        for(int i = 0; i < telemetry.size(); i ++){
+            telemetry.remove(i);
+            telemetryHeaders.remove(i);
         }
     }
 

@@ -1907,6 +1907,7 @@ public class BeeMovie extends BasicOpmode {
 
     @Override
     protected void setup() {
+        telemetry.enableLogger();
         HashMap<String, LogicState> stateList = new HashMap<>();
         for (int i = 0; i < script.length; i++) {
             final String line = script[i];

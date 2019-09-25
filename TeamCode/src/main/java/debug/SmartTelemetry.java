@@ -10,6 +10,8 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
 
+import math.Vector3;
+
 public class SmartTelemetry {
     private Telemetry telemetry;
     private ArrayList<String[]> pingMessages;
@@ -17,6 +19,7 @@ public class SmartTelemetry {
     private Connector connector;
     private Map<String, Object> headerMessages;
     private boolean loggerEnabled, loggerStarted;
+    private double time;
 
     public SmartTelemetry(Telemetry telemetry){
         this.telemetry = telemetry;
@@ -26,6 +29,7 @@ public class SmartTelemetry {
         connector = Connector.getInstance();
         loggerEnabled = false;
         loggerStarted = false;
+        time = 0;
     }
 
     public void pingMessage(String header, String message, long timeMs){
@@ -43,23 +47,21 @@ public class SmartTelemetry {
                     String[] message = pingMessages.get(i);
                     telemetry.addData(message[0], message[1]);
                 }
-                i++;
             }
         }
 
         for(String header : headerMessages.keySet()){
             telemetry.addData(header, headerMessages.get(header));
-            if(loggerEnabled){
-                connector.addTelemetry(header + ": " + headerMessages.get(header));
-            }
+            connector.addTelemetry(header, headerMessages.get(header).toString());
         }
         telemetry.update();
-        if(loggerEnabled) {
+        if(loggerEnabled && System.currentTimeMillis() - time > 50) {
             try {
                 connector.update();
             } catch (IOException e) {
                 e.printStackTrace();
             }
+            time = System.currentTimeMillis();
         }
     }
 
@@ -92,6 +94,10 @@ public class SmartTelemetry {
 
     public void stop() throws IOException {
         connector.end();
+    }
+
+    public void setCoords(Vector3 pos){
+        connector.orientation = pos;
     }
 
     public Telemetry getTelemetry() {

@@ -68,7 +68,7 @@ public abstract class BasicOpmode extends LinearOpMode{
             fpsDebug.update();
             fpsDebug.queryFPS();
             telemetry.setHeader("Activated Logic States", Arrays.deepToString(stateMachine.getActiveLogicStates()));
-            //telemetry.update();
+            telemetry.update();
         }
         try {
             telemetry.stop();
