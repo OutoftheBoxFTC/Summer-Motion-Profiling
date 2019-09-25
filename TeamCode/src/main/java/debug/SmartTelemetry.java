@@ -54,13 +54,14 @@ public class SmartTelemetry {
             connector.addTelemetry(header, headerMessages.get(header).toString());
         }
         telemetry.update();
-        if(loggerEnabled && System.currentTimeMillis() - time > 50) {
+        long now = System.currentTimeMillis();
+        if(loggerEnabled && now - time > 50) {
             try {
                 connector.update();
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            time = System.currentTimeMillis();
+            time = now;
         }
     }
 

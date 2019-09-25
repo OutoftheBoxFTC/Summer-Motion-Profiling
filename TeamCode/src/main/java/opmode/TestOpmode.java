@@ -24,7 +24,7 @@ public class TestOpmode extends BasicOpmode {
         stateList.put("gamepad", new LogicState(stateMachine) {
             @Override
             public void update(BulkReadData data) {
-                telemetry.setCoords(new Vector3(gamepad1.left_stick_x, gamepad1.left_stick_y, gamepad1.right_stick_y));
+                telemetry.setCoords(new Vector3(gamepad1.leftStickX, gamepad1.leftStickY, gamepad1.rightStickY));
             }
         });
         stateList.put("-1", new LogicState(stateMachine) {
