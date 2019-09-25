@@ -100,10 +100,6 @@ public class SmartTelemetry {
         connector.end();
     }
 
-    public void setCoords(Vector3 pos){
-        connector.orientation = pos;
-    }
-
     public Telemetry getTelemetry() {
         return telemetry;
     }
