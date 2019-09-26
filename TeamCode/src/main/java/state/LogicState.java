@@ -1,6 +1,6 @@
 package state;
 
-import hardware.BulkReadData;
+import hardware.ReadData;
 
 public abstract class LogicState {
     protected StateMachine stateMachine;
@@ -9,7 +9,7 @@ public abstract class LogicState {
         this.stateMachine = stateMachine;
     }
 
-    public abstract void update(BulkReadData data);
+    public abstract void update(ReadData data);
 
     protected void deactivateThis(){
         stateMachine.deactivateLogic(stateName);
@@ -19,7 +19,7 @@ public abstract class LogicState {
         this.stateName = stateName;
     }
 
-    public void init(BulkReadData data){
+    public void init(ReadData data){
 
     }
 

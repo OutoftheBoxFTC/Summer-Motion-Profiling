@@ -4,7 +4,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import java.util.HashMap;
 
-import hardware.BulkReadData;
+import hardware.ReadData;
 import hardware.Hardware;
 import math.Vector4;
 import state.DriveState;
@@ -35,7 +35,7 @@ public class FunctionalityTest extends BasicOpmode {
         HashMap<String, LogicState> logicStates = new HashMap<>();
         logicStates.put("init", new LogicState(stateMachine) {
             @Override
-            public void update(BulkReadData data) {
+            public void update(ReadData data) {
                 if(isStarted()){
                     deactivateThis();
                     stateMachine.activateLogic("Sensor Readout");
@@ -46,7 +46,7 @@ public class FunctionalityTest extends BasicOpmode {
         });
         logicStates.put("Sensor Readout", new LogicState(stateMachine) {
             @Override
-            public void update(BulkReadData data) {
+            public void update(ReadData data) {
                 telemetry.setHeader("left", String.valueOf(data.getLeft()));
                 telemetry.setHeader("Right", String.valueOf(data.getRight()));
                 telemetry.setHeader("Aux", String.valueOf(data.getAux()));

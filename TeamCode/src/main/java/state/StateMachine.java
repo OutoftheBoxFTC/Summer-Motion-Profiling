@@ -3,7 +3,7 @@ package state;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import hardware.BulkReadData;
+import hardware.ReadData;
 import math.Vector4;
 
 public class StateMachine {
@@ -30,7 +30,7 @@ public class StateMachine {
         queriedActivations = new HashMap<>();
     }
 
-    public void update(BulkReadData data){
+    public void update(ReadData data){
         for(LogicState state : activatedLogicStates){
             state.init(data);
         }

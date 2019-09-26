@@ -1,7 +1,7 @@
 package state.motion;
 
 import drivetrain.RobotDrive;
-import hardware.BulkReadData;
+import hardware.ReadData;
 import math.Matrix22;
 import math.Vector2;
 import math.Vector3;
@@ -34,7 +34,7 @@ public class CorrectionVector extends VelocityDriveState {
         return velocities;
     }
 
-    public void update(BulkReadData data) {
+    public void update(ReadData data) {
         double slope = (start.getB() - target.getB())/(start.getA() - position.getA());
         Matrix22 formulaMatrix = new Matrix22(slope, -1, (-1/slope), -1).inverse();
         Vector2 solutionAnswers = new Vector2(-target.getB() + (slope * target.getA()), -position.getB() + (-1/slope * position.getA()));

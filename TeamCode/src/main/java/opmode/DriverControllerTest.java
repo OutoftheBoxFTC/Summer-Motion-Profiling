@@ -5,7 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import java.util.HashMap;
 
 import drivetrain.MecanumDrive;
-import hardware.BulkReadData;
+import hardware.ReadData;
 import hardware.Hardware;
 import math.Vector3;
 import motion.DriverControl;
@@ -34,7 +34,7 @@ public class DriverControllerTest extends BasicOpmode {
         drive = new MecanumDrive(MecanumDrive.Polarity.IN, Math.PI/4, 1);
         logicStates.put("init", new LogicState(stateMachine) {
             @Override
-            public void update(BulkReadData data) {
+            public void update(ReadData data) {
                 if (isStarted()){
                     stateMachine.setActiveDriveState("robot centric");
                     stateMachine.activateLogic("run");
@@ -45,12 +45,12 @@ public class DriverControllerTest extends BasicOpmode {
 
         logicStates.put("run", new LogicState(stateMachine) {
             @Override
-            public void init(BulkReadData data) {
+            public void init(ReadData data) {
 
             }
 
             @Override
-            public void update(BulkReadData data) {
+            public void update(ReadData data) {
                 if(gamepad1.a.isActive()&&gamepad1.a.isUpdated()){
                     stateMachine.setActiveDriveState("field centric");
                     robot.enableDevice(Hardware.HardwareDevice.GYRO);

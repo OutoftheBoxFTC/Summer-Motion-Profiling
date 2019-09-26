@@ -5,13 +5,13 @@ import com.qualcomm.hardware.bosch.BNO055IMU;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.openftc.revextensions2.RevBulkData;
 
-public class BulkReadData {
+public class ReadData {
     public static final int LEFT = 0, AUX = 1, RIGHT = 2;
     private int left, right, aux, vLeft, vRight, vAux;
     private double gyro;
     private CalibrationData calibration;
 
-    public BulkReadData(CalibrationData calibration){
+    public ReadData(CalibrationData calibration){
         this.calibration = calibration;
     }
 
@@ -44,13 +44,15 @@ public class BulkReadData {
     }
 
     public void addGyro(BNO055IMU gyro) {
-        Orientation orientation = gyro.getAngularOrientation();
-        double yaw = orientation.firstAngle;
-        double tau = Math.PI*2;
-        if(calibration!=null){
-            yaw -= calibration.getGyroOffset();
+        if(gyro != null) {
+            Orientation orientation = gyro.getAngularOrientation();
+            double yaw = orientation.firstAngle;
+            double tau = Math.PI * 2;
+            if (calibration != null) {
+                yaw -= calibration.getGyroOffset();
+            }
+            this.gyro = ((yaw % tau) + tau) % tau;
         }
-        this.gyro = ((yaw%tau)+tau)%tau;
     }
 
     public void addHub1BulkData(RevBulkData data){

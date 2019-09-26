@@ -1,10 +1,7 @@
 package state;
 
-import hardware.BulkReadData;
-import math.Vector3;
+import hardware.ReadData;
 import math.Vector4;
-import state.LogicState;
-import state.StateMachine;
 
 public abstract class DriveState extends LogicState {
 
@@ -13,7 +10,7 @@ public abstract class DriveState extends LogicState {
     }
 
     @Override
-    public void update(BulkReadData data) {
+    public void update(ReadData data) {
 
     }
 

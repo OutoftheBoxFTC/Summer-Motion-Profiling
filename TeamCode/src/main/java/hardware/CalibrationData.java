@@ -18,10 +18,12 @@ public class CalibrationData {
     }
 
     public void addGyroData(BNO055IMU gyro){
-        Orientation orientation = gyro.getAngularOrientation();
-        double yaw = orientation.firstAngle;
-        double tau = Math.PI*2;
-        this.gyroOffset = ((yaw%tau)+tau)%tau;
+        if(gyro != null) {
+            Orientation orientation = gyro.getAngularOrientation();
+            double yaw = orientation.firstAngle;
+            double tau = Math.PI * 2;
+            this.gyroOffset = ((yaw % tau) + tau) % tau;
+        }
     }
 
     public int getLeftOffset() {

@@ -1,6 +1,6 @@
 package odometry;
 
-import hardware.BulkReadData;
+import hardware.ReadData;
 import math.Vector2;
 import math.Vector3;
 
@@ -24,7 +24,7 @@ public abstract class Odometer {
         this.auxRotationFactor = AUX_ROTATION_FACTOR;
     }
 
-    public abstract SimpleDynamicIncrements updateRobotDynamics(BulkReadData data);
+    public abstract SimpleDynamicIncrements updateRobotDynamics(ReadData data);
 
     public abstract Vector2 findStaticIncrements(SimpleDynamicIncrements data);
     public abstract Vector3 getGlobalDynamics();
@@ -35,7 +35,7 @@ public abstract class Odometer {
         auxRotationFactor = auxRotation;
     }
 
-    public Vector3 getVelocity(BulkReadData data){
+    public Vector3 getVelocity(ReadData data){
         double left = data.getvLeft(), right = data.getvRight(), aux = data.getvAux();
         double rotation = right-left,
                 fwd = (right+left)/2,
@@ -46,5 +46,5 @@ public abstract class Odometer {
     /**
      * updates and offsets global dynamics so that the next static increment don't attempt to compensate for distance traveled between previous and current update
      */
-    public abstract void calibrate(BulkReadData data);
+    public abstract void calibrate(ReadData data);
 }

@@ -2,10 +2,8 @@ package opmode;
 
 import java.util.HashMap;
 
-import drivetrain.HolonomicDrive;
 import drivetrain.MecanumDrive;
-import drivetrain.RobotDrive;
-import hardware.BulkReadData;
+import hardware.ReadData;
 import hardware.Hardware;
 import math.Vector2;
 import math.Vector3;
@@ -45,7 +43,7 @@ public class SimpleOdometryTest extends BasicOpmode {
         final HashMap<String, DriveState> driveStates = new HashMap<>();
         logicStates.put("Orientation", new Orientation(stateMachine, odometer, position, velocity){
             @Override
-            public void update(BulkReadData data) {
+            public void update(ReadData data) {
                 super.update(data);
                 telemetry.setHeader("X", position.getA());
                 telemetry.setHeader("Y", position.getB());
@@ -54,7 +52,7 @@ public class SimpleOdometryTest extends BasicOpmode {
         });
         logicStates.put("Init", new LogicState(stateMachine) {
             @Override
-            public void update(BulkReadData data) {
+            public void update(ReadData data) {
                 if(isStarted()){
                     stateMachine.activateLogic("Orientation");
                     stateMachine.activateLogic("Tracking");
@@ -65,12 +63,12 @@ public class SimpleOdometryTest extends BasicOpmode {
 
         logicStates.put("Tracking", new LogicState(stateMachine) {
             @Override
-            public void init(BulkReadData data) {
+            public void init(ReadData data) {
                 telemetry.pingMessage("Instructions", "Mess with it", 6000);
             }
 
             @Override
-            public void update(BulkReadData data) {
+            public void update(ReadData data) {
                 if(gamepad1.a.isActive()){
                     deactivateThis();
                     stateMachine.activateLogic("Terminate At Zero");
@@ -81,7 +79,7 @@ public class SimpleOdometryTest extends BasicOpmode {
 
         logicStates.put("Terminate At Zero", new LogicState(stateMachine) {
             @Override
-            public void update(BulkReadData data) {
+            public void update(ReadData data) {
                 if(new Vector2(position).length()<0.1&&position.getC()<Math.toRadians(0.1)){
                     stateMachine.setActiveDriveState("None");
                     deactivateThis();

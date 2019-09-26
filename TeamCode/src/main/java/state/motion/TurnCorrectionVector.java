@@ -1,8 +1,7 @@
 package state.motion;
 
-import drivetrain.MecanumDrive;
 import drivetrain.RobotDrive;
-import hardware.BulkReadData;
+import hardware.ReadData;
 import math.Vector3;
 import motion.VelocityDriveState;
 import state.StateMachine;
@@ -22,7 +21,7 @@ public class TurnCorrectionVector extends VelocityDriveState {
         this.position = position;
     }
     @Override
-    public void update(BulkReadData data) {
+    public void update(ReadData data) {
         correction = kp * (targetAngle - (data.getGyro() - offset));
         finished = Math.abs(targetAngle - (data.getGyro() - offset)) < tolerance;
     }

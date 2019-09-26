@@ -1,12 +1,10 @@
 package opmode;
 
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import java.util.HashMap;
 
-import debug.SmartTelemetry;
-import hardware.BulkReadData;
+import hardware.ReadData;
 import math.Vector3;
 import state.LogicState;
 
@@ -23,14 +21,14 @@ public class TestOpmode extends BasicOpmode {
         HashMap<String, LogicState> stateList = new HashMap<>();
         stateList.put("gamepad", new LogicState(stateMachine) {
             @Override
-            public void update(BulkReadData data) {
-                telemetry.setCoords(new Vector3(gamepad1.leftStickX, gamepad1.leftStickY, gamepad1.rightStickY));
+            public void update(ReadData data) {
+                telemetry.setHeader("Position", new Vector3(gamepad1.leftStickX, gamepad1.leftStickY, gamepad1.rightStickY));
             }
         });
         stateList.put("-1", new LogicState(stateMachine) {
 
             @Override
-            public void update(BulkReadData data) {
+            public void update(ReadData data) {
                 if(isStarted()){
                     stateMachine.activateLogic("gamepad");
                     deactivateThis();

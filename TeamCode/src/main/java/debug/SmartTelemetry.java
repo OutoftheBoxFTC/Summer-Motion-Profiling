@@ -30,7 +30,7 @@ public class SmartTelemetry {
         loggerStarted = false;
         time = 0;
     }
-
+    @Deprecated
     public void pingMessage(String header, String message, long timeMs){
         pingMessages.add(new String[]{header, message});
         endTimes.add(System.currentTimeMillis()+timeMs);
@@ -51,10 +51,12 @@ public class SmartTelemetry {
 
         for(String header : headerMessages.keySet()){
             telemetry.addData(header, headerMessages.get(header));
-            if(header.toLowerCase().equals("position")){
-                connector.addOrientation((Vector3)headerMessages.get(header));
-            }else {
-                connector.addTelemetry(header, headerMessages.get(header).toString());
+            if(loggerEnabled) {
+                if (header.toLowerCase().equals("position")) {
+                    connector.addOrientation((Vector3) headerMessages.get(header));
+                } else {
+                    connector.addTelemetry(header, headerMessages.get(header).toString());
+                }
             }
         }
         telemetry.update();

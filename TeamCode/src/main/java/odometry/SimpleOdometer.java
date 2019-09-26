@@ -1,6 +1,6 @@
 package odometry;
 
-import hardware.BulkReadData;
+import hardware.ReadData;
 import math.Matrix33;
 import math.Vector2;
 import math.Vector3;
@@ -20,7 +20,7 @@ public class SimpleOdometer extends Odometer {
         globalDynamicsOffset = new Vector3(0, 0, 0);
     }
 
-    public SimpleDynamicIncrements updateRobotDynamics(BulkReadData data){
+    public SimpleDynamicIncrements updateRobotDynamics(ReadData data){
         int left = data.getLeft(), right = data.getRight(), aux = data.getAux();
 
         double newRotation = (right-left);
@@ -54,7 +54,7 @@ public class SimpleOdometer extends Odometer {
     }
 
     @Override
-    public void calibrate(BulkReadData data) {
+    public void calibrate(ReadData data) {
         Vector3 oldDynamics = globalRobotDynamics.clone();
         updateRobotDynamics(data);
         Vector3 newDynamics = globalRobotDynamics.clone();

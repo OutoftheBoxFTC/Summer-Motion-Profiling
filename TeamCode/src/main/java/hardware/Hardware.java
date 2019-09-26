@@ -25,7 +25,7 @@ public class Hardware implements Runnable {
 
     private LinearOpMode opMode;
 
-    private ArrayList<BulkReadData> dataBuffer;
+    private ArrayList<ReadData> dataBuffer;
     private ArrayList<double[]> drivePowerBuffer;
 
     private SmartMotor a, b, c, d;
@@ -131,7 +131,7 @@ public class Hardware implements Runnable {
                     }
                 }
             }
-            BulkReadData data = new BulkReadData(calibration);
+            ReadData data = new ReadData(calibration);
             if(enabledDevices.contains(HardwareDevice.HUB_1_BULK)) {
                 RevBulkData rawData = hub.getBulkInputData();
                 data.addHub1BulkData(rawData);
@@ -155,11 +155,11 @@ public class Hardware implements Runnable {
         }
     }
 
-    public BulkReadData newData(){
+    public ReadData newData(){
         while (!dataLogged);
         dataLogged = false;
         fpsDebug.queryFPS();
-        BulkReadData data = dataBuffer.get(dataBuffer.size()-1);
+        ReadData data = dataBuffer.get(dataBuffer.size()-1);
         dataBuffer.remove(dataBuffer.size()-1);
         return data;
     }

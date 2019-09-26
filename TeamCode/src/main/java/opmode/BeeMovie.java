@@ -4,7 +4,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import java.util.HashMap;
 
-import hardware.BulkReadData;
+import hardware.ReadData;
 import state.LogicState;
 
 @TeleOp(name = "Bee Movie")
@@ -1915,7 +1915,7 @@ public class BeeMovie extends BasicOpmode {
             stateList.put(String.valueOf(i), new LogicState(stateMachine) {
                 long lastTime = 0;
                 @Override
-                public void update(BulkReadData data) {
+                public void update(ReadData data) {
                     if(lastTime == 0){
                         lastTime = System.currentTimeMillis();
                         telemetry.setHeader("script", line);
@@ -1935,7 +1935,7 @@ public class BeeMovie extends BasicOpmode {
         stateList.put("-1", new LogicState(stateMachine) {
 
             @Override
-            public void update(BulkReadData data) {
+            public void update(ReadData data) {
                 if(isStarted()){
                     stateMachine.activateLogic("0");
                     deactivateThis();

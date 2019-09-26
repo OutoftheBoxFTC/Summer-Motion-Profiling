@@ -1,7 +1,7 @@
 package motion;
 
 import drivetrain.MecanumDrive;
-import hardware.BulkReadData;
+import hardware.ReadData;
 import math.Matrix22;
 import math.Vector2;
 import math.Vector3;
@@ -26,7 +26,7 @@ public class DriveToZero extends VelocityDriveState {
     }
 
     @Override
-    public void init(BulkReadData data) {
+    public void init(ReadData data) {
         wasInDistance = false;
     }
 
@@ -44,7 +44,7 @@ public class DriveToZero extends VelocityDriveState {
     }
 
     @Override
-    public void update(BulkReadData data) {
+    public void update(ReadData data) {
         Vector2 fieldTranslation = new Vector2(position);
         double distance = fieldTranslation.length(),
                 angleToZero = fieldTranslation.angleTo(Vector2.ZERO());

@@ -9,7 +9,7 @@ import java.util.concurrent.Executors;
 
 import debug.FPSDebug;
 import debug.SmartTelemetry;
-import hardware.BulkReadData;
+import hardware.ReadData;
 import hardware.Hardware;
 import hardware.controller.SmartGamepad;
 import math.Vector4;
@@ -55,7 +55,7 @@ public abstract class BasicOpmode extends LinearOpMode{
         }
         double driveIterations = 0;
         while (!isStopRequested()){
-            BulkReadData data = null;
+            ReadData data = null;
             if(!debug) {
                 data = robot.newData();//stalls here until hardware loop obtains new data
             }

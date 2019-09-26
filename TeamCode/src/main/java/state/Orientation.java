@@ -1,6 +1,6 @@
 package state;
 
-import hardware.BulkReadData;
+import hardware.ReadData;
 import math.Matrix22;
 import math.Vector2;
 import math.Vector3;
@@ -24,12 +24,12 @@ public class Orientation extends LogicState{
     }
 
     @Override
-    public void init(BulkReadData data) {
+    public void init(ReadData data) {
         odometer.calibrate(data);
     }
 
     @Override
-    public void update(BulkReadData data) {
+    public void update(ReadData data) {
         velocity.set(odometer.getVelocity(data));
 
         SimpleDynamicIncrements dynamicRobotIncrements = odometer.updateRobotDynamics(data);

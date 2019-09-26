@@ -1,6 +1,6 @@
 package odometry;
 
-import hardware.BulkReadData;
+import hardware.ReadData;
 import math.MathUtil;
 import math.Vector2;
 import math.Vector3;
@@ -15,7 +15,7 @@ public class AdvancedOdometer extends Odometer{
     }
 
     @Override
-    public AdvancedDynamicIncrements updateRobotDynamics(BulkReadData data) {
+    public AdvancedDynamicIncrements updateRobotDynamics(ReadData data) {
         int left = data.getLeft(), right = data.getRight(), aux = data.getAux();
         double rotation = right-left, fwd = (left+right)/2.0, strafe = aux-rotation*auxRotationFactor;
         Vector3 globalRobotDynamics = new Vector3(strafe*translationFactor, fwd*translationFactor, rotation*rotationFactor);
@@ -74,7 +74,7 @@ public class AdvancedOdometer extends Odometer{
 
     //TODO see method documentation and make this do that. idk how to deal with the velocity dynamics atm. Offsetting is a bad idea.
     @Override
-    public void calibrate(BulkReadData data) {
+    public void calibrate(ReadData data) {
         Vector3 oldDynamics = this.globalRobotDynamics;
         updateRobotDynamics(data);
         Vector3 newDynamics = this.globalRobotDynamics;
