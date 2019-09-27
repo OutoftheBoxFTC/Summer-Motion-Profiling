@@ -13,7 +13,7 @@ public class MecanumDrive extends RobotDrive {
         int polarity = p.getP();
         double l = 4.0*polarity/Math.sin(theta),
                 m = 4.0,
-                n = 2.0/rotationFactor;
+                n = 4.0/rotationFactor;
         velocityTransformation = new Matrix43(
                 -l, m, -n,
                  l, m,  n,
