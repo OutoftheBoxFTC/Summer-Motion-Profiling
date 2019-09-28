@@ -6,7 +6,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.openftc.revextensions2.RevBulkData;
 
 public class ReadData {
-    public static final int LEFT = 0, AUX = 1, RIGHT = 2;
+    public static final int LEFT = 1, AUX = 2, RIGHT = 0;
     private int left, right, aux, vLeft, vRight, vAux;
     private double gyro;
     private CalibrationData calibration;
@@ -57,12 +57,12 @@ public class ReadData {
 
     public void addHub1BulkData(RevBulkData data){
         left = data.getMotorCurrentPosition(LEFT);
-        right = data.getMotorCurrentPosition(RIGHT);
-        aux = data.getMotorCurrentPosition(AUX);
+        right = -data.getMotorCurrentPosition(RIGHT);
+        aux = -data.getMotorCurrentPosition(AUX);
         if(calibration != null){
             left -= calibration.getLeftOffset();
             right -= calibration.getRightOffset();
-            aux = calibration.getAuxOffset();
+            aux -= calibration.getAuxOffset();
         }
         vLeft = data.getMotorVelocity(LEFT);
         vRight = data.getMotorVelocity(RIGHT);
