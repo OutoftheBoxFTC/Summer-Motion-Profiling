@@ -10,6 +10,7 @@ public class ReadData {
     private int left, right, aux, vLeft, vRight, vAux;
     private double gyro;
     private CalibrationData calibration;
+    private long hub1BulkTime, gyroTime;
 
     public ReadData(CalibrationData calibration){
         this.calibration = calibration;
@@ -43,7 +44,16 @@ public class ReadData {
         return gyro;
     }
 
+    public long getGyroTime() {
+        return gyroTime;
+    }
+
+    public long getHub1BulkTime() {
+        return hub1BulkTime;
+    }
+
     public void addGyro(BNO055IMU gyro) {
+        gyroTime = System.nanoTime();
         if(gyro != null) {
             Orientation orientation = gyro.getAngularOrientation();
             double yaw = orientation.firstAngle;
@@ -56,6 +66,7 @@ public class ReadData {
     }
 
     public void addHub1BulkData(RevBulkData data){
+        hub1BulkTime = System.nanoTime();
         left = data.getMotorCurrentPosition(LEFT);
         right = -data.getMotorCurrentPosition(RIGHT);
         aux = -data.getMotorCurrentPosition(AUX);
