@@ -40,11 +40,15 @@ public class SimpleOdometer extends Odometer {
 
         double strafe = robotIncrements.getA(),
                 fwd = robotIncrements.getB(),
-                rotation = robotIncrements.getC();
-        double cos = Math.cos(rotation), sine = Math.sin(rotation);
+                rot = robotIncrements.getC();
+        double cos = Math.cos(rot), sine = Math.sin(rot);
 
-        double y = fwd*sine-strafe*(cos+1);
-        double x = strafe*sine-fwd*(cos+1);
+        double y = (fwd*sine+strafe*(1-cos))/rot;
+        double x = strafe*sine+fwd*(1-cos)/rot;
+        if(rot==0){
+            y=fwd;
+            x=strafe;
+        }
         return new Vector2(x, y);
     }
 
