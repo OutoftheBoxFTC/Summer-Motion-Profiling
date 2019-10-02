@@ -26,15 +26,15 @@ public class SimpleOdometryTest extends BasicOpmode {
     private MecanumDrive drive;
 
     public SimpleOdometryTest() {
-        super(0.1, true);
+        super(0.1, false);
         drive = new MecanumDrive(MecanumDrive.Polarity.IN, Math.PI/4, 1);
     }
 
     @Override
     protected void setup() {
-        robot.registerDevice(Hardware.HardwareDevice.GYRO);
         robot.registerDevice(Hardware.HardwareDevice.DRIVE_MOTORS);
         robot.registerDevice(Hardware.HardwareDevice.HUB_1_BULK);
+        telemetry.enableLogger();
         odometer = new SimpleOdometer();
         position = new Vector3(0, 0, 0);
         velocity = new Vector3(0, 0, 0);
@@ -48,6 +48,9 @@ public class SimpleOdometryTest extends BasicOpmode {
                 telemetry.setHeader("X", position.getA());
                 telemetry.setHeader("Y", position.getB());
                 telemetry.setHeader("R", Math.toDegrees(position.getC()));
+                telemetry.setHeader("position", position);
+                telemetry.setHeader("fwd", odometer.getGlobalDynamics().getB());
+                telemetry.setHeader("strafe", odometer.getGlobalDynamics().getA());
             }
         });
         logicStates.put("Init", new LogicState(stateMachine) {

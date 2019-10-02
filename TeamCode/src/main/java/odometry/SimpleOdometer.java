@@ -23,7 +23,7 @@ public class SimpleOdometer extends Odometer {
     public SimpleDynamicIncrements updateRobotDynamics(ReadData data){
         int left = data.getLeft(), right = data.getRight(), aux = data.getAux();
 
-        double newRotation = (right-left);
+        double newRotation = (right-left)/2;
         double newFwd = (left+right)/2;
         double newStrafe = aux-newRotation*auxRotationFactor;
 
@@ -44,7 +44,7 @@ public class SimpleOdometer extends Odometer {
         double cos = Math.cos(rot), sine = Math.sin(rot);
 
         double y = (fwd*sine + strafe*(1-cos))/rot;
-        double x = (strafe*sine + fwd*(1-cos))/rot;
+        double x = (strafe*sine - fwd*(1-cos))/rot;
         if(rot==0){
             y=fwd;
             x=strafe;
