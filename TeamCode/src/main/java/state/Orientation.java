@@ -11,11 +11,11 @@ public class Orientation extends LogicState{
     private static final double TAU = Math.PI*2;
 
     private Vector3 position, velocity;
-    private Odometer odometer;
+    protected Odometer odometer;
 
     private double initialRotation;
 
-    public Orientation(StateMachine stateMachine, Odometer odometer, Vector3 position, Vector3 velocity) {
+    public Orientation(StateMachine stateMachine, Odometer odometer, Vector3 position, Vector3 velocity){
         super(stateMachine);
         this.odometer = odometer;
         this.position = position;

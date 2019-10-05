@@ -8,6 +8,7 @@ public class Button {
     }
 
     public void update(boolean active){
+        updated = false;
         if(this.active != active){
             updated = true;
             this.active = active;

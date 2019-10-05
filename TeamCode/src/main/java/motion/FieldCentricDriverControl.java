@@ -21,7 +21,7 @@ public class FieldCentricDriverControl extends DriverControl {
     }
 
     private Vector3 transformToRobot(Vector3 fieldVelocity){
-        double sine = Math.sin(position.getC()), cos = Math.sqrt(1-sine*sine);
+        double sine = Math.sin(position.getC()), cos = Math.cos(position.getC());
         Matrix22 rotationInverse = new Matrix22(cos, sine, -sine, cos);
         Vector2 robotTranslationVelocity =  rotationInverse.transform(new Vector2(fieldVelocity));
         return new Vector3(robotTranslationVelocity, fieldVelocity.getC());

@@ -61,13 +61,10 @@ public class Hardware implements Runnable {
         RevExtensions2.init();
         HardwareMap map = opMode.hardwareMap;
         calibration = new CalibrationData();
-        for(HardwareDevice d : registeredDevices){
-            RobotLog.e(d.toString());
-        }
-        if(enabledDevices.contains(HardwareDevice.HUB_1_BULK)) {
+        if(registeredDevices.contains(HardwareDevice.HUB_1_BULK)) {
             hub = getOrNull(map, ExpansionHubEx.class, "hub");
         }
-        if(enabledDevices.contains(HardwareDevice.DRIVE_MOTORS)) {
+        if(registeredDevices.contains(HardwareDevice.DRIVE_MOTORS)) {
             a = new SmartMotor((ExpansionHubMotor) getOrNull(map.dcMotor, "a"));
             b = new SmartMotor((ExpansionHubMotor) getOrNull(map.dcMotor, "b"));
             c = new SmartMotor((ExpansionHubMotor) getOrNull(map.dcMotor, "c"));
@@ -80,7 +77,7 @@ public class Hardware implements Runnable {
             driveMotors.add(c);
             driveMotors.add(d);
         }
-        if(enabledDevices.contains(HardwareDevice.GYRO)) {
+        if(registeredDevices.contains(HardwareDevice.GYRO)) {
             imu = getOrNull(map, BNO055IMU.class, "imu");
             if(imu != null) {
                 initIMU();
@@ -90,10 +87,10 @@ public class Hardware implements Runnable {
 
     public void calibrate(){
         //calibrates all analog devices
-        if(enabledDevices.contains(HardwareDevice.HUB_1_BULK)) {
+        if(registeredDevices.contains(HardwareDevice.HUB_1_BULK)) {
             calibration.addHub1BulkData(hub.getBulkInputData());
         }
-        if(enabledDevices.contains(HardwareDevice.GYRO)){
+        if(registeredDevices.contains(HardwareDevice.GYRO)){
             calibration.addGyroData(imu);
         }
     }
@@ -105,8 +102,8 @@ public class Hardware implements Runnable {
         parameters.calibrationDataFile = "BNO055IMUCalibration.json"; // see the calibration sample opmode
         parameters.loggingEnabled      = true;
         parameters.loggingTag          = "IMU";
+        parameters.mode                = BNO055IMU.SensorMode.IMU;
         parameters.accelerationIntegrationAlgorithm = new JustLoggingAccelerationIntegrator();
-        parameters.mode = BNO055IMU.SensorMode.IMU;
         imu.initialize(parameters);
     }
 
