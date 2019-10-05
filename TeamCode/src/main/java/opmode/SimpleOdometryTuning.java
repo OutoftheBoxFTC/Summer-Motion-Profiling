@@ -71,6 +71,7 @@ public class SimpleOdometryTuning extends BasicOpmode {
                 odometer.updateRobotDynamics(data);
                 telemetry.setHeader("rotations", String.valueOf(rotations));
                 telemetry.setHeader("gyro", String.valueOf(gyro));
+                telemetry.setHeader("position", new Vector3(0, 0, Math.toDegrees(gyro)));
                 if(gyro < previousGyro){
                     rotations++;
                 }
@@ -118,6 +119,7 @@ public class SimpleOdometryTuning extends BasicOpmode {
 
             @Override
             public void update(ReadData data) {
+                telemetry.setHeader("position", String.valueOf(0.004 * ((data.getLeft() + data.getRight())/2)));
                 telemetry.setHeader("LR Avg", String.valueOf((data.getLeft()+data.getRight())/2.0));
                 telemetry.setHeader("Aux", String.valueOf(data.getAux()));
             }

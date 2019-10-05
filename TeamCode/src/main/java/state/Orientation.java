@@ -39,6 +39,8 @@ public class Orientation extends LogicState{
         double newRotation = ((initialRotation+globalDynamics.getC())%TAU+TAU)%TAU;//limits rotation to between 0 (inclusive) and 2pi (exclusive)
 
 
+
+
         Vector2 staticRobotIncrements = odometer.findStaticIncrements(dynamicRobotIncrements);
         Vector2 fieldIncrements = rotation.transform(staticRobotIncrements);
         position.set(position.add(new Vector3(fieldIncrements.getA(), fieldIncrements.getB(), 0)));

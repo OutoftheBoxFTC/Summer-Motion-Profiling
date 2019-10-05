@@ -1,6 +1,7 @@
 package opmode;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.util.RobotLog;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -49,6 +50,7 @@ public abstract class BasicOpmode extends LinearOpMode{
         gamepad2 = new SmartGamepad(super.gamepad2);
         setup();
         if (!debug){
+            RobotLog.i("We are not in Debug Mode");
             robot.init();
             robot.calibrate();
             threadManager.execute(robot);

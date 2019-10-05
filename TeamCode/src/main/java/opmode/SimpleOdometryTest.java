@@ -34,7 +34,7 @@ public class SimpleOdometryTest extends BasicOpmode {
     protected void setup() {
         robot.registerDevice(Hardware.HardwareDevice.DRIVE_MOTORS);
         robot.registerDevice(Hardware.HardwareDevice.HUB_1_BULK);
-        telemetry.enableLogger();
+        //telemetry.enableLogger();
         odometer = new SimpleOdometer();
         position = new Vector3(0, 0, 0);
         velocity = new Vector3(0, 0, 0);

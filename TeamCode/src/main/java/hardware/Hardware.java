@@ -61,10 +61,13 @@ public class Hardware implements Runnable {
         RevExtensions2.init();
         HardwareMap map = opMode.hardwareMap;
         calibration = new CalibrationData();
-        if(registeredDevices.contains(HardwareDevice.HUB_1_BULK)) {
+        for(HardwareDevice d : registeredDevices){
+            RobotLog.e(d.toString());
+        }
+        if(enabledDevices.contains(HardwareDevice.HUB_1_BULK)) {
             hub = getOrNull(map, ExpansionHubEx.class, "hub");
         }
-        if(registeredDevices.contains(HardwareDevice.DRIVE_MOTORS)) {
+        if(enabledDevices.contains(HardwareDevice.DRIVE_MOTORS)) {
             a = new SmartMotor((ExpansionHubMotor) getOrNull(map.dcMotor, "a"));
             b = new SmartMotor((ExpansionHubMotor) getOrNull(map.dcMotor, "b"));
             c = new SmartMotor((ExpansionHubMotor) getOrNull(map.dcMotor, "c"));
@@ -77,7 +80,7 @@ public class Hardware implements Runnable {
             driveMotors.add(c);
             driveMotors.add(d);
         }
-        if(registeredDevices.contains(HardwareDevice.GYRO)) {
+        if(enabledDevices.contains(HardwareDevice.GYRO)) {
             imu = getOrNull(map, BNO055IMU.class, "imu");
             if(imu != null) {
                 initIMU();
@@ -87,10 +90,10 @@ public class Hardware implements Runnable {
 
     public void calibrate(){
         //calibrates all analog devices
-        if(registeredDevices.contains(HardwareDevice.HUB_1_BULK)) {
+        if(enabledDevices.contains(HardwareDevice.HUB_1_BULK)) {
             calibration.addHub1BulkData(hub.getBulkInputData());
         }
-        if(registeredDevices.contains(HardwareDevice.GYRO)){
+        if(enabledDevices.contains(HardwareDevice.GYRO)){
             calibration.addGyroData(imu);
         }
     }
@@ -103,7 +106,7 @@ public class Hardware implements Runnable {
         parameters.loggingEnabled      = true;
         parameters.loggingTag          = "IMU";
         parameters.accelerationIntegrationAlgorithm = new JustLoggingAccelerationIntegrator();
-
+        parameters.mode = BNO055IMU.SensorMode.IMU;
         imu.initialize(parameters);
     }
 
@@ -133,7 +136,7 @@ public class Hardware implements Runnable {
                 RevBulkData rawData = hub.getBulkInputData();
                 data.addHub1BulkData(rawData);
             }
-            if(registeredDevices.contains(HardwareDevice.GYRO)){
+            if(enabledDevices.contains(HardwareDevice.GYRO)){
                 data.addGyro(imu);
             }
 
