@@ -45,12 +45,18 @@ public class FunctionalityTest extends BasicOpmode {
             }
         });
         logicStates.put("Sensor Readout", new LogicState(stateMachine) {
+            boolean rightFlipped = false;
+            double previousRight = 0;
             @Override
             public void update(ReadData data) {
+                if(previousRight - data.getRight() > 1000){
+                    rightFlipped = true;
+                }
                 telemetry.setHeader("left", String.valueOf(data.getLeft()));
                 telemetry.setHeader("Right", String.valueOf(data.getRight()));
                 telemetry.setHeader("Aux", String.valueOf(data.getAux()));
                 telemetry.setHeader("Gyro", String.valueOf(data.getGyro()));
+                telemetry.setHeader("Flipped", rightFlipped);
                 if(isStopRequested()){
                     stateMachine.deactivateLogic("Sensor Readout");
                 }

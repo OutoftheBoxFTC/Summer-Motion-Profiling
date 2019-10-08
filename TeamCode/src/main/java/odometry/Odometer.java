@@ -7,8 +7,8 @@ import math.Vector3;
 public abstract class Odometer {
     //TODO tune me
     private static final double
-            ROTATION_FACTOR = 1.3600511412E-4,
-            TRANSLATION_FACTOR = 0.0010579445,
+            ROTATION_FACTOR = 1.398856E-4,
+            TRANSLATION_FACTOR = 0.0010329132,
             AUX_ROTATION_FACTOR = .467625745;
 
     protected double rotationFactor, translationFactor, auxRotationFactor;

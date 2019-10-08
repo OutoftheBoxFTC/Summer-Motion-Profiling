@@ -206,12 +206,16 @@ public class Hardware implements Runnable {
     }
 
     public Hardware enableDevice(HardwareDevice device){
-        enabledDevices.add(device);
+        if(registeredDevices.contains(device)) {
+            enabledDevices.add(device);
+        }
         return this;
     }
 
     public Hardware disableDevice(HardwareDevice device){
-        enabledDevices.remove(device);
+        if(enabledDevices.contains(device)) {
+            enabledDevices.remove(device);
+        }
         return this;
     }
 

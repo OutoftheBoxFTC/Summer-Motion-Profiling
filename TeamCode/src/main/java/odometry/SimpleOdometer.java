@@ -23,14 +23,11 @@ public class SimpleOdometer extends Odometer {
     public SimpleDynamicIncrements updateRobotDynamics(ReadData data){
         int left = data.getLeft(), right = data.getRight(), aux = data.getAux();
 
-        //double newRotation = (right-left)/2;
+        double newRotation = (right-left)/2;
         double newFwd = (left+right)/2;
-        double newRotation = data.getGyro();
-        //double newStrafe = aux-newRotation*auxRotationFactor;
-        double newStrafe = aux - StrafeOffset.getRotOffset((right-left)/2);
+        double newStrafe = aux-newRotation*auxRotationFactor;
 
-        //double rotationIncrement = (newRotation-globalRobotDynamics.getC())*rotationFactor;
-        double rotationIncrement = newRotation-globalRobotDynamics.getC();
+        double rotationIncrement = (newRotation-globalRobotDynamics.getC())*rotationFactor;
         double fwdIncrement = (newFwd-globalRobotDynamics.getB())*translationFactor;
         double strafeIncrement = (newStrafe-globalRobotDynamics.getA())*translationFactor;
 
@@ -52,8 +49,7 @@ public class SimpleOdometer extends Odometer {
             y=fwd;
             x=strafe;
         }
-        //return new Vector2(x, y);
-        return new Vector2(robotIncrements.getA(), robotIncrements.getB());
+        return new Vector2(x, y);
     }
 
     @Override

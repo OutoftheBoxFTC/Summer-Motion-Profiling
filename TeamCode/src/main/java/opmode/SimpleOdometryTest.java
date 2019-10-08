@@ -48,7 +48,6 @@ public class SimpleOdometryTest extends BasicOpmode {
                 telemetry.setHeader("X", position.getA());
                 telemetry.setHeader("Y", position.getB());
                 telemetry.setHeader("R", Math.toDegrees(position.getC()));
-                telemetry.setHeader("position", position);
                 telemetry.setHeader("fwd", odometer.getGlobalDynamics().getB());
                 telemetry.setHeader("strafe", odometer.getGlobalDynamics().getA());
             }
@@ -67,12 +66,12 @@ public class SimpleOdometryTest extends BasicOpmode {
         logicStates.put("Tracking", new LogicState(stateMachine) {
             @Override
             public void init(ReadData data) {
-                telemetry.pingMessage("Instructions", "Mess with it", 6000);
+
             }
 
             @Override
             public void update(ReadData data) {
-                if(gamepad1.a.isActive()){
+                if(gamepad1.a.isActive()&&gamepad1.a.isUpdated()){
                     deactivateThis();
                     stateMachine.activateLogic("Terminate At Zero");
                     stateMachine.setActiveDriveState("Drive To Zero");

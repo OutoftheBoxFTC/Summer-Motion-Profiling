@@ -5,8 +5,8 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import java.util.HashMap;
 
 import drivetrain.MecanumDrive;
-import hardware.ReadData;
 import hardware.Hardware;
+import hardware.ReadData;
 import math.Vector3;
 import motion.DriverControl;
 import motion.FieldCentricDriverControl;
@@ -16,12 +16,12 @@ import state.DriveState;
 import state.LogicState;
 import state.Orientation;
 
-@TeleOp(name = "Driver Controller Test")
-public class DriverControllerTest extends BasicOpmode {
+@TeleOp(name = "Tracking Driver Control")
+public class TrackingDriverControl extends BasicOpmode {
     private MecanumDrive drive;
     private Vector3 position, velocity;
 
-    public DriverControllerTest() {
+    public TrackingDriverControl() {
         super(0.3, false);
         position = new Vector3(0, 0, 0);
         velocity = new Vector3(0, 0, 0);
@@ -47,12 +47,24 @@ public class DriverControllerTest extends BasicOpmode {
             }
         });
         logicStates.put("orientation", new Orientation(stateMachine, new SimpleOdometer(), position, velocity){
+            double previousRight = 0;
+            boolean rightFlipped = false;
             @Override
             public void update(ReadData data) {
                 super.update(data);
-                telemetry.setHeader("X", position.getA());
+                /*telemetry.setHeader("X", position.getA());
                 telemetry.setHeader("Y", position.getB());
                 telemetry.setHeader("R", Math.toDegrees(position.getC()));
+                telemetry.setHeader("position", position);
+                telemetry.setHeader("fwd", odometer.getGlobalDynamics().getB());
+                telemetry.setHeader("strafe", odometer.getGlobalDynamics().getA());*/
+                if(previousRight - data.getRight() > 1000){
+                    rightFlipped = true;
+                }
+                telemetry.setHeader("Right", data.getRight());
+                telemetry.setHeader("Left", data.getLeft());
+                telemetry.setHeader("Flipped", String.valueOf(rightFlipped));
+                previousRight = data.getRight();
             }
         });
         logicStates.put("run", new LogicState(stateMachine) {
@@ -70,14 +82,6 @@ public class DriverControllerTest extends BasicOpmode {
                 } else if(gamepad1.b.isActive()&&gamepad1.b.isUpdated()){
                     stateMachine.setActiveDriveState("robot centric");
                 }
-
-                if(previousRight - data.getRight() > 1000){
-                    rightFlipped = true;
-                }
-                telemetry.setHeader("Right", data.getRight());
-                telemetry.setHeader("Left", data.getLeft());
-                telemetry.setHeader("Flipped", String.valueOf(rightFlipped));
-                previousRight = data.getRight();
             }
         });
 

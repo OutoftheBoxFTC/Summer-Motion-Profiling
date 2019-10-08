@@ -31,16 +31,10 @@ public class Orientation extends LogicState{
     @Override
     public void update(ReadData data) {
         velocity.set(odometer.getVelocity(data));
-
         Matrix22 rotation = rotationMatrix(odometer.getGlobalDynamics().getC());
         SimpleDynamicIncrements dynamicRobotIncrements = odometer.updateRobotDynamics(data);
         Vector3 globalDynamics = odometer.getGlobalDynamics();
-
         double newRotation = ((initialRotation+globalDynamics.getC())%TAU+TAU)%TAU;//limits rotation to between 0 (inclusive) and 2pi (exclusive)
-
-
-
-
         Vector2 staticRobotIncrements = odometer.findStaticIncrements(dynamicRobotIncrements);
         Vector2 fieldIncrements = rotation.transform(staticRobotIncrements);
         position.set(position.add(new Vector3(fieldIncrements.getA(), fieldIncrements.getB(), 0)));
